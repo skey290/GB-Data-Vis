@@ -259,23 +259,21 @@ MOTION_DURATION = duration-200 ease-out
 | ----------------------- | ---------- | --------------- | -------------- |
 | Data Scientist _(self)_ | 80         | 8,340           | 14.3           |
 | Yoga Meditator          | 10         | 6,453           | 1.8            |
-| Novelist                | 30 ⚠️      | 4,784           | 0.4            |
+| Novelist                | 40         | 4,784           | 0.4            |
 | Entrepreneur            | 70         | 978             | 2.0            |
 | Fashionista             | 60         | 6,782           | 0.3            |
 | Fashion Editor          | 20         | 125             | 3.7            |
-| Team Leader             | 40 ⚠️      | 8,006           | 0.5            |
+| Team Leader             | 50         | 8,006           | 0.5            |
 | Vegan Chef              | 30         | 5,431           | 1.9            |
 
-**Engagement 값 확정 (2026-09-10 Figma 실물 확인):** v1 문서 쪽이 틀렸고 **현재 코드가 맞습니다.** Figma 원본의 `Hover=engagement` 배지가 Fashionista `0.3%` / Fashion Editor `3.7%` / Team Leader `0.5%`로 렌더됩니다. §8의 미확정 항목에서 제외했습니다.
+Growth는 `10/20/30/40/50/60/70/80`의 **완전한 사다리꼴**입니다. 동점이 없어 §2.2의 순위 기반 채움에서 8명이 8단계에 정확히 하나씩 배정됩니다(밴드 path 총 36개).
 
-> ⚠️ **Growth 값 2건이 Figma와 다릅니다** (신규 발견, 미해결).
->
-> | 페르소나    | Figma 원본 | 현재 코드 |
-> | ----------- | ---------- | --------- |
-> | Novelist    | **40%**    | 30%       |
-> | Team Leader | **50%**    | 40%       |
->
-> Figma는 `10/20/30/40/50/60/70/80`의 **완전한 사다리꼴**인 반면 현재 코드는 `10/20/30/30/40/60/70/80`(30이 중복, 50 없음)입니다. Figma 쪽이 의도된 값으로 보이지만 임의로 바꾸지 않았습니다 — §8 참고.
+**Figma 대조 완료 (2026-09-10):** 3개 지표 전부 Figma 원본과 일치합니다. 이 과정에서 두 건이 정정되었습니다.
+
+| 지표       | 정정 내용                                                                                        |
+| ---------- | ------------------------------------------------------------------------------------------------ |
+| Engagement | **v1 문서가 틀렸고 코드가 맞았음.** Fashionista `0.3` / Fashion Editor `3.7` / Team Leader `0.5` |
+| Growth     | **코드가 틀렸고 Figma가 맞았음.** Novelist `30 → 40`, Team Leader `40 → 50` (사용자 확정)        |
 
 > ⚠️ **Figma 레이어 네이밍 불일치**: 섹터 7의 배지 텍스트는 `Team Leader`인데, 값 밴드 프레임 안의 해당 레이어 이름은 `Office Worker`입니다. 표시 문구는 `Team Leader`가 맞습니다.
 
@@ -286,7 +284,6 @@ MOTION_DURATION = duration-200 ease-out
 ## 8. 미확정 / 추후 논의 필요
 
 - [ ] **중앙 기본 문구 확정** — `Hover to see self analysis`(v1) vs `Hover to see analysis`(현재 코드). 두 차례 조사 결과가 엇갈려 미확정
-- [ ] **샘플 Growth 값 2건** — Figma는 Novelist 40% / Team Leader 50%인데 코드는 30% / 40% (§7). 순위 기반 채움이라 **밴드 길이 순서까지 바뀌는 항목**이라 확인 필요
 - [ ] **아바타 실제 사진 적용** — `imageSrc` prop은 이미 열려 있으나 현재는 전부 이니셜 폴백. Figma `Self=1`에는 실제 인물 사진이 들어가 있음
 - [ ] **빈 슬롯 dashed 패턴** — Figma가 raw dash 값을 노출하지 않아 현재는 브라우저 기본값. 명시적 `stroke-dasharray` 지정 여부
 - [ ] **배지 위치 미세 조정** — Figma 실측 대비 평균 ~5px / 최대 16px 차이. 단, Figma 원본 좌표 자체가 불규칙해 규칙화한 현재 방식이 더 정확할 수 있음
@@ -299,6 +296,7 @@ MOTION_DURATION = duration-200 ease-out
 - [x] ~~프로덕션 배경/타이포~~ → 다크 배경 + 디자인 토큰 전면 적용
 - [x] ~~호버 툴팁 설계~~ → 툴팁 대신 **배지 텍스트 교체**로 확정
 - [x] ~~샘플 Engagement 값 불일치~~ → Figma 실물 확인 결과 **현재 코드가 맞음** (2026-09-10)
+- [x] ~~샘플 Growth 값 2건 불일치~~ → **Figma가 맞음.** Novelist 40% / Team Leader 50%로 정정 (2026-09-10 사용자 확정)
 - [x] ~~어떤 배지가 채워지는가~~ → **셀프 / 지표 1등** 규칙으로 확정 (§5.5, 2026-09-10)
 - [x] ~~`Not Enough Data Yet` 비활성 상태~~ → **삭제.** hover 시에만 default로 표시 (§5.2, 2026-09-10 Figma 갱신)
 - [x] ~~`Create a Self` vs `Go to Content Studio` 기준~~ → `selfCount`가 아니라 **강조된 대상이 빈 슬롯인지**로 확정 (§4.1, 2026-09-10)

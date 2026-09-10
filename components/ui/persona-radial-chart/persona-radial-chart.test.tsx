@@ -109,9 +109,9 @@ describe("PersonaRadialChart", () => {
     it("spreads eight personas across all eight band counts", () => {
       const { container } = render(<PersonaRadialChart posting={false} />);
 
-      // 기본 데이터의 growth는 80/70/60/40/30/30/20/10 — 30이 동점이라
-      // 8,7,6,5,4,4,2,1 = 37개가 됩니다 (동점은 같은 칸, 다음 순위는 건너뜀)
-      expect(getBandPaths(container, WHITE_BAND)).toHaveLength(37);
+      // 기본 데이터의 growth는 80/70/60/50/40/30/20/10 — 동점이 없어
+      // 8,7,6,5,4,3,2,1 = 36개, 8명이 8단계에 정확히 하나씩 배정됩니다
+      expect(getBandPaths(container, WHITE_BAND)).toHaveLength(36);
     });
 
     it("gives tied values the same band count", () => {
