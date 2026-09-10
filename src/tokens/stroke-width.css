@@ -1,0 +1,38 @@
+/**
+ * Design Tokens - Stroke Width (아이콘/벡터)
+ * Source: Figma (PrsHuyyra9LzqqrDwmrB5P, node-id 4111-3488, section "Design Token")
+ * Extracted from frame "DS — tw/stroke-width" (node-id 4122:8178, "tw/stroke-width — 11개",
+ * 설명: "스트로크 두께 토큰 (아이콘/벡터).")
+ *
+ * ⚠️ Figma Variable이 아니라 'Design Token' 문서 섹션에 하드코딩된 값을 옮긴 것입니다.
+ * Figma에 실제 Variable이 생기면 재추출 필요.
+ *
+ * 출처 검증 (2026-08-01): 이 11개 값은 `get_variable_defs`가 아니라 `get_metadata`로
+ * 받은 이 프레임의 레이어 트리(XML)에서 텍스트 레이어 이름 쌍("stroke-1,5"/"1.5px" 등)을
+ * 읽은 것입니다. `get_variable_defs`를 이 프레임 노드(4122:8178)에 직접 호출해봤지만
+ * 빈 값(`{}`)을 반환했습니다 — 실제 Figma Variable 바인딩은 확인되지 않았습니다.
+ * `get_design_context`는 이 값 추출에 사용하지 않았습니다. 개수(11)는 "DS — Overview"
+ * 프레임의 실제 Variable Collection 개수("tw/stroke-width — 11개")와 일치합니다.
+ *
+ * `tokens` 컬렉션(89개, `src/tokens/scale.css`)의 0.5~3 구간(0.5, 0.75, 1, 1.25,
+ * 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3)과 11개 값이 정확히 일치합니다 — 다른 컬렉션이
+ * `tokens`를 alias로 참조한다는 프레임 설명과 일관됩니다 (원문 alias 표기는 없어
+ * "값 일치" 근거임, ⚠️ FLAG).
+ *
+ * 네이밍: Figma 라벨의 콤마(,)는 마침표의 로캘 표기라 하이픈(-)으로 변환했습니다
+ * (예: "stroke-1,5" → --stroke-width-1-5).
+ */
+
+:root {
+  --stroke-width-0-5: 0.5px;
+  --stroke-width-0-75: 0.75px;
+  --stroke-width-1: 1px;
+  --stroke-width-1-25: 1.25px;
+  --stroke-width-1-5: 1.5px;
+  --stroke-width-1-75: 1.75px;
+  --stroke-width-2: 2px;
+  --stroke-width-2-25: 2.25px;
+  --stroke-width-2-5: 2.5px;
+  --stroke-width-2-75: 2.75px;
+  --stroke-width-3: 3px;
+}

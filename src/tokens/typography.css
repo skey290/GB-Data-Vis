@@ -1,0 +1,107 @@
+/**
+ * Design Tokens - Typography
+ * Source: Figma (PrsHuyyra9LzqqrDwmrB5P, node-id 4111-3488, section "Design Token")
+ * Extracted from frame "DS — tw/font" (node-id 4122:8225, "tw/font — 41개")
+ *
+ * ⚠️ Figma Variable이 아니라 'Design Token' 문서 섹션에 하드코딩된 값을 옮긴 것입니다.
+ * Figma에 실제 Variable이 생기면 재추출 필요.
+ *
+ * 출처 검증 (2026-08-01 재확인): 이 41개 값(size 13 + weight 9 + leading 13 +
+ * tracking 6)은 `get_variable_defs`가 아니라 `get_metadata`로 받은 이 프레임의
+ * 레이어 트리(XML)에서 텍스트 레이어 이름 쌍("xs"/"12", "thin"/"100" 등)을 그대로
+ * 읽은 것입니다. `get_variable_defs`를 이 프레임 노드(4122:8225)에 직접 호출해봤지만
+ * 빈 값(`{}`)을 반환했습니다 — 즉 이 라벨들에 실제 Figma Variable이 바인딩되어 있지
+ * 않다는 뜻이며, `get_design_context`는 이 값 추출에 사용하지 않았습니다.
+ *
+ * 개수(41개)가 "DS — Overview" 프레임에 적힌 "tw/font — 41개"(진짜 Variable
+ * Collection 개수)와 정확히 일치하는 이유: 이 문서 프레임이 "tw/font" Variable
+ * Collection을 시각적으로 1:1 미러링해서 만들어진 것으로 보입니다 — 개수 일치는
+ * "값이 Variable에서 나왔다"는 근거가 아니라 "문서가 컬렉션을 성실히 미러링했다"는
+ * 근거로 해석했습니다.
+ *
+ * ⚠️ 구조 관련 주의사항 (원래 요청한 --font-{step}-size/-weight/-line-height/-letter-spacing
+ * 번들 구조로 정리할 수 없었습니다):
+ * 이 파일이 참조한 "tw/font" 프레임은 size / weight / leading(line-height) / tracking
+ * (letter-spacing) 4개의 "독립된" 스케일입니다. 즉 "xs"는 size 스케일에만 존재하고
+ * weight/leading/tracking 스케일에는 대응하는 "xs" 항목이 없습니다 (반대로 leading은
+ * 3,4,5...32 같은 숫자 스텝, weight는 thin~black, tracking은 tighter~widest로 각각
+ * 이름 체계가 다릅니다). 따라서 "하나의 step 이름에 4개 속성을 묶는" 구조가 아니라,
+ * 4개의 독립적인 스케일로 나누어 --font-size-*, --font-weight-*, --font-leading-*,
+ * --font-tracking-* 네 그룹으로 구성했습니다.
+ *
+ * 별도로, size × weight 조합 스타일 118개("DS — Text Styles", node-id 4122:8786,
+ * 13 size × 9 weight + Time Stamp 1개)가 실제 Figma Text Style로 존재하지만,
+ * 이번 추출 범위(적은 수의 "step")를 벗어나는 방대한 조합 매트릭스라 이 파일에는
+ * 포함하지 않았습니다. 필요 시 별도 작업으로 진행 권장 (⚠️ FLAG).
+ *
+ * font-family: 이 프레임 자체에는 font-family 값이 없습니다. "DS — Text Styles"
+ * 프레임의 설명 텍스트("Inter 기반 118개 스타일")에서 "Inter"라는 문자열을 확인해
+ * --font-family-sans 값으로 추가했습니다 — 이는 라벨 텍스트에서 추론한 값이며 실제
+ * font-family Variable/Property를 직접 읽은 것이 아니므로 ⚠️ FLAG.
+ *
+ * leading(line-height)과 tracking(letter-spacing) 값은 Figma에 절대 px 단위로
+ * 정의되어 있습니다 (Tailwind의 상대 비율이 아닌 절대값 방식).
+ */
+
+:root {
+  /* Font Family (⚠️ 라벨 텍스트에서 추론, 실제 변수 아님) */
+  --font-family-sans: "Inter", sans-serif;
+
+  /* Font Size — tw/font size (13) + xxs (1, 아래 주석 참고) */
+  /*
+   * ⚠️ --font-size-xxs는 "tw/font" 컬렉션(13개)에 없는 값입니다.
+   * 출처: GB_Design-System-v2.2 파일의 Persona Radial Chart(node 5526:7658)에서
+   * 빈 아바타 슬롯의 "No Self" 라벨이 쓰는 Text Style `Text-xxs/Medium`
+   * (Inter 500 / 8px / line-height 12px / tracking 0)을 그대로 옮긴 것입니다.
+   * line-height 12px는 기존 --font-leading-3와 값이 정확히 일치해 재사용합니다.
+   * (2026-09-10 사용자 승인 — 12px로 대체하면 40px 아바타 원을 넘칩니다.)
+   */
+  --font-size-xxs: 8px;
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-base: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 30px;
+  --font-size-4xl: 36px;
+  --font-size-5xl: 48px;
+  --font-size-6xl: 60px;
+  --font-size-7xl: 72px;
+  --font-size-8xl: 96px;
+  --font-size-9xl: 128px;
+
+  /* Font Weight — tw/font weight (9) */
+  --font-weight-thin: 100;
+  --font-weight-extralight: 200;
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  --font-weight-black: 900;
+
+  /* Line Height (leading) — tw/font leading (13), 절대 px 값 */
+  --font-leading-3: 12px;
+  --font-leading-4: 16px;
+  --font-leading-5: 20px;
+  --font-leading-6: 24px;
+  --font-leading-7: 28px;
+  --font-leading-8: 32px;
+  --font-leading-9: 36px;
+  --font-leading-10: 40px;
+  --font-leading-12: 48px;
+  --font-leading-15: 60px;
+  --font-leading-18: 72px;
+  --font-leading-24: 96px;
+  --font-leading-32: 128px;
+
+  /* Letter Spacing (tracking) — tw/font tracking (6), px 값 (16px 기준) */
+  --font-tracking-tighter: -0.8px;
+  --font-tracking-tight: -0.4px;
+  --font-tracking-normal: 0px;
+  --font-tracking-wide: 0.4px;
+  --font-tracking-wider: 0.8px;
+  --font-tracking-widest: 1.6px;
+}

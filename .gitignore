@@ -1,0 +1,69 @@
+# ─────────────────────────────────────────────────────────────
+# 허용 목록(allowlist) 방식
+#
+# 이 저장소는 PersonaRadialChart와 **그 차트가 동작하는 데 필요한 것**만
+# 공개합니다. 그래서 먼저 전부 제외한 뒤, 아래에서 필요한 것만 되살립니다.
+#
+# 로컬 폴더에는 다른 컴포넌트(Input, Chips, Switch 등)와 AI 작업 메모가
+# 그대로 남아 있지만, 여기에 명시되지 않은 것은 커밋되지 않습니다.
+# 새 파일을 공유하려면 이 목록에 직접 추가해야 합니다.
+# ─────────────────────────────────────────────────────────────
+/*
+
+# ── 루트 설정 파일 ──
+!/.gitignore
+!/README.md
+!/package.json
+!/package-lock.json
+!/tsconfig.json
+!/next.config.ts
+!/postcss.config.mjs
+!/components.json
+!/vitest.config.ts
+!/vitest.setup.ts
+
+# ── Next.js 앱 (globals.css가 토큰 11개를 import 함) ──
+!/app/
+
+# ── cn() 유틸 (tailwind-merge 커스텀 설정 포함) ──
+!/lib/
+/lib/*
+!/lib/utils.ts
+
+# ── 디자인 토큰 CSS ──
+!/src/
+/src/*
+!/src/tokens/
+
+# ── Storybook 설정 ──
+!/.storybook/
+
+# ── 스펙 문서 (차트 것만) ──
+!/docs/
+/docs/*
+!/docs/persona-radial-chart-spec.md
+
+# ── 차트 + 차트가 재사용하는 컴포넌트만 ──
+!/components/
+/components/*
+!/components/ui/
+/components/ui/*
+!/components/ui/persona-radial-chart/
+!/components/ui/avatar/
+!/components/ui/badge/
+
+# ── 위 허용 목록보다 우선해서, 어떤 위치에서도 제외 ──
+node_modules
+.next
+out
+storybook-static
+.DS_Store
+*.log
+*.tsbuildinfo
+*.local
+next-env.d.ts
+
+# 환경 변수 — Public 저장소라 Firebase/Supabase 키가 커밋되지 않도록 차단
+.env
+.env.*
+!.env.example

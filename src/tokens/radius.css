@@ -1,0 +1,45 @@
+/**
+ * Design Tokens - Border Radius
+ * Source: Figma (PrsHuyyra9LzqqrDwmrB5P, node-id 4111-3488, section "Design Token")
+ * Extracted from frame "DS — tw/border-radius" (node-id 4122:8047, "tw/border-radius — 10개",
+ * 설명: "코너 라운딩 토큰.")
+ *
+ * ⚠️ Figma Variable이 아니라 'Design Token' 문서 섹션에 하드코딩된 값을 옮긴 것입니다.
+ * Figma에 실제 Variable이 생기면 재추출 필요.
+ *
+ * 출처 검증 (2026-08-01 재확인): 이 10개 값은 `get_variable_defs`가 아니라
+ * `get_metadata`로 받은 이 프레임의 레이어 트리(XML)에서 텍스트 레이어 이름
+ * ("rounded-md 8px" 등)을 그대로 읽은 것입니다. `get_variable_defs`를 이 프레임
+ * 노드(4122:8047)와 개별 스와치 도형(예: rounded-sm 6px 스와치의 rounded-rectangle
+ * 노드 4122:8058, 부모 컨테이너 4122:8050)에도 직접 호출해봤지만 전부 빈 값(`{}`)을
+ * 반환했습니다 — 즉 이 스와치의 corner-radius 속성에 실제 Figma Variable이
+ * 바인딩되어 있지 않다는 뜻이며, `get_design_context`는 이 값 추출에 사용하지
+ * 않았습니다.
+ *
+ * 개수(10개)가 "DS — Overview" 프레임에 적힌 "tw/border-radius — 10개"(진짜
+ * Variable Collection 개수)와 정확히 일치하는 이유: 이 문서 프레임이 "tw/border-radius"
+ * Variable Collection을 시각적으로 1:1 미러링해서 만들어진 것으로 보입니다 — 개수
+ * 일치는 "값이 Variable에서 나왔다"는 근거가 아니라 "문서가 컬렉션을 성실히
+ * 미러링했다"는 근거로 해석했습니다.
+ *
+ * ⚠️ 이름 충돌 처리: `app/globals.css`에 이미 Shadcn 기본 `--radius`, `--radius-sm`,
+ * `--radius-md`, `--radius-lg`, `--radius-xl`(전부 `--radius: 0.625rem` 기준 calc() 값)이
+ * 정의되어 있어, 동일한 이름(rounded-sm/md/lg/xl)을 그대로 쓰면 충돌합니다.
+ * 그래서 이 파일의 모든 변수는 `--radius-scale-*` 접두사로 분리했습니다.
+ * (참고: 우연히 Figma의 rounded-sm/md/lg/xl 값이 현재 Shadcn calc() 결과값과 각각
+ * 정확히 6px/8px/10px/14px로 일치합니다 — 아래 "생성된 토큰 파일 재검수" 보고 참고.
+ * 그래도 계산 방식(고정 px vs `--radius` 기준 calc)이 다르므로 기존 변수는 덮어쓰지 않았습니다.)
+ */
+
+:root {
+  --radius-scale-none: 0px;
+  --radius-scale-xs: 2px;
+  --radius-scale-sm: 6px;
+  --radius-scale-md: 8px;
+  --radius-scale-lg: 10px;
+  --radius-scale-xl: 14px;
+  --radius-scale-2xl: 18px;
+  --radius-scale-3xl: 22px;
+  --radius-scale-4xl: 26px;
+  --radius-scale-full: 9999px;
+}

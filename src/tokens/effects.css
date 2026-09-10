@@ -1,0 +1,55 @@
+/**
+ * Design Tokens - Effects (Shadow / Blur)
+ * Source: Figma (PrsHuyyra9LzqqrDwmrB5P)
+ *   - Box Shadow 7개(shadow-2xs~2xl): node-id 4111-3488 (⭐️Component 하위, 기존 조사)
+ *   - 나머지 20개(Box Shadow 4개 + Backdrop Blur 8개 + Blur 8개):
+ *     "DS — Effect Styles" 프레임, node-id 4122-8696 (2026-08-01 추가 조사,
+ *     Figma Effect Styles 컬렉션 전체 27개 중 나머지)
+ *
+ * Figma effect group "Box Shadow/shadow-*" → CSS custom property `--shadow-*`
+ * (그룹명 "Box Shadow"는 "shadow" 접두사와 중복되어 CSS 변수명에서는 생략)
+ *
+ * 값 형식(shadow): offset-x offset-y blur spread color (box-shadow 문법),
+ * 다중 DROP_SHADOW effect는 쉼표로 연결. INNER_SHADOW는 `inset` 키워드 추가.
+ * 값 형식(blur): filter/backdrop-filter에 그대로 대입 가능한 `blur(Npx)` 함수값.
+ */
+
+:root {
+  --shadow-2xs: 0px 1px 0px 0px #0000000d;
+  --shadow-xs: 0px 1px 2px 0px #0000001a;
+  --shadow-sm: 0px 1px 3px 0px #0000001a;
+  --shadow-md: 0px 2px 4px -2px #0000001a, 0px 4px 6px -1px #0000001a;
+  --shadow-lg: 0px 4px 6px -4px #0000001a, 0px 10px 15px -3px #0000001a;
+  --shadow-xl: 0px 8px 10px -6px #0000001a, 0px 20px 25px -5px #0000001a;
+  --shadow-2xl: 0px 25px 50px -12px #00000040;
+
+  /* Box Shadow — 나머지 4개 (Figma "Box Shadow" 그룹, 11개 중 위 7개 제외) */
+  --shadow-inner: inset 0px 2px 4px 0px #0000000f;
+  --shadow-none: 0px 0px 0px 0px #00000000;
+  /* Focus ring: 포커스 상태 아웃라인 용도 (box-shadow 링 스타일, spread 3px) */
+  --shadow-focus-ring: 0px 0px 0px 3px #a1a1a180;
+  /* Destructive: 위험/삭제 액션 요소의 포커스·에러 링 용도 (box-shadow 링 스타일, spread 3px) */
+  --shadow-destructive: 0px 0px 0px 3px #dc262633;
+
+  /* Backdrop Blur (8) — Figma "Backdrop Blur" 그룹, BACKGROUND_BLUR effect */
+  --backdrop-blur-none: blur(0px);
+  --backdrop-blur-sm: blur(4px);
+  /* Figma effect 이름이 접미사 없는 "backdrop-blur"(기본값) → 값(8px)을 이름에 사용 */
+  --backdrop-blur-8: blur(8px);
+  --backdrop-blur-md: blur(12px);
+  --backdrop-blur-lg: blur(16px);
+  --backdrop-blur-xl: blur(24px);
+  --backdrop-blur-2xl: blur(40px);
+  --backdrop-blur-3xl: blur(64px);
+
+  /* Blur (8) — Figma "Blur" 그룹, FOREGROUND_BLUR(Layer Blur) effect */
+  --blur-none: blur(0px);
+  --blur-sm: blur(4px);
+  /* Figma effect 이름이 접미사 없는 "blur"(기본값) → 값(8px)을 이름에 사용 */
+  --blur-8: blur(8px);
+  --blur-md: blur(12px);
+  --blur-lg: blur(16px);
+  --blur-xl: blur(24px);
+  --blur-2xl: blur(40px);
+  --blur-3xl: blur(64px);
+}

@@ -1,0 +1,135 @@
+@import "tailwindcss";
+@import "../src/tokens/colors.css";
+@import "../src/tokens/effects.css";
+@import "../src/tokens/typography.css";
+@import "../src/tokens/spacing.css";
+@import "../src/tokens/radius.css";
+@import "../src/tokens/scale.css";
+@import "../src/tokens/padding.css";
+@import "../src/tokens/border-width.css";
+@import "../src/tokens/stroke-width.css";
+@import "../src/tokens/opacity.css";
+@import "../src/tokens/text-styles.css";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* Skeleton 컴포넌트의 대각선 shimmer 스윕 애니메이션. Figma의 Progress=0/33/66
+   3-프레임 정적 스냅샷을 무한 반복 CSS 애니메이션으로 재해석한 것입니다
+   (components/ui/skeleton/skeleton.tsx 참고, 2026-08-02 사용자 확정). */
+@keyframes shimmer {
+  from {
+    background-position: -150% 0;
+  }
+  to {
+    background-position: 150% 0;
+  }
+}
+
+/* InputBasic의 TimeMaskInput(HH:MM)에서 범위를 벗어난 숫자 입력이 거부될 때
+   재생되는 1회성 shake 피드백. Figma "Input basic" node-id 4723:1243/4723:1249
+   (`Status=error`)에는 정적 보더(`--destructive`)/에러 텍스트만 명시되어 있고
+   모션 스펙은 없습니다 — shake는 에이전트가 제안하고 사용자가 승인한 UX로,
+   Figma 값이 아니므로 별도 duration 토큰 없이 Skeleton의 `shimmer`와 동일하게
+   raw 값(0.4s)을 사용합니다 (2026-08-03). */
+@keyframes shake {
+  10%,
+  90% {
+    transform: translateX(-1px);
+  }
+  20%,
+  80% {
+    transform: translateX(2px);
+  }
+  30%,
+  50%,
+  70% {
+    transform: translateX(-4px);
+  }
+  40%,
+  60% {
+    transform: translateX(4px);
+  }
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.145 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.556 0 0);
+  /* Tooltip Inversed variant 전용 — 앱 테마와 무관하게 항상 --primary/--primary-foreground의
+     다크모드 resolve값으로 고정 (Figma Inversed 스펙, .dark 블록의 --primary/--primary-foreground와 동일 값) */
+  --tooltip-inversed-bg: oklch(0.922 0 0); /* #e5e5e5 */
+  --tooltip-inversed-fg: oklch(0.205 0 0); /* #171717 */
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.269 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.371 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  /* neutral-700 / #404040 — Figma DS 다크모드 Alert border 리터럴 값과 일치 (2026-08-02 확인) */
+  --border: oklch(0.371 0 0);
+  --input: oklch(0.205 0 0);
+  --ring: oklch(0.556 0 0);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}

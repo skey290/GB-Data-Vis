@@ -1,0 +1,224 @@
+/**
+ * Design Tokens - Padding (방향별 × 스케일)
+ * Source: Figma (PrsHuyyra9LzqqrDwmrB5P, node-id 4111-3488, section "Design Token")
+ * Extracted from frame "DS — tw/padding" (node-id 4122:7684, "tw/padding — 175개",
+ * 설명: "패딩 토큰 (방향별 × 스케일). tokens alias 참조.")
+ *
+ * ⚠️ Figma Variable이 아니라 'Design Token' 문서 섹션에 하드코딩된 값을 옮긴 것입니다.
+ * Figma에 실제 Variable이 생기면 재추출 필요.
+ *
+ * 출처 검증 (2026-08-01): 이 175개 값은 `get_variable_defs`가 아니라 `get_metadata`로
+ * 받은 이 프레임의 레이어 트리(XML)에서 텍스트 레이어 이름("pr-4 → 16px" 등)을 그대로
+ * 읽은 것입니다. `get_variable_defs`를 이 프레임 노드(4122:7684)에 직접 호출해봤지만
+ * 빈 값(`{}`)을 반환했습니다 — 실제 Figma Variable 바인딩은 확인되지 않았습니다.
+ * `get_design_context`는 이 값 추출에 사용하지 않았습니다. 개수(175)는 "DS — Overview"
+ * 프레임의 실제 Variable Collection 개수("tw/padding — 175개")와 일치합니다.
+ *
+ * 구조(175 = 5방향 × 35스텝): 이 프레임은 Tailwind 패딩 유틸리티의 5개 방향
+ * — `p`(전체), `pt`(top), `pr`(right), `pb`(bottom), `pl`(left) — 각각을 독립
+ * 섹션으로 나열합니다(`px`/`py` 축약형은 이 컬렉션에 없음). 각 방향은 동일한
+ * 35스텝 스케일(0, px(1px), 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 5, 6, 7, 8, 9, 10,
+ * 11, 12, 14, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 64, 72, 80, 96)을
+ * 공유합니다 — `src/tokens/spacing.css`(`tw/gap`, 34스텝)와 완전히 동일한 스텝
+ * 체계에 `px`(1px) 스텝만 추가된 구조입니다. 5방향 × 35 = 175로 Figma 총개수와
+ * 정확히 일치합니다.
+ *
+ * 재확인 (2026-08-01, 스크린샷 대조): `pl` 섹션에 "pl-1,15 → 6px" 같은 오탈자가
+ * 있다는 이전 기록이 있었으나, `get_metadata` 재조회 + 프레임(node-id 4122:7832)
+ * 스크린샷으로 직접 대조한 결과 현재 Figma 원문은 다른 4개 방향과 동일하게
+ * "pl-1,5 → 6px"로 깨끗하게 표기되어 있음을 확인했습니다(오탈자 없음). 값
+ * `--spacing-padding-l-1-5`는 원래도 정상 값(6px)이라 변경 사항 없음 — 이 주석만
+ * 최신 상태로 정정합니다.
+ *
+ * 네이밍: Figma 라벨의 콤마(,)는 마침표의 로캘 표기라 하이픈(-)으로 변환했습니다
+ * (예: "pr-2,5" → --spacing-padding-r-2-5). "p"(전체 방향)는 접두사만
+ * `--spacing-padding-*`로 방향 없이 표기하고, 나머지 4방향은 t/r/b/l 접미사를
+ * 붙였습니다 (`--spacing-padding-t-*`, `-r-*`, `-b-*`, `-l-*`).
+ */
+
+:root {
+  /* p — 전체 방향 (35) */
+  --spacing-padding-0: 0px;
+  --spacing-padding-px: 1px;
+  --spacing-padding-0-5: 2px;
+  --spacing-padding-1: 4px;
+  --spacing-padding-1-5: 6px;
+  --spacing-padding-2: 8px;
+  --spacing-padding-2-5: 10px;
+  --spacing-padding-3: 12px;
+  --spacing-padding-3-5: 14px;
+  --spacing-padding-4: 16px;
+  --spacing-padding-5: 20px;
+  --spacing-padding-6: 24px;
+  --spacing-padding-7: 28px;
+  --spacing-padding-8: 32px;
+  --spacing-padding-9: 36px;
+  --spacing-padding-10: 40px;
+  --spacing-padding-11: 44px;
+  --spacing-padding-12: 48px;
+  --spacing-padding-14: 56px;
+  --spacing-padding-16: 64px;
+  --spacing-padding-20: 80px;
+  --spacing-padding-24: 96px;
+  --spacing-padding-28: 112px;
+  --spacing-padding-32: 128px;
+  --spacing-padding-36: 144px;
+  --spacing-padding-40: 160px;
+  --spacing-padding-44: 176px;
+  --spacing-padding-48: 192px;
+  --spacing-padding-52: 208px;
+  --spacing-padding-56: 224px;
+  --spacing-padding-60: 240px;
+  --spacing-padding-64: 256px;
+  --spacing-padding-72: 288px;
+  --spacing-padding-80: 320px;
+  --spacing-padding-96: 384px;
+
+  /* pt — top (35) */
+  --spacing-padding-t-0: 0px;
+  --spacing-padding-t-px: 1px;
+  --spacing-padding-t-0-5: 2px;
+  --spacing-padding-t-1: 4px;
+  --spacing-padding-t-1-5: 6px;
+  --spacing-padding-t-2: 8px;
+  --spacing-padding-t-2-5: 10px;
+  --spacing-padding-t-3: 12px;
+  --spacing-padding-t-3-5: 14px;
+  --spacing-padding-t-4: 16px;
+  --spacing-padding-t-5: 20px;
+  --spacing-padding-t-6: 24px;
+  --spacing-padding-t-7: 28px;
+  --spacing-padding-t-8: 32px;
+  --spacing-padding-t-9: 36px;
+  --spacing-padding-t-10: 40px;
+  --spacing-padding-t-11: 44px;
+  --spacing-padding-t-12: 48px;
+  --spacing-padding-t-14: 56px;
+  --spacing-padding-t-16: 64px;
+  --spacing-padding-t-20: 80px;
+  --spacing-padding-t-24: 96px;
+  --spacing-padding-t-28: 112px;
+  --spacing-padding-t-32: 128px;
+  --spacing-padding-t-36: 144px;
+  --spacing-padding-t-40: 160px;
+  --spacing-padding-t-44: 176px;
+  --spacing-padding-t-48: 192px;
+  --spacing-padding-t-52: 208px;
+  --spacing-padding-t-56: 224px;
+  --spacing-padding-t-60: 240px;
+  --spacing-padding-t-64: 256px;
+  --spacing-padding-t-72: 288px;
+  --spacing-padding-t-80: 320px;
+  --spacing-padding-t-96: 384px;
+
+  /* pr — right (35) */
+  --spacing-padding-r-0: 0px;
+  --spacing-padding-r-px: 1px;
+  --spacing-padding-r-0-5: 2px;
+  --spacing-padding-r-1: 4px;
+  --spacing-padding-r-1-5: 6px;
+  --spacing-padding-r-2: 8px;
+  --spacing-padding-r-2-5: 10px;
+  --spacing-padding-r-3: 12px;
+  --spacing-padding-r-3-5: 14px;
+  --spacing-padding-r-4: 16px;
+  --spacing-padding-r-5: 20px;
+  --spacing-padding-r-6: 24px;
+  --spacing-padding-r-7: 28px;
+  --spacing-padding-r-8: 32px;
+  --spacing-padding-r-9: 36px;
+  --spacing-padding-r-10: 40px;
+  --spacing-padding-r-11: 44px;
+  --spacing-padding-r-12: 48px;
+  --spacing-padding-r-14: 56px;
+  --spacing-padding-r-16: 64px;
+  --spacing-padding-r-20: 80px;
+  --spacing-padding-r-24: 96px;
+  --spacing-padding-r-28: 112px;
+  --spacing-padding-r-32: 128px;
+  --spacing-padding-r-36: 144px;
+  --spacing-padding-r-40: 160px;
+  --spacing-padding-r-44: 176px;
+  --spacing-padding-r-48: 192px;
+  --spacing-padding-r-52: 208px;
+  --spacing-padding-r-56: 224px;
+  --spacing-padding-r-60: 240px;
+  --spacing-padding-r-64: 256px;
+  --spacing-padding-r-72: 288px;
+  --spacing-padding-r-80: 320px;
+  --spacing-padding-r-96: 384px;
+
+  /* pb — bottom (35) */
+  --spacing-padding-b-0: 0px;
+  --spacing-padding-b-px: 1px;
+  --spacing-padding-b-0-5: 2px;
+  --spacing-padding-b-1: 4px;
+  --spacing-padding-b-1-5: 6px;
+  --spacing-padding-b-2: 8px;
+  --spacing-padding-b-2-5: 10px;
+  --spacing-padding-b-3: 12px;
+  --spacing-padding-b-3-5: 14px;
+  --spacing-padding-b-4: 16px;
+  --spacing-padding-b-5: 20px;
+  --spacing-padding-b-6: 24px;
+  --spacing-padding-b-7: 28px;
+  --spacing-padding-b-8: 32px;
+  --spacing-padding-b-9: 36px;
+  --spacing-padding-b-10: 40px;
+  --spacing-padding-b-11: 44px;
+  --spacing-padding-b-12: 48px;
+  --spacing-padding-b-14: 56px;
+  --spacing-padding-b-16: 64px;
+  --spacing-padding-b-20: 80px;
+  --spacing-padding-b-24: 96px;
+  --spacing-padding-b-28: 112px;
+  --spacing-padding-b-32: 128px;
+  --spacing-padding-b-36: 144px;
+  --spacing-padding-b-40: 160px;
+  --spacing-padding-b-44: 176px;
+  --spacing-padding-b-48: 192px;
+  --spacing-padding-b-52: 208px;
+  --spacing-padding-b-56: 224px;
+  --spacing-padding-b-60: 240px;
+  --spacing-padding-b-64: 256px;
+  --spacing-padding-b-72: 288px;
+  --spacing-padding-b-80: 320px;
+  --spacing-padding-b-96: 384px;
+
+  /* pl — left (35). ⚠️ 원본 "1,15 → 6px" 오탈자 → 1.5로 정규화(위 주석 참고) */
+  --spacing-padding-l-0: 0px;
+  --spacing-padding-l-px: 1px;
+  --spacing-padding-l-0-5: 2px;
+  --spacing-padding-l-1: 4px;
+  --spacing-padding-l-1-5: 6px;
+  --spacing-padding-l-2: 8px;
+  --spacing-padding-l-2-5: 10px;
+  --spacing-padding-l-3: 12px;
+  --spacing-padding-l-3-5: 14px;
+  --spacing-padding-l-4: 16px;
+  --spacing-padding-l-5: 20px;
+  --spacing-padding-l-6: 24px;
+  --spacing-padding-l-7: 28px;
+  --spacing-padding-l-8: 32px;
+  --spacing-padding-l-9: 36px;
+  --spacing-padding-l-10: 40px;
+  --spacing-padding-l-11: 44px;
+  --spacing-padding-l-12: 48px;
+  --spacing-padding-l-14: 56px;
+  --spacing-padding-l-16: 64px;
+  --spacing-padding-l-20: 80px;
+  --spacing-padding-l-24: 96px;
+  --spacing-padding-l-28: 112px;
+  --spacing-padding-l-32: 128px;
+  --spacing-padding-l-36: 144px;
+  --spacing-padding-l-40: 160px;
+  --spacing-padding-l-44: 176px;
+  --spacing-padding-l-48: 192px;
+  --spacing-padding-l-52: 208px;
+  --spacing-padding-l-56: 224px;
+  --spacing-padding-l-60: 240px;
+  --spacing-padding-l-64: 256px;
+  --spacing-padding-l-72: 288px;
+  --spacing-padding-l-80: 320px;
+  --spacing-padding-l-96: 384px;
+}

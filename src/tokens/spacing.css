@@ -1,0 +1,67 @@
+/**
+ * Design Tokens - Spacing (Gap Scale)
+ * Source: Figma (PrsHuyyra9LzqqrDwmrB5P, node-id 4111-3488, section "Design Token")
+ * Extracted from frame "DS — tw/gap" (node-id 4122:7546, "tw/gap — 34개",
+ * 설명: "Auto-layout itemSpacing. tokens alias 참조.")
+ *
+ * ⚠️ Figma Variable이 아니라 'Design Token' 문서 섹션에 하드코딩된 값을 옮긴 것입니다.
+ * Figma에 실제 Variable이 생기면 재추출 필요.
+ *
+ * 출처 검증 (2026-08-01 재확인): 이 34개 값은 `get_variable_defs`가 아니라
+ * `get_metadata`로 받은 이 프레임의 레이어 트리(XML)에서 텍스트 레이어 이름
+ * ("gap-4", "16px" 등)을 그대로 읽은 것입니다. `get_variable_defs`를 이 프레임
+ * 노드(4122:7546)뿐 아니라 개별 스와치 도형 노드(예: gap-1 행의 프레임 4122:7556,
+ * rounded-rectangle 도형)에도 직접 호출해봤지만 전부 빈 값(`{}`)을 반환했습니다 —
+ * 즉 이 문서 프레임의 auto-layout itemSpacing에는 실제 Figma Variable이 바인딩되어
+ * 있지 않다는 뜻이며, `get_design_context`는 이 값 추출에 사용하지 않았습니다.
+ *
+ * 개수(34개)가 "DS — Overview" 프레임에 적힌 "tw/gap — 34개"(진짜 Variable
+ * Collection 개수)와 정확히 일치하는 이유: 이 문서 프레임 자체가 "tw/gap" Variable
+ * Collection을 시각적으로 1:1 미러링해서 만들어진 것으로 보입니다(각 행 = 컬렉션의
+ * Variable 1개, 프레임 부제도 동일하게 "tw/gap — 34개"). 다만 이 스와치들의 실제
+ * itemSpacing 속성이 그 Variable에 바인딩되어 있는지는 위 검증대로 `{}`만 반환되어
+ * 확인할 수 없었고, 라벨 텍스트만 신뢰할 수 있는 값입니다. 개수 일치는 "값이
+ * Variable에서 나왔다"는 근거가 아니라 "문서가 컬렉션을 성실히 미러링했다"는
+ * 근거로 해석했습니다.
+ *
+ * 참고: Figma 라벨은 "gap-0,5" 처럼 소수점을 쉼표(,)로 표기하지만 이는 로캘 표기
+ * 차이일 뿐 실제로는 Tailwind의 "gap-0.5"(0.5 * 4px = 2px)와 동일합니다.
+ * CSS 변수명에서는 쉼표/마침표 대신 하이픈(-)으로 표기했습니다 (예: gap-0,5 → --spacing-gap-0-5).
+ */
+
+:root {
+  --spacing-gap-0: 0px;
+  --spacing-gap-0-5: 2px;
+  --spacing-gap-1: 4px;
+  --spacing-gap-1-5: 6px;
+  --spacing-gap-2: 8px;
+  --spacing-gap-2-5: 10px;
+  --spacing-gap-3: 12px;
+  --spacing-gap-3-5: 14px;
+  --spacing-gap-4: 16px;
+  --spacing-gap-5: 20px;
+  --spacing-gap-6: 24px;
+  --spacing-gap-7: 28px;
+  --spacing-gap-8: 32px;
+  --spacing-gap-9: 36px;
+  --spacing-gap-10: 40px;
+  --spacing-gap-11: 44px;
+  --spacing-gap-12: 48px;
+  --spacing-gap-14: 56px;
+  --spacing-gap-16: 64px;
+  --spacing-gap-20: 80px;
+  --spacing-gap-24: 96px;
+  --spacing-gap-28: 112px;
+  --spacing-gap-32: 128px;
+  --spacing-gap-36: 144px;
+  --spacing-gap-40: 160px;
+  --spacing-gap-44: 176px;
+  --spacing-gap-48: 192px;
+  --spacing-gap-52: 208px;
+  --spacing-gap-56: 224px;
+  --spacing-gap-60: 240px;
+  --spacing-gap-64: 256px;
+  --spacing-gap-72: 288px;
+  --spacing-gap-80: 320px;
+  --spacing-gap-96: 384px;
+}
