@@ -265,6 +265,58 @@ describe("PersonaRadialChart", () => {
       expect(screen.getByText("10%")).toBeInTheDocument();
     });
 
+    /*
+     * 실데이터 대응 — Figma mock은 소수 1자리로 딱 떨어지지만, 실제 계산값은
+     * 자릿수가 길게 나옵니다. 반올림이 없으면 배지가 그대로 깨집니다.
+     */
+    it("rounds long decimals to one place", () => {
+      render(
+        <PersonaRadialChart
+          hover="engagement"
+          personas={[
+            { id: "a", name: "A", growth: 0, reach: 0, engagement: 14.333333 },
+          ]}
+        />,
+      );
+
+      expect(screen.getByText("14.3%")).toBeInTheDocument();
+    });
+
+    it("does not add a decimal point to whole numbers", () => {
+      // 최대 자릿수라서 80이 "80.0%"가 되지 않습니다 (Figma 표기 유지)
+      render(<PersonaRadialChart hover="growth" />);
+
+      expect(screen.getByText("80%")).toBeInTheDocument();
+      expect(screen.queryByText("80.0%")).toBeNull();
+    });
+
+    it("rounds reach and keeps the thousands separator", () => {
+      render(
+        <PersonaRadialChart
+          hover="reach"
+          personas={[
+            { id: "a", name: "A", growth: 0, reach: 1234567.89, engagement: 0 },
+          ]}
+        />,
+      );
+
+      expect(screen.getByText("1,234,567.9")).toBeInTheDocument();
+    });
+
+    it("lets the caller override the decimal precision", () => {
+      render(
+        <PersonaRadialChart
+          hover="engagement"
+          valueFractionDigits={0}
+          personas={[
+            { id: "a", name: "A", growth: 0, reach: 0, engagement: 14.333333 },
+          ]}
+        />,
+      );
+
+      expect(screen.getByText("14%")).toBeInTheDocument();
+    });
+
     it("formats reach values with thousands separators", () => {
       render(<PersonaRadialChart hover="reach" />);
 
@@ -382,6 +434,45 @@ describe("PersonaRadialChart", () => {
 
       expect(screen.getAllByText("No Self")).toHaveLength(7);
       expect(screen.getByText("Data Scientist")).toBeInTheDocument();
+    });
+
+    /*
+     * 실데이터 대응 — Figma에는 Self가 1과 8뿐이지만 실제로는 1~8명 전부
+     * 가능합니다. `selfCount`를 지정하지 않으면 넘어온 데이터 전부가 노출되고,
+     * 남는 칸은 "더 만들라"는 유도를 위해 빈 슬롯으로 남습니다.
+     */
+    it("reveals every persona passed in when selfCount is omitted", () => {
+      const three = DEFAULT_PERSONAS.slice(0, 3);
+      render(<PersonaRadialChart personas={three} />);
+
+      expect(screen.getByText("Data Scientist")).toBeInTheDocument();
+      expect(screen.getByText("Yoga Meditator")).toBeInTheDocument();
+      expect(screen.getByText("Novelist")).toBeInTheDocument();
+      // 8칸 휠은 유지되고 남은 5칸이 빈 슬롯이 됩니다
+      expect(screen.getAllByLabelText("No Self")).toHaveLength(5);
+    });
+
+    it.each([1, 2, 3, 4, 5, 6, 7, 8])(
+      "handles selfCount=%i, not just 1 and 8",
+      (count) => {
+        render(<PersonaRadialChart selfCount={count} />);
+
+        expect(screen.queryAllByLabelText("No Self")).toHaveLength(8 - count);
+      },
+    );
+
+    it("gives each empty slot its own hover highlight", async () => {
+      // 빈 슬롯은 페르소나 id가 없어 합성 키로 식별합니다. 키가 겹치면
+      // 슬롯 하나를 hover했을 때 여러 개가 함께 강조됩니다.
+      const { container } = render(<PersonaRadialChart selfCount={1} />);
+
+      const slots = screen.getAllByLabelText("No Self");
+      await userEvent.hover(slots[2]);
+
+      const highlighted = container.querySelectorAll(
+        ".outline-\\[color\\:var\\(--color-semantic-non-changeable\\)\\]",
+      );
+      expect(highlighted).toHaveLength(1);
     });
 
     it("renders no empty slots when all eight personas exist", () => {

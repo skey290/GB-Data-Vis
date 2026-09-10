@@ -36,8 +36,14 @@ const meta = {
   ],
   argTypes: {
     selfCount: {
-      control: "radio",
-      options: [1, 8],
+      control: { type: "range", min: 1, max: 8, step: 1 },
+      description:
+        "노출할 셀프 수. 나머지 칸은 'No Self' 빈 슬롯이 됩니다. Figma 원본에는 1과 8만 있지만 그 사이 값도 정상 동작합니다.",
+    },
+    valueFractionDigits: {
+      control: { type: "range", min: 0, max: 3, step: 1 },
+      description:
+        "배지 값의 최대 소수 자릿수. 정수에는 소수점이 붙지 않습니다",
     },
     posting: {
       control: "boolean",

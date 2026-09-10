@@ -40,13 +40,28 @@ const LABEL_ORBIT_RADIUS = 265;
  * Figma 실측 top 516 / 높이 20 → 중심 526, 프레임 중심(250) 기준 +276.
  */
 const NOT_ENOUGH_DATA_OFFSET_Y = 276;
-/** 섹터 1개의 각도 (360 / 8) */
-const SECTOR_ANGLE = 45;
+/**
+ * 차트를 나누는 칸 수. Figma 원본이 8칸이고 **고정입니다.**
+ *
+ * 셀프가 3명이어도 8칸 휠은 그대로 유지되고 나머지 5칸이 빈 슬롯이 됩니다
+ * ("더 만들라"는 유도를 위해 Figma가 의도한 구성). 즉 "몇 칸인가"와
+ * "몇 칸이 채워졌는가"는 별개이고, 후자만 `selfCount`로 달라집니다.
+ */
+const SECTOR_COUNT = 8;
+/** 섹터 1개의 각도 */
+const SECTOR_ANGLE = 360 / SECTOR_COUNT;
 /**
  * 첫 섹터의 시작 각도. SVG 좌표계는 3시 방향이 0°, 시계방향이 +이므로
  * -90°(12시)에서 시작해야 맨 위 스포크가 정확히 수직이 됩니다.
  */
 const FIRST_SECTOR_START_ANGLE = -90;
+/**
+ * 지표 값 표기의 최대 소수 자릿수.
+ *
+ * "최대"라서 정수에는 소수점이 붙지 않습니다 (80 → "80%", 8340 → "8,340").
+ * 실데이터의 계산값만 반올림됩니다 (14.333333 → "14.3%").
+ */
+const DEFAULT_VALUE_FRACTION_DIGITS = 1;
 
 /**
  * hover 전환 공통 설정.
@@ -294,12 +309,22 @@ function fullAnnulusPath(innerRadius: number, outerRadius: number) {
   return `${ring(outerRadius)} ${ring(innerRadius)}`;
 }
 
-/** 툴팁이 아니라 배지에 직접 노출되는 값이라, 지표별 표기를 그대로 씁니다 */
-function formatMetricValue(metricKey: PersonaMetricKey, value: number) {
-  if (metricKey === "reach") {
-    return value.toLocaleString("en-US");
-  }
-  return `${value}%`;
+/**
+ * 툴팁이 아니라 배지에 직접 노출되는 값이라, 지표별 표기를 그대로 씁니다.
+ *
+ * `toLocaleString`이 반올림과 천 단위 구분을 한 번에 처리합니다. `maximum`이라
+ * 정수에는 소수점이 붙지 않아, Figma mock의 `80%` / `8,340` 표기가 그대로
+ * 유지되면서 실데이터의 `14.333333`만 `14.3`으로 정리됩니다.
+ */
+function formatMetricValue(
+  metricKey: PersonaMetricKey,
+  value: number,
+  fractionDigits: number,
+) {
+  const text = value.toLocaleString("en-US", {
+    maximumFractionDigits: fractionDigits,
+  });
+  return metricKey === "reach" ? text : `${text}%`;
 }
 
 function getSectorGeometry(index: number) {
@@ -354,10 +379,27 @@ export interface PersonaRadialChartProps extends Omit<
   React.HTMLAttributes<HTMLDivElement>,
   "onSelect"
 > {
-  /** 8개 페르소나 데이터. 배열 순서가 12시부터 시계방향 섹터 순서가 됩니다 */
+  /**
+   * 실제로 존재하는 페르소나 데이터. 배열 순서가 12시부터 시계방향 섹터 순서가 됩니다.
+   *
+   * 8칸보다 적게 넘겨도 됩니다 — 남는 칸은 "No Self" 빈 슬롯이 됩니다.
+   * 즉 서버에서 받은 배열을 그대로 넘기면 그만큼만 채워집니다.
+   */
   personas?: PersonaDatum[];
-  /** Figma `Self` variant — 셀프 1명만 만들어진 상태인지, 8명 전부인지 */
-  selfCount?: 1 | 8;
+  /**
+   * 노출할 셀프 수. 배열 앞에서부터 이 수만큼만 실제 데이터로 그려지고 나머지는
+   * 빈 슬롯이 됩니다. **기본값은 `personas.length`** — 실데이터를 그대로 넘기는
+   * 경우 이 prop을 지정할 필요가 없습니다.
+   *
+   * Figma의 `Self(1|8)` variant를 재현할 때만 명시적으로 넘기면 됩니다.
+   */
+  selfCount?: number;
+  /**
+   * 배지에 표시되는 값의 최대 소수 자릿수. 기본 1.
+   *
+   * "최대"라서 정수에는 소수점이 붙지 않습니다 (80 → `80%`).
+   */
+  valueFractionDigits?: number;
   /** Figma `Posting` variant — 게시물이 있어야 Reach/Engagement가 산출됩니다 */
   posting?: boolean;
   /**
@@ -387,7 +429,8 @@ export interface PersonaRadialChartProps extends Omit<
  */
 export function PersonaRadialChart({
   personas = DEFAULT_PERSONAS,
-  selfCount = 8,
+  selfCount,
+  valueFractionDigits = DEFAULT_VALUE_FRACTION_DIGITS,
   posting = true,
   hover: controlledHover,
   onHoverChange,
@@ -419,9 +462,25 @@ export function PersonaRadialChart({
    */
   const resolvedSelfId = selfId || personas[0]?.id;
 
-  /** 아바타/값이 실제로 노출되는 페르소나인지 (Figma `Self` variant) */
-  const isRevealed = (persona: PersonaDatum) =>
-    selfCount === 8 || persona.id === resolvedSelfId;
+  /** 노출할 셀프 수. 지정하지 않으면 넘어온 데이터 전부를 노출합니다 */
+  const revealedCount = selfCount ?? personas.length;
+
+  /**
+   * 섹터를 채우는 슬롯. 8칸을 만들고 앞에서부터 페르소나를 배치합니다.
+   *
+   * - 데이터가 없는 칸 → `null` (= "No Self" 빈 슬롯)
+   * - `revealedCount`를 넘어선 칸 → 데이터가 있어도 빈 슬롯 (Figma `Self=1` 재현)
+   * - 셀프는 배열 어디에 있든 항상 노출됩니다. `selfId`를 뒤쪽 페르소나로 지정한
+   *   경우에 그 셀프가 사라지지 않게 하기 위함입니다.
+   */
+  const slots = React.useMemo(() => {
+    return Array.from({ length: SECTOR_COUNT }, (_, index) => {
+      const persona = personas[index];
+      if (!persona) return null;
+      const shown = index < revealedCount || persona.id === resolvedSelfId;
+      return shown ? persona : null;
+    });
+  }, [personas, revealedCount, resolvedSelfId]);
 
   /**
    * 강조할 아바타. 마우스로 올린 것이 언제나 우선입니다.
@@ -430,13 +489,16 @@ export function PersonaRadialChart({
    * Figma variant를 그대로 재현하도록, 빈 슬롯이 있으면 **첫 빈 슬롯**을,
    * 없으면 셀프를 강조합니다. Figma의 `Self=1 / Hover=self`가 셀프가 아니라
    * 빈 슬롯이 강조된 스냅샷이기 때문입니다.
+   *
+   * 빈 슬롯에는 페르소나 id가 없으므로 `slot:<index>` 형태의 합성 키를 씁니다.
    */
-  const firstEmptySlotId = personas.find((persona) => !isRevealed(persona))?.id;
-  const activeAvatarId = hoveredAvatarId ?? firstEmptySlotId ?? resolvedSelfId;
+  const emptySlotKey = (index: number) => `slot:${index}`;
+  const firstEmptySlotKey = slots.findIndex((slot) => slot === null);
+  const activeAvatarId =
+    hoveredAvatarId ??
+    (firstEmptySlotKey >= 0 ? emptySlotKey(firstEmptySlotKey) : resolvedSelfId);
   /** 지금 강조된 대상이 빈 슬롯인지 — 중앙 문구를 가르는 기준입니다 */
-  const isEmptySlotActive = personas.some(
-    (persona) => persona.id === activeAvatarId && !isRevealed(persona),
-  );
+  const isEmptySlotActive = activeAvatarId?.startsWith("slot:") ?? false;
 
   /** 게시물이 없으면 Growth만 산출됩니다 */
   const hasMetricData = (metricKey: PersonaMetricKey) =>
@@ -505,8 +567,8 @@ export function PersonaRadialChart({
 
           return (
             <g key={metric.key}>
-              {personas.map((persona, index) => {
-                if (!isRevealed(persona)) return null;
+              {slots.map((persona, index) => {
+                if (!persona) return null;
 
                 const { startAngle, endAngle } = getSectorGeometry(index);
                 const bands = ringBandCounts[metric.key][index];
@@ -537,7 +599,7 @@ export function PersonaRadialChart({
           );
         })}
 
-        {/* 그리드 — 동심원 4개 + 스포크 4개(지름선), 모두 동일 색상 */}
+        {/* 그리드 — 동심원 4개 + 섹터 경계 스포크, 모두 동일 색상 */}
         <g fill="none" strokeWidth="var(--stroke-width-1)" aria-hidden="true">
           {RING_BOUNDARY_RADII.map((radius) => {
             // 데이터 없는 링을 hover 중이면 그 링의 두 경계원만 흰색으로 강조됩니다
@@ -565,12 +627,16 @@ export function PersonaRadialChart({
               />
             );
           })}
-          {[0, 1, 2, 3].map((index) => {
-            const angle = FIRST_SECTOR_START_ANGLE + SECTOR_ANGLE * index;
-            const end = polarToCartesian(RING_BOUNDARY_RADII[3], angle);
+          {/*
+            Figma 원본은 반직선 8개가 아니라 중심을 관통하는 지름선 4개입니다.
+            8칸 고정이라 지름 4개 = 스포크 8개가 정확히 맞아떨어집니다.
+          */}
+          {Array.from({ length: SECTOR_COUNT / 2 }, (_, index) => {
+            const { startAngle } = getSectorGeometry(index);
+            const end = polarToCartesian(RING_BOUNDARY_RADII[3], startAngle);
             return (
               <line
-                key={angle}
+                key={startAngle}
                 x1={round(-end.x)}
                 y1={round(-end.y)}
                 x2={round(end.x)}
@@ -598,18 +664,23 @@ export function PersonaRadialChart({
         </g>
       </svg>
 
-      {/* 아바타 8개 */}
-      {personas.map((persona, index) => {
+      {/* 아바타 — 섹터 수만큼. 데이터가 없는 칸은 "No Self" 빈 슬롯이 됩니다 */}
+      {slots.map((persona, index) => {
         const { midAngle } = getSectorGeometry(index);
         const position = polarToCartesian(AVATAR_ORBIT_RADIUS, midAngle);
-        const revealed = isRevealed(persona);
+        const revealed = persona !== null;
+        /*
+         * 빈 슬롯은 페르소나 id가 없으므로 합성 키로 식별합니다. 이렇게 해야
+         * 빈 슬롯 하나하나를 개별적으로 hover 강조할 수 있습니다.
+         */
+        const slotId = persona ? persona.id : emptySlotKey(index);
         // 마우스를 올린 아바타만 강조됩니다. Figma variant는 셀프 1개만 강조된
         // 스냅샷이지만, 실제 인터랙션은 hover한 대상이 활성화되는 것입니다.
-        const isActive = hover === "self" && persona.id === activeAvatarId;
+        const isActive = hover === "self" && slotId === activeAvatarId;
 
         return (
           <div
-            key={persona.id}
+            key={slotId}
             className="absolute"
             style={{
               left: `calc(50% + ${round(position.x)}px)`,
@@ -617,7 +688,7 @@ export function PersonaRadialChart({
               transform: "translate(-50%, -50%)",
             }}
             onMouseEnter={() => {
-              setHoveredAvatarId(persona.id);
+              setHoveredAvatarId(slotId);
               changeHover("self");
             }}
             /*
@@ -720,8 +791,8 @@ export function PersonaRadialChart({
         지표를 hover했는데 그 지표를 산출할 수 없으면(게시물 없음) 배지가 아예
         사라집니다(이름으로 되돌아가지 않습니다).
       */}
-      {personas.map((persona, index) => {
-        if (!isRevealed(persona)) return null;
+      {slots.map((persona, index) => {
+        if (!persona) return null;
         if (isMetricHover && !hasMetricData(hover as PersonaMetricKey)) {
           return null;
         }
@@ -736,6 +807,7 @@ export function PersonaRadialChart({
           ? formatMetricValue(
               hover as PersonaMetricKey,
               persona[hover as PersonaMetricKey],
+              valueFractionDigits,
             )
           : persona.name;
 
