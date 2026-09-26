@@ -1,23 +1,16 @@
 /**
  * Design Tokens - Typography
- * Source: Figma (PrsHuyyra9LzqqrDwmrB5P, node-id 4111-3488, section "Design Token")
- * Extracted from frame "DS — tw/font" (node-id 4122:8225, "tw/font — 41개")
+ * Source: Figma (PrsHuyyra9LzqqrDwmrB5P, 📌 GB_Design-System-v2.3)
  *
- * ⚠️ Figma Variable이 아니라 'Design Token' 문서 섹션에 하드코딩된 값을 옮긴 것입니다.
- * Figma에 실제 Variable이 생기면 재추출 필요.
- *
- * 출처 검증 (2026-08-01 재확인): 이 41개 값(size 13 + weight 9 + leading 13 +
- * tracking 6)은 `get_variable_defs`가 아니라 `get_metadata`로 받은 이 프레임의
- * 레이어 트리(XML)에서 텍스트 레이어 이름 쌍("xs"/"12", "thin"/"100" 등)을 그대로
- * 읽은 것입니다. `get_variable_defs`를 이 프레임 노드(4122:8225)에 직접 호출해봤지만
- * 빈 값(`{}`)을 반환했습니다 — 즉 이 라벨들에 실제 Figma Variable이 바인딩되어 있지
- * 않다는 뜻이며, `get_design_context`는 이 값 추출에 사용하지 않았습니다.
- *
- * 개수(41개)가 "DS — Overview" 프레임에 적힌 "tw/font — 41개"(진짜 Variable
- * Collection 개수)와 정확히 일치하는 이유: 이 문서 프레임이 "tw/font" Variable
- * Collection을 시각적으로 1:1 미러링해서 만들어진 것으로 보입니다 — 개수 일치는
- * "값이 Variable에서 나왔다"는 근거가 아니라 "문서가 컬렉션을 성실히 미러링했다"는
- * 근거로 해석했습니다.
+ * ✅ 2026-09-17 재검증: 2026-08-01 당시 "Design Token" 문서 페이지(현재 삭제됨)의
+ * 목업 스와치에서 `get_variable_defs`가 빈 값(`{}`)만 반환해 "Figma Variable
+ * 아님"이라 판단했으나, 이는 문서 페이지 자체가 어떤 Variable에도 바인딩되지
+ * 않은 손그림이었기 때문이었습니다. 실제 프로덕션 컴포넌트(Button, Chip,
+ * Tooltip, Badge, GNB, Select, Toggle 등) 텍스트 레이어에 동일하게
+ * `get_variable_defs`를 호출하자 `size/xs:12`, `size/sm:14`, `weight/normal:400`,
+ * `weight/medium:500`, `weight/semibold:600`, `leading/4:16`, `leading/5:20`,
+ * `tracking/normal:0`, `family/sans:Inter` 등이 이름 붙은 진짜 Variable 값으로
+ * 반환됨을 확인했습니다(family/sans 포함). 값은 기존과 동일해 변경 없음.
  *
  * ⚠️ 구조 관련 주의사항 (원래 요청한 --font-{step}-size/-weight/-line-height/-letter-spacing
  * 번들 구조로 정리할 수 없었습니다):

@@ -5,9 +5,7 @@
 @import "../src/tokens/spacing.css";
 @import "../src/tokens/radius.css";
 @import "../src/tokens/scale.css";
-@import "../src/tokens/padding.css";
-@import "../src/tokens/border-width.css";
-@import "../src/tokens/stroke-width.css";
+@import "../src/tokens/border.css";
 @import "../src/tokens/opacity.css";
 @import "../src/tokens/text-styles.css";
 @import "tw-animate-css";

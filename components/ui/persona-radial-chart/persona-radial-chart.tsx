@@ -102,7 +102,7 @@ const FADE_IN = `animate-in fade-in ${MOTION_DURATION} motion-reduce:animate-non
  *    이 방식으로 우회합니다.
  */
 const HIGHLIGHT_RING =
-  "outline-solid outline-[length:var(--border-width-2)] -outline-offset-2";
+  "outline-solid outline-[length:var(--border-2)] -outline-offset-2";
 const HIGHLIGHT_RING_ON =
   "outline-[color:var(--color-semantic-non-changeable)]";
 const HIGHLIGHT_RING_OFF = "outline-transparent";
@@ -600,7 +600,7 @@ export function PersonaRadialChart({
         })}
 
         {/* 그리드 — 동심원 4개 + 섹터 경계 스포크, 모두 동일 색상 */}
-        <g fill="none" strokeWidth="var(--stroke-width-1)" aria-hidden="true">
+        <g fill="none" strokeWidth="var(--border-1)" aria-hidden="true">
           {RING_BOUNDARY_RADII.map((radius) => {
             // 데이터 없는 링을 hover 중이면 그 링의 두 경계원만 흰색으로 강조됩니다
             const isHighlighted =
@@ -765,7 +765,7 @@ export function PersonaRadialChart({
                   "text-xxs-medium text-muted-foreground",
                   // dashed 보더는 두 상태 모두 유지하고, 강조는 그 위를 덮는 링으로
                   // 처리합니다 (HIGHLIGHT_RING 주석 3번 참고)
-                  "border-[length:var(--border-width-default)] border-dashed",
+                  "border-[length:var(--border-1)] border-dashed",
                   "border-[color:var(--color-muted-foreground)]",
                   HIGHLIGHT_RING,
                   COLOR_TRANSITION,
@@ -849,7 +849,7 @@ export function PersonaRadialChart({
                 !isEmphasized &&
                   cn(
                     "text-muted-foreground",
-                    "shadow-[inset_0_0_0_var(--border-width-default)_var(--color-muted-foreground)]",
+                    "shadow-[inset_0_0_0_var(--border-1)_var(--color-muted-foreground)]",
                   ),
               )}
             >

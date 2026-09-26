@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 const avatarVariants = cva(
   cn(
     "relative inline-flex shrink-0 items-center justify-center overflow-hidden",
-    "size-[var(--spacing-gap-8)]",
+    "size-[var(--spacing-8)]",
     "rounded-[var(--radius-scale-full)]",
     "bg-background",
   ),
@@ -18,8 +18,8 @@ const avatarVariants = cva(
         // Figma `Type=Image`: 배경/보더 없이 이미지가 원형을 꽉 채움
         image: "",
         // Figma `Type=Initial`, `Type=Icon`: 배경 + 1px 보더(muted)의 플레이스홀더 원
-        initial: "border-[length:var(--border-width-default)] border-muted",
-        icon: "border-[length:var(--border-width-default)] border-muted",
+        initial: "border-[length:var(--border-1)] border-muted",
+        icon: "border-[length:var(--border-1)] border-muted",
       },
     },
     defaultVariants: {
@@ -92,8 +92,8 @@ export function Avatar({
       {resolvedVariant === "icon" && (
         <svg
           aria-hidden="true"
-          // Figma 스펙(12.8px)보다 크게 조정 — 컨테이너(32px, --spacing-gap-8)의 50%.
-          // --spacing-gap-*(간격 전용 토큰)이 아닌 의미상 중립적인 --scale-*(raw
+          // Figma 스펙(12.8px)보다 크게 조정 — 컨테이너(32px, --spacing-8)의 50%.
+          // --spacing-*(간격 전용 토큰)이 아닌 의미상 중립적인 --scale-*(raw
           // 원시값) 토큰을 사용.
           className="size-[calc(var(--scale-16)*1px)] text-muted-foreground"
         >

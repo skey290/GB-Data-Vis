@@ -29,7 +29,7 @@ const meta = {
        * (이 프로젝트는 backgrounds addon이 아니라 `.dark` 클래스로 테마를 바꿉니다.)
        * 배지가 500×500 프레임 바깥으로 넘쳐 배치되므로 여백도 함께 둡니다.
        */
-      <div className="dark bg-background p-[var(--spacing-padding-24)]">
+      <div className="dark bg-background p-[var(--spacing-24)]">
         <Story />
       </div>
     ),

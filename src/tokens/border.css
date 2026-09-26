@@ -1,0 +1,15 @@
+/**
+ * Design Tokens - Border (통합 스케일)
+ * Source: Figma (PrsHuyyra9LzqqrDwmrB5P, 📌 GB_Design-System-v2.3)
+ *
+ * 2026-09-17 재구조화: 기존에 별도였던 border-width(방향별 25개,
+ * `border-width.css`)와 stroke-width(아이콘/벡터용 0.25 간격 분수 스텝 11개,
+ * `stroke-width.css`)가 Figma에서 하나의 border 정수 스케일로 통합되었습니다.
+ * 방향별 변수와 0.25 간격 분수 스텝, 4px/8px 스텝은 실사용처가 없어 폐기했고
+ * 실제 사용 중인 1px/2px만 남겼습니다.
+ */
+
+:root {
+  --border-1: 1px;
+  --border-2: 2px;
+}

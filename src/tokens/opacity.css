@@ -1,17 +1,16 @@
 /**
  * Design Tokens - Opacity
- * Source: Figma (PrsHuyyra9LzqqrDwmrB5P, node-id 4111-3488, section "Design Token")
- * Extracted from frame "DS — tw/opacity" (node-id 4122:8359, "tw/opacity — 21개")
+ * Source: Figma (PrsHuyyra9LzqqrDwmrB5P, 📌 GB_Design-System-v2.3)
  *
- * ⚠️ Figma Variable이 아니라 'Design Token' 문서 섹션에 하드코딩된 값을 옮긴 것입니다.
- * Figma에 실제 Variable이 생기면 재추출 필요.
- *
- * 출처 검증 (2026-08-01): 이 21개 값은 `get_variable_defs`가 아니라 `get_metadata`로
- * 받은 이 프레임의 레이어 트리(XML)에서 텍스트 레이어 이름("opacity-50 50" 등)을
- * 읽은 것입니다. `get_variable_defs`를 이 프레임 노드(4122:8359)에 직접 호출해봤지만
- * 빈 값(`{}`)을 반환했습니다 — 실제 Figma Variable 바인딩은 확인되지 않았습니다.
- * `get_design_context`는 이 값 추출에 사용하지 않았습니다. 개수(21)는 "DS — Overview"
- * 프레임의 실제 Variable Collection 개수("tw/opacity — 21개")와 일치합니다.
+ * ✅ 2026-09-17 재검증: 2026-08-01 당시 "Design Token" 문서 페이지(현재 삭제됨)의
+ * 목업 스와치에서 `get_variable_defs`가 빈 값(`{}`)만 반환해 "Figma Variable
+ * 아님"이라 판단했으나, 이는 문서 페이지 자체가 어떤 Variable에도 바인딩되지
+ * 않은 손그림이었기 때문이었습니다. 실제 컴포넌트(Chip "Type=primary,
+ * State=disabled" 리프 노드)에서 `opacity-70:70`이 이름 붙은 진짜 Variable
+ * 값으로 반환됨을 확인했습니다. 단, 21개 중 이 1개만 직접 재현했고 나머지
+ * 20개는 후속 검증이 필요합니다(가짜라는 뜻은 아님 — 다른 disabled 상태들은
+ * opacity 대신 색상 변경으로 표현되어 있어 재현 대상 리프를 아직 못 찾음).
+ * 값은 기존과 동일해 변경 없음.
  *
  * 구조: Tailwind opacity 스케일과 동일하게 0~100을 5 단위로 증가 (0, 5, 10, ...,
  * 100 = 21스텝). Figma 라벨은 단위 없는 정수(0~100, 예: "opacity-50 → 50")로만

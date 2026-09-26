@@ -40,6 +40,12 @@
  * 클래스 네이밍: .text-{size}-{weight} (kebab-case). weight 라벨 kebab 변환은
  * Figma Style 컬럼 라벨을 그대로 사용 (Extra Bold → extra-bold,
  * Semi Bold → semi-bold, Regular → regular, Extra Light → extra-light 등).
+ *
+ * ℹ️ 2026-09-17 명시: 이 값들은 Figma "Variable"이 아니라 "Text Style"이라는
+ * 별도 기능입니다(`get_variable_defs`로 실제 컴포넌트를 조회하면
+ * `"Text-sm/Medium":"Font(family:family/sans, style:Medium, size:size/sm, ...)"`
+ * 처럼 복합 문자열로 반환되어 flat Variable과 구분됨). 실제 프로덕션
+ * 컴포넌트에서 사용 중임을 라이브 조회로 확인했습니다.
  */
 
 /* Time Stamp (1) — font-family가 다른 유일한 특수 케이스 */

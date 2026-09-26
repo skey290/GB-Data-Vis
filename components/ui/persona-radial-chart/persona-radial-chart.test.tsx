@@ -679,7 +679,7 @@ describe("PersonaRadialChart", () => {
       // 링은 항상 있고 색만 바뀝니다 — 그래야 outline-color가 전환됩니다
       for (const el of [ringOf(idle), ringOf(active)]) {
         expect(el).toHaveClass("outline-solid");
-        expect(el).toHaveClass("outline-[length:var(--border-width-2)]");
+        expect(el).toHaveClass("outline-[length:var(--border-2)]");
         expect(el).toHaveClass("transition-colors");
       }
       expect(ringOf(idle)).toHaveClass("outline-transparent");
