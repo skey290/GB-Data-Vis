@@ -10,18 +10,21 @@ describe("Badge", () => {
     expect(screen.getByText("3")).toBeInTheDocument();
   });
 
-  it("defaults to the outline variant", () => {
+  it("defaults to the outline variant and size 20", () => {
     render(<Badge>Outline</Badge>);
 
     const badge = screen.getByText("Outline");
-    expect(badge.className).toContain("border-border");
+    expect(badge.className).toContain("text-[var(--text-subtle)]");
+    expect(badge.className).toContain("h-[calc(var(--scale-20)*1px)]");
   });
 
   it.each([
-    ["outline", "border-border"],
-    ["default", "bg-primary"],
-    ["secondary", "bg-secondary"],
-    ["destructive", "bg-destructive"],
+    ["default", "bg-[var(--background-bold)]"],
+    ["reverse", "bg-[var(--background-default)]"],
+    ["outline", "text-[var(--text-subtle)]"],
+    ["disabled", "bg-[var(--background-disabled)]"],
+    ["alarm", "text-[var(--text-warning)]"],
+    ["destructive", "bg-[var(--background-error-default)]"],
   ] as const)(
     "renders the %s variant with expected classes",
     (variant, expectedClass) => {
@@ -31,6 +34,50 @@ describe("Badge", () => {
       expect(badge.className).toContain(expectedClass);
     },
   );
+
+  it("uses semibold typography only for the destructive variant", () => {
+    render(<Badge variant="destructive">Destructive</Badge>);
+    render(<Badge variant="default">Default</Badge>);
+
+    expect(screen.getByText("Destructive").className).toContain(
+      "text-xs-semi-bold",
+    );
+    expect(screen.getByText("Default").className).toContain("text-xs-medium");
+  });
+
+  it.each([
+    ["20", "h-[calc(var(--scale-20)*1px)]"],
+    ["28", "h-[calc(var(--scale-28)*1px)]"],
+  ] as const)(
+    "renders size %s with expected height class",
+    (size, expectedClass) => {
+      render(
+        <Badge size={size} variant="default">
+          Sized
+        </Badge>,
+      );
+
+      expect(screen.getAllByText("Sized")[0].className).toContain(
+        expectedClass,
+      );
+    },
+  );
+
+  it("renders the icon slot when provided", () => {
+    render(
+      <Badge icon={<svg data-testid="badge-icon" />} variant="default">
+        With icon
+      </Badge>,
+    );
+
+    expect(screen.getByTestId("badge-icon")).toBeInTheDocument();
+  });
+
+  it("does not render an icon wrapper when icon is omitted", () => {
+    const { container } = render(<Badge variant="default">No icon</Badge>);
+
+    expect(container.querySelector('[aria-hidden="true"]')).toBeNull();
+  });
 
   it("forwards additional props to the underlying span", () => {
     render(<Badge data-testid="custom-badge">Custom</Badge>);

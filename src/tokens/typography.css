@@ -1,8 +1,22 @@
 /**
  * Design Tokens - Typography
- * Source: Figma (PrsHuyyra9LzqqrDwmrB5P, 📌 GB_Design-System-v2.3)
+ * Source: Figma (G9YNa2vjdqDjnML9y5hXJ4, ❄️ GB_Design-System — Atom),
+ * "Token Documentation — Typography" 프레임(node-id 7370:476)
  *
- * ✅ 2026-09-17 재검증: 2026-08-01 당시 "Design Token" 문서 페이지(현재 삭제됨)의
+ * ✅ 2026-09-26 새 기준 파일로 전환: 위 Foundation 문서 프레임에서 font size 14개
+ * (xxs 포함), font weight 9개, line-height 13개, family(Inter)가 전부 기존 값과
+ * 동일함을 재확인했습니다. 변수 이름만 새 파일의 명명 규칙에 맞춰 축약했습니다
+ * (`--font-size-*` → `--text-*`, `--font-family-sans` → `--font-sans`,
+ * `--font-leading-*` → `--leading-*`, `--font-tracking-*` → `--tracking-*`).
+ * `--font-weight-*`는 새 파일도 동일한 이름을 써서 변경하지 않았습니다.
+ * 이름 변경 전 재사용하던 컴포넌트(`src/tokens/text-styles.css`)도 함께 갱신했습니다.
+ *
+ * ⚠️ letter-spacing(tracking) 6개 중 `tracking-normal`(0px)만 이 문서와 실제
+ * 컴포넌트 양쪽에서 재확인됨. 나머지 5개(tighter/tight/wide/wider/widest)는
+ * 새 Foundation 문서에 별도 섹션이 없어 미확인 상태로 값만 유지했습니다(⚠️ FLAG).
+ *
+ * --- 이전 파일(PrsHuyyra9LzqqrDwmrB5P) 기준 검증 기록 (참고용, 값 변경 없어 유지) ---
+ * 2026-09-17 재검증: 2026-08-01 당시 "Design Token" 문서 페이지(현재 삭제됨)의
  * 목업 스와치에서 `get_variable_defs`가 빈 값(`{}`)만 반환해 "Figma Variable
  * 아님"이라 판단했으나, 이는 문서 페이지 자체가 어떤 Variable에도 바인딩되지
  * 않은 손그림이었기 때문이었습니다. 실제 프로덕션 컴포넌트(Button, Chip,
@@ -37,34 +51,37 @@
  */
 
 :root {
-  /* Font Family (⚠️ 라벨 텍스트에서 추론, 실제 변수 아님) */
-  --font-family-sans: "Inter", sans-serif;
+  /* Font Family */
+  /* 2026-09-27: 실제로 어디서도 Inter 폰트가 로드되지 않아 브라우저가 시스템
+     기본 sans-serif로 대체 렌더링하던 문제 발견 — app/layout.tsx(+ Storybook
+     preview)의 next/font(Inter)가 생성한 --font-inter를 참조하도록 교체 */
+  --font-sans: var(--font-inter), sans-serif;
 
-  /* Font Size — tw/font size (13) + xxs (1, 아래 주석 참고) */
+  /* Font Size (14) — xxs 포함, 새 Foundation 문서와 완전 일치 */
   /*
-   * ⚠️ --font-size-xxs는 "tw/font" 컬렉션(13개)에 없는 값입니다.
+   * ⚠️ --text-xxs는 원래 "tw/font" 컬렉션(13개)에 없던 값입니다.
    * 출처: GB_Design-System-v2.2 파일의 Persona Radial Chart(node 5526:7658)에서
    * 빈 아바타 슬롯의 "No Self" 라벨이 쓰는 Text Style `Text-xxs/Medium`
    * (Inter 500 / 8px / line-height 12px / tracking 0)을 그대로 옮긴 것입니다.
-   * line-height 12px는 기존 --font-leading-3와 값이 정확히 일치해 재사용합니다.
+   * line-height 12px는 기존 --leading-3와 값이 정확히 일치해 재사용합니다.
    * (2026-09-10 사용자 승인 — 12px로 대체하면 40px 아바타 원을 넘칩니다.)
    */
-  --font-size-xxs: 8px;
-  --font-size-xs: 12px;
-  --font-size-sm: 14px;
-  --font-size-base: 16px;
-  --font-size-lg: 18px;
-  --font-size-xl: 20px;
-  --font-size-2xl: 24px;
-  --font-size-3xl: 30px;
-  --font-size-4xl: 36px;
-  --font-size-5xl: 48px;
-  --font-size-6xl: 60px;
-  --font-size-7xl: 72px;
-  --font-size-8xl: 96px;
-  --font-size-9xl: 128px;
+  --text-xxs: 8px;
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-base: 16px;
+  --text-lg: 18px;
+  --text-xl: 20px;
+  --text-2xl: 24px;
+  --text-3xl: 30px;
+  --text-4xl: 36px;
+  --text-5xl: 48px;
+  --text-6xl: 60px;
+  --text-7xl: 72px;
+  --text-8xl: 96px;
+  --text-9xl: 128px;
 
-  /* Font Weight — tw/font weight (9) */
+  /* Font Weight (9) */
   --font-weight-thin: 100;
   --font-weight-extralight: 200;
   --font-weight-light: 300;
@@ -75,26 +92,27 @@
   --font-weight-extrabold: 800;
   --font-weight-black: 900;
 
-  /* Line Height (leading) — tw/font leading (13), 절대 px 값 */
-  --font-leading-3: 12px;
-  --font-leading-4: 16px;
-  --font-leading-5: 20px;
-  --font-leading-6: 24px;
-  --font-leading-7: 28px;
-  --font-leading-8: 32px;
-  --font-leading-9: 36px;
-  --font-leading-10: 40px;
-  --font-leading-12: 48px;
-  --font-leading-15: 60px;
-  --font-leading-18: 72px;
-  --font-leading-24: 96px;
-  --font-leading-32: 128px;
+  /* Line Height (leading, 13) — 절대 px 값 */
+  --leading-3: 12px;
+  --leading-4: 16px;
+  --leading-5: 20px;
+  --leading-6: 24px;
+  --leading-7: 28px;
+  --leading-8: 32px;
+  --leading-9: 36px;
+  --leading-10: 40px;
+  --leading-12: 48px;
+  --leading-15: 60px;
+  --leading-18: 72px;
+  --leading-24: 96px;
+  --leading-32: 128px;
 
-  /* Letter Spacing (tracking) — tw/font tracking (6), px 값 (16px 기준) */
-  --font-tracking-tighter: -0.8px;
-  --font-tracking-tight: -0.4px;
-  --font-tracking-normal: 0px;
-  --font-tracking-wide: 0.4px;
-  --font-tracking-wider: 0.8px;
-  --font-tracking-widest: 1.6px;
+  /*
+   * Letter Spacing (tracking, 1). 2026-09-26 사용자 확정: 새 Foundation
+   * 문서(node-id 7370:476)와 실제 컴포넌트 어디에도 tracking-normal(0px)
+   * 외의 나머지 5개(tighter/tight/wide/wider/widest)가 존재하지 않아 —
+   * "Figma에 없으면 없는 게 맞다"는 원칙에 따라 삭제했습니다. 실사용처도
+   * 전혀 없었습니다(코드 전체 재확인 완료).
+   */
+  --tracking-normal: 0px;
 }

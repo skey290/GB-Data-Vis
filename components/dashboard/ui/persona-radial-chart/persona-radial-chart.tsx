@@ -3,26 +3,52 @@
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
-import { Avatar } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import {
+  PersonaOrbit,
+  personaOrbitEmptySlotKey,
+} from "@/components/dashboard/ui/persona-orbit";
 
 /**
  * Persona Radial Analytics — 셀프 + 8개 페르소나를 3개 지표(동심원 링) × 8개 섹터(각도)로
  * 비교하는 원형 차트.
  *
- * Figma: GB_Design-System-v2.2 (PrsHuyyra9LzqqrDwmrB5P) node 5526:7658
+ * Figma: GB_Design-System-v2.2 (PrsHuyyra9LzqqrDwmrB5P) node 5526:7658 —
+ * 원래 컴포넌트 정의. 2026-09-27 사용자가 별도 대시보드 파일(❄️ GB_Dashboard,
+ * V5xLVr9FyArMjzaNpTn1Zo) node 8004:6542에 이 컴포넌트를 실데이터 목업 형태로
+ * 재배치해, 그 노드를 기준으로 레이아웃/색상을 재검증했습니다(값 자체는 두 파일이
+ * 동일 — 아래 "다크 전용" 항목만 이번에 새로 발견되어 수정됨).
  * 원본은 `Self(1|8) × Posting(true|false) × Hover(5종)` = 15개 variant로 그려져 있고,
- * 이 컴포넌트의 props 축도 그대로 따릅니다.
+ * 이 컴포넌트의 props 축도 그대로 따릅니다. (대시보드 파일은 같은 축을
+ * `Self=1, Hover=no self`/`Self=8, Hover=self`처럼 스냅샷별로 이름 붙였을 뿐,
+ * 개념적으로는 동일한 `hover="self"` 한 가지 상태입니다 — 강조 대상이 실제
+ * 아바타인지 빈 슬롯인지에 따라 문구만 갈립니다.)
  *
  * ⚠️ 좌표계 주의: 아래 반지름/각도 상수는 CSS 길이가 아니라 SVG `viewBox` 내부의
  * 기하 좌표값입니다. 그래서 `--spacing-*` / `--scale-*` 토큰을 쓰지 않고 순수 숫자
  * 상수로 둡니다. 반면 컴포넌트 바깥 치수(캔버스, 아바타, 배지)는 토큰을 사용합니다.
+ * (대시보드 파일의 `Guide` 그리드 SVG를 직접 내려받아 반지름 127.775/159.781/
+ * 199.539/249.549를 다시 실측 대조했고, 기존 상수와 정확히 일치함을 확인했습니다.)
  *
- * ⚠️ 다크 전용: Figma 원본이 다크 배경(`--color-background`)에만 그려져 있습니다.
- * 배지/그리드/텍스트는 시맨틱 토큰이라 라이트 테마에서도 자동 대응하지만, 값 밴드만은
- * Figma가 흰색 20%(`--color-rdx-white-4`)를 리터럴로 쓰고 있어 라이트 배경에서는
- * 거의 보이지 않습니다.
- * Figma에 라이트 variant가 생기기 전까지는 원본 값을 그대로 따릅니다.
+ * ⚠️ 앱 테마 반응형 (2026-09-27, 사용자 지시로 확정) — 이 컴포넌트는 특정 테마에
+ * 고정되지 않고 앱의 라이트/다크 상태를 그대로 따릅니다. 한때 대시보드 목업
+ * 스크린샷 픽셀 대조를 근거로 루트에 `dark`를 강제한 적이 있었으나(배지/그리드가
+ * 항상 다크로 보였다는 판단), 이는 앱 자체가 항상 다크로 렌더링되고 있어서 생긴
+ * 착시였을 뿐 Figma가 이 컴포넌트를 다크 전용으로 설계했다는 근거는 아니었습니다.
+ * 사용자가 "다크면 흰색, 라이트면 검정이 맞고 고정이면 안 된다"고 명확히
+ * 정정해, 루트의 `dark` 강제를 제거했습니다 — 배지(`--background-bold`/
+ * `--text-invert`)·그리드 선(`--color-muted`)·값 밴드(`HIGHLIGHT_BAND_FILL`/
+ * `DIMMED_BAND_FILL`, 아래 상수 선언 참고) 전부 앱 테마를 따라 자연스럽게
+ * 반전됩니다. (2026-09-27 재확인: 실제 다크 강제 지점은 이 파일이 아니라
+ * `app/layout.tsx`의 `<html className="dark">`였습니다 — 앱 전체에 걸려 있던
+ * 하드코딩이라, OS `prefers-color-scheme`을 감지해 토글하는 방식으로 그쪽을
+ * 고쳤습니다. 이 컴포넌트는 이미 앱 테마를 그대로 따르고 있었으므로 변경 없음.)
+ *
+ * ⚠️ 부품 분리 (2026-09-27) — 아바타/빈 슬롯 렌더링과 원형 배치+중앙 문구는
+ * Figma의 `Part/persona`(node 8004:5477) · `Self curation`(node 8004:6285)에
+ * 대응하는 별도 컴포넌트로 분리되어 `@/components/dashboard/ui/persona-orbit`
+ * (내부적으로 `persona-slot` 사용)에 있습니다. 이 파일은 그 위에 지표 링(SVG)·
+ * 그리드·바깥 배지·hover 상태 관리만 담당합니다.
  */
 
 /** 캔버스 크기 (Figma 컴포넌트 프레임 500×500) */
@@ -31,8 +57,6 @@ const CANVAS_SIZE = 500;
 const RING_BOUNDARY_RADII = [128, 160, 200, 250] as const;
 /** 링 하나를 채우는 밴드 단계 수 (Figma 원본이 링당 정확히 8겹) */
 const RING_BAND_COUNT = 8;
-/** 아바타 중심이 놓이는 궤도 반지름 (Figma 실측 ≈97) */
-const AVATAR_ORBIT_RADIUS = 97;
 /** 배지의 원을 향한 모서리가 놓이는 궤도 반지름 (Figma 실측 258.9~272.3의 중앙값) */
 const LABEL_ORBIT_RADIUS = 265;
 /**
@@ -80,8 +104,6 @@ const MOTION_DURATION = "duration-200 ease-out";
  * `outline-color`도 포함되어 있어, SVG 밴드·그리드와 outline 링에 그대로 씁니다.
  */
 const COLOR_TRANSITION = `transition-colors ${MOTION_DURATION} motion-reduce:transition-none`;
-/** 블러·딤처럼 색이 아닌 속성의 전환 (아바타 강조) */
-const EFFECT_TRANSITION = `transition-[filter,opacity] ${MOTION_DURATION} motion-reduce:transition-none`;
 /** Badge는 배경·글자색·보더(inset shadow)가 한꺼번에 바뀌므로 box-shadow까지 포함합니다 */
 const BADGE_TRANSITION = `transition-[color,background-color,box-shadow] ${MOTION_DURATION} motion-reduce:transition-none`;
 /**
@@ -90,22 +112,17 @@ const BADGE_TRANSITION = `transition-[color,background-color,box-shadow] ${MOTIO
  */
 const FADE_IN = `animate-in fade-in ${MOTION_DURATION} motion-reduce:animate-none`;
 /**
- * 40px 원(아바타/빈 슬롯)의 강조 링.
- *
- * border가 아니라 outline을 쓰는 이유:
- * 1. outline은 레이아웃을 차지하지 않아 원이 40px 그대로 유지됩니다. border는
- *    box-sizing 때문에 강조될 때 안쪽 이미지를 36px로 줄여 툭 찌그러졌습니다.
- * 2. `outline-color`는 애니메이션 가능해 링이 서서히 나타납니다. border는 폭(0→2px)이
- *    바뀌는 형태라 부드럽게 만들 수 없습니다.
- * 3. outline은 border보다 위에 그려지고 `-outline-offset-2`가 빈 슬롯의 1px dashed
- *    보더를 완전히 덮습니다 — `border-style: dashed↔solid`는 CSS가 보간할 수 없는 값이라
- *    이 방식으로 우회합니다.
+ * 값 밴드 색. 2026-09-27 사용자 지시로 앱 테마 반응형으로 전환(이전엔
+ * `--color-overlay-white-20`/`black-20`으로 고정) — "다크면 흰색, 라이트면
+ * 검정"이 강조(하이라이트) 밴드의 규칙이라, 라이트/다크에 따라 아이콘 색이
+ * 반전되는 시맨틱 토큰 `--icon-default`(라이트 #0a0a0a/다크 #fafafa)를 20%
+ * 알파로 흘려써서 이를 재현합니다. 딤(비강조) 밴드는 정확히 반대 극성(다크면
+ * 배경에 흡수되도록 검정, 라이트면 흡수되도록 흰색)이 필요한데, 이는 이미
+ * `--background-sheer`(라이트 흰20%/다크 흑20%)의 정의와 정확히 일치합니다.
  */
-const HIGHLIGHT_RING =
-  "outline-solid outline-[length:var(--border-2)] -outline-offset-2";
-const HIGHLIGHT_RING_ON =
-  "outline-[color:var(--color-semantic-non-changeable)]";
-const HIGHLIGHT_RING_OFF = "outline-transparent";
+const HIGHLIGHT_BAND_FILL =
+  "color-mix(in srgb, var(--icon-default) 20%, transparent)";
+const DIMMED_BAND_FILL = "var(--background-sheer)";
 
 /** 안쪽부터 3개의 큰 링 = 3개 지표 카테고리 */
 export const PERSONA_METRICS = [
@@ -156,6 +173,8 @@ export const DEFAULT_PERSONAS: PersonaDatum[] = [
   {
     id: "data-scientist",
     name: "Data Scientist",
+    // 배열 0번째 = 기본 셀프(resolvedSelfId). 온보딩 이후 셀프 기본 프로필 사진.
+    imageSrc: "/images/personas/self-default.jpg",
     initials: "DS",
     growth: 80,
     reach: 8340,
@@ -164,6 +183,7 @@ export const DEFAULT_PERSONAS: PersonaDatum[] = [
   {
     id: "yoga-meditator",
     name: "Yoga Meditator",
+    imageSrc: "/images/personas/yoga-meditator.jpg",
     initials: "YM",
     growth: 10,
     reach: 6453,
@@ -172,6 +192,7 @@ export const DEFAULT_PERSONAS: PersonaDatum[] = [
   {
     id: "novelist",
     name: "Novelist",
+    imageSrc: "/images/personas/novelist.jpg",
     initials: "NV",
     growth: 40,
     reach: 4784,
@@ -180,6 +201,7 @@ export const DEFAULT_PERSONAS: PersonaDatum[] = [
   {
     id: "entrepreneur",
     name: "Entrepreneur",
+    imageSrc: "/images/personas/entrepreneur.jpg",
     initials: "EN",
     growth: 70,
     reach: 978,
@@ -188,6 +210,7 @@ export const DEFAULT_PERSONAS: PersonaDatum[] = [
   {
     id: "fashionista",
     name: "Fashionista",
+    imageSrc: "/images/personas/fashionista.jpg",
     initials: "FA",
     growth: 60,
     reach: 6782,
@@ -196,6 +219,7 @@ export const DEFAULT_PERSONAS: PersonaDatum[] = [
   {
     id: "fashion-editor",
     name: "Fashion Editor",
+    imageSrc: "/images/personas/fashion-editor.jpg",
     initials: "FE",
     growth: 20,
     reach: 125,
@@ -204,6 +228,7 @@ export const DEFAULT_PERSONAS: PersonaDatum[] = [
   {
     id: "team-leader",
     name: "Team Leader",
+    imageSrc: "/images/personas/team-leader.jpg",
     initials: "TL",
     growth: 50,
     reach: 8006,
@@ -212,6 +237,7 @@ export const DEFAULT_PERSONAS: PersonaDatum[] = [
   {
     id: "vegan-chef",
     name: "Vegan Chef",
+    imageSrc: "/images/personas/vegan-chef.jpg",
     initials: "VC",
     growth: 30,
     reach: 5431,
@@ -227,9 +253,6 @@ export const DEFAULT_PERSONAS: PersonaDatum[] = [
  * - `self` — 셀프 아바타가 blur + 링으로 강조됩니다
  */
 export type PersonaRadialChartHover = "default" | PersonaMetricKey | "self";
-
-/** 빈 아바타 슬롯에 표시되는 플레이스홀더 문구 */
-const PLACEHOLDER_LABEL = "No Self";
 
 /** Hover × Posting 조합별 중앙 1줄 문구 (Figma 원본 그대로) */
 function getCenterMessage(
@@ -492,11 +515,12 @@ export function PersonaRadialChart({
    *
    * 빈 슬롯에는 페르소나 id가 없으므로 `slot:<index>` 형태의 합성 키를 씁니다.
    */
-  const emptySlotKey = (index: number) => `slot:${index}`;
   const firstEmptySlotKey = slots.findIndex((slot) => slot === null);
   const activeAvatarId =
     hoveredAvatarId ??
-    (firstEmptySlotKey >= 0 ? emptySlotKey(firstEmptySlotKey) : resolvedSelfId);
+    (firstEmptySlotKey >= 0
+      ? personaOrbitEmptySlotKey(firstEmptySlotKey)
+      : resolvedSelfId);
   /** 지금 강조된 대상이 빈 슬롯인지 — 중앙 문구를 가르는 기준입니다 */
   const isEmptySlotActive = activeAvatarId?.startsWith("slot:") ?? false;
 
@@ -558,7 +582,7 @@ export function PersonaRadialChart({
                 className={FADE_IN}
                 d={fullAnnulusPath(metric.innerRadius, metric.outerRadius)}
                 fillRule="evenodd"
-                fill="var(--color-rdx-white-4)"
+                fill={HIGHLIGHT_BAND_FILL}
               />
             );
           }
@@ -585,13 +609,9 @@ export function PersonaRadialChart({
                       startAngle,
                       endAngle,
                     )}
-                    // 겹칠수록 안쪽이 밝아집니다. 강조되지 않은 링은 흰색 대신
-                    // 검은 밴드를 써서 배경보다 어둡게 가라앉힙니다 (Figma 원본 방식)
-                    fill={
-                      isDimmed
-                        ? "var(--color-rdx-black-4)"
-                        : "var(--color-rdx-white-4)"
-                    }
+                    // 겹칠수록 안쪽이 밝아집니다. 강조되지 않은 링은 배경에
+                    // 가라앉도록 딤 처리합니다 (앱 테마에 따라 흑/백이 반전됨)
+                    fill={isDimmed ? DIMMED_BAND_FILL : HIGHLIGHT_BAND_FILL}
                   />
                 ));
               })}
@@ -664,127 +684,28 @@ export function PersonaRadialChart({
         </g>
       </svg>
 
-      {/* 아바타 — 섹터 수만큼. 데이터가 없는 칸은 "No Self" 빈 슬롯이 됩니다 */}
-      {slots.map((persona, index) => {
-        const { midAngle } = getSectorGeometry(index);
-        const position = polarToCartesian(AVATAR_ORBIT_RADIUS, midAngle);
-        const revealed = persona !== null;
-        /*
-         * 빈 슬롯은 페르소나 id가 없으므로 합성 키로 식별합니다. 이렇게 해야
-         * 빈 슬롯 하나하나를 개별적으로 hover 강조할 수 있습니다.
-         */
-        const slotId = persona ? persona.id : emptySlotKey(index);
-        // 마우스를 올린 아바타만 강조됩니다. Figma variant는 셀프 1개만 강조된
-        // 스냅샷이지만, 실제 인터랙션은 hover한 대상이 활성화되는 것입니다.
-        const isActive = hover === "self" && slotId === activeAvatarId;
-
-        return (
-          <div
-            key={slotId}
-            className="absolute"
-            style={{
-              left: `calc(50% + ${round(position.x)}px)`,
-              top: `calc(50% + ${round(position.y)}px)`,
-              transform: "translate(-50%, -50%)",
-            }}
-            onMouseEnter={() => {
-              setHoveredAvatarId(slotId);
-              changeHover("self");
-            }}
-            /*
-             * 아바타를 벗어나면 즉시 기본 상태로 돌아갑니다. 루트의 onMouseLeave만
-             * 있으면 차트 **바깥으로 완전히 나갈 때만** 복원되어, 아바타에서 중앙
-             * 빈 공간으로 마우스를 옮겼을 때 "Go to Content Studio"가 그대로
-             * 남아 있었습니다.
-             *
-             * 아바타 → 링으로 나가는 경우에도 leave(default) → enter(지표) 순으로
-             * 이벤트가 발생하므로 링 강조가 덮어씁니다. 아바타끼리는 서로 떨어져
-             * 있어 사이 공간을 반드시 지나가고, 그때 기본 상태가 되는 게 맞습니다.
-             */
-            onMouseLeave={() => {
-              setHoveredAvatarId(null);
-              changeHover("default");
-            }}
-          >
-            {revealed ? (
-              /*
-               * Figma의 강조는 "흰 2px 안쪽 링 + 블러 + 검정 50% 딤"입니다.
-               * 밝아지는 게 아니라 어두워지고, 링이 안쪽이라 크기는 40px로 유지됩니다.
-               * 세 가지가 각각 전환되도록 링/블러/딤을 항상 렌더하고 값만 바꿉니다.
-               */
-              <div
-                className={cn(
-                  "relative overflow-hidden",
-                  "size-[calc(var(--scale-40)*1px)]",
-                  "rounded-[var(--radius-scale-full)]",
-                  HIGHLIGHT_RING,
-                  COLOR_TRANSITION,
-                  isActive ? HIGHLIGHT_RING_ON : HIGHLIGHT_RING_OFF,
-                )}
-              >
-                <Avatar
-                  variant="image"
-                  src={persona.imageSrc}
-                  initials={persona.initials}
-                  alt={persona.name}
-                  className={cn(
-                    "size-full",
-                    EFFECT_TRANSITION,
-                    // Figma Effect는 FOREGROUND_BLUR radius 8이고, codegen이 CSS
-                    // blur(4px)로 환산합니다 — --blur-8(8px)이 아니라 --blur-sm(4px).
-                    // 비활성일 때 filter를 없애는 대신 --blur-none(blur(0px))을 두어야
-                    // 브라우저가 두 상태를 보간할 수 있습니다.
-                    isActive
-                      ? "[filter:var(--blur-sm)]"
-                      : "[filter:var(--blur-none)]",
-                  )}
-                />
-                <span
-                  aria-hidden="true"
-                  className={cn(
-                    "pointer-events-none absolute inset-0",
-                    "rounded-[var(--radius-scale-full)]",
-                    "bg-[var(--color-rdx-black-7)]",
-                    EFFECT_TRANSITION,
-                    isActive ? "opacity-100" : "opacity-0",
-                  )}
-                />
-              </div>
-            ) : (
-              /*
-               * 빈 슬롯 — Figma는 dashed 원 + 8px "No Self" 텍스트로, Avatar의
-               * initial/icon variant와 형태가 달라 차트 전용 마크업을 씁니다.
-               */
-              <div
-                role="img"
-                aria-label={PLACEHOLDER_LABEL}
-                className={cn(
-                  "flex items-center justify-center",
-                  "size-[calc(var(--scale-40)*1px)]",
-                  "rounded-[var(--radius-scale-full)]",
-                  "text-xxs-medium text-muted-foreground",
-                  // dashed 보더는 두 상태 모두 유지하고, 강조는 그 위를 덮는 링으로
-                  // 처리합니다 (HIGHLIGHT_RING 주석 3번 참고)
-                  "border-[length:var(--border-1)] border-dashed",
-                  "border-[color:var(--color-muted-foreground)]",
-                  HIGHLIGHT_RING,
-                  COLOR_TRANSITION,
-                  isActive
-                    ? cn(
-                        HIGHLIGHT_RING_ON,
-                        // Figma는 검정 20%(--color-background-transparent)라
-                        // 다크 배경에서 오히려 더 어두워집니다
-                        "bg-[var(--color-background-transparent)]",
-                      )
-                    : cn(HIGHLIGHT_RING_OFF, "bg-transparent"),
-                )}
-              >
-                <span aria-hidden="true">{PLACEHOLDER_LABEL}</span>
-              </div>
-            )}
-          </div>
-        );
-      })}
+      {/*
+        아바타 원형 배치 + 중앙 문구 — Figma `Part/persona`(8004:5477)·
+        `Self curation`(8004:6285)에 대응하는 별도 컴포넌트로 분리되어 있습니다.
+        이 파일은 지표 hover 상태를 그대로 소유하고, PersonaOrbit에는 결과값
+        (강조 대상/중앙 문구)만 내려줍니다.
+      */}
+      <PersonaOrbit
+        className="absolute inset-0"
+        slots={slots}
+        activeSlotId={hover === "self" ? activeAvatarId : null}
+        centerMessage={centerMessage}
+        onSlotHover={(slotId) => {
+          if (slotId) {
+            setHoveredAvatarId(slotId);
+            changeHover("self");
+          } else {
+            setHoveredAvatarId(null);
+            changeHover("default");
+          }
+        }}
+        onCenterClick={onCenterClick}
+      />
 
       {/*
         바깥 배지 — 만들어진 셀프 수만큼만 렌더링됩니다. 빈 슬롯에는 배지가 없고,
@@ -865,22 +786,6 @@ export function PersonaRadialChart({
           </div>
         );
       })}
-
-      {/* 중앙 안내 문구 — Figma에는 버튼 없이 1줄 텍스트만 있습니다 */}
-      <p
-        // 배지와 같은 방식 — 문구가 바뀔 때마다 remount되어 페이드인합니다
-        key={centerMessage}
-        className={cn(
-          "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
-          "whitespace-nowrap text-center",
-          "text-xs-bold text-foreground",
-          FADE_IN,
-          onCenterClick && "cursor-pointer",
-        )}
-        onClick={onCenterClick}
-      >
-        {centerMessage}
-      </p>
 
       {/*
         하단 안내 배지 — Reach/Engagement를 hover했는데 게시물이 없어 산출할 수

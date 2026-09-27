@@ -4,7 +4,7 @@ import { expect, within } from "storybook/test";
 import { Badge } from "./badge";
 
 const FIGMA_URL =
-  "https://www.figma.com/design/PrsHuyyra9LzqqrDwmrB5P/%F0%9F%93%8C-GB_Design-System?node-id=665-2024&t=0Rmc4ocqopcU6G52-4";
+  "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%E2%9D%84%EF%B8%8F-GB_Design-System---Atom?node-id=73-3479";
 
 const meta = {
   title: "UI/Badge",
@@ -16,9 +16,27 @@ const meta = {
       url: FIGMA_URL,
     },
   },
+  argTypes: {
+    variant: {
+      control: "radio",
+      options: [
+        "default",
+        "reverse",
+        "outline",
+        "disabled",
+        "alarm",
+        "destructive",
+      ],
+    },
+    size: {
+      control: "radio",
+      options: ["20", "28"],
+    },
+  },
   args: {
-    children: "3",
+    children: "Badge",
     variant: "outline",
+    size: "20",
   },
 } satisfies Meta<typeof Badge>;
 
@@ -26,40 +44,64 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Outline: Story = {
-  args: {
-    variant: "outline",
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    const badge = canvas.getByText("3");
-
-    await expect(badge).toBeInTheDocument();
-    await expect(badge.className).toContain("border-border");
-  },
-};
-
 export const Default: Story = {
   args: {
     variant: "default",
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const badge = canvas.getByText("3");
+    const badge = canvas.getByText("Badge");
 
-    await expect(badge.className).toContain("bg-primary");
+    await expect(badge).toBeInTheDocument();
+    await expect(badge.className).toContain("bg-[var(--background-bold)]");
   },
 };
 
-export const Secondary: Story = {
+export const Reverse: Story = {
   args: {
-    variant: "secondary",
+    variant: "reverse",
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const badge = canvas.getByText("3");
+    const badge = canvas.getByText("Badge");
 
-    await expect(badge.className).toContain("bg-secondary");
+    await expect(badge.className).toContain("bg-[var(--background-default)]");
+  },
+};
+
+export const Outline: Story = {
+  args: {
+    variant: "outline",
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const badge = canvas.getByText("Badge");
+
+    await expect(badge.className).toContain("text-[var(--text-subtle)]");
+  },
+};
+
+export const Disabled: Story = {
+  args: {
+    variant: "disabled",
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const badge = canvas.getByText("Badge");
+
+    await expect(badge.className).toContain("bg-[var(--background-disabled)]");
+  },
+};
+
+export const Alarm: Story = {
+  args: {
+    variant: "alarm",
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const badge = canvas.getByText("Badge");
+
+    await expect(badge.className).toContain("text-[var(--text-warning)]");
   },
 };
 
@@ -69,8 +111,51 @@ export const Destructive: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const badge = canvas.getByText("3");
+    const badge = canvas.getByText("Badge");
 
-    await expect(badge.className).toContain("bg-destructive");
+    await expect(badge.className).toContain(
+      "bg-[var(--background-error-default)]",
+    );
+    await expect(badge.className).toContain("text-xs-semi-bold");
+  },
+};
+
+export const Large: Story = {
+  args: {
+    variant: "default",
+    size: "28",
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const badge = canvas.getByText("Badge");
+
+    await expect(badge.className).toContain("h-[calc(var(--scale-28)*1px)]");
+    await expect(badge.className).toContain("text-sm-medium");
+  },
+};
+
+export const WithIcon: Story = {
+  args: {
+    variant: "default",
+    icon: (
+      <svg viewBox="0 0 10 10" fill="none" aria-hidden="true">
+        <circle
+          cx="5"
+          cy="5"
+          r="4"
+          stroke="currentColor"
+          strokeDasharray="2 2"
+        />
+      </svg>
+    ),
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const badge = canvas.getByText("Badge");
+
+    await expect(badge).toBeInTheDocument();
+    await expect(
+      canvasElement.querySelector('[aria-hidden="true"]'),
+    ).toBeInTheDocument();
   },
 };

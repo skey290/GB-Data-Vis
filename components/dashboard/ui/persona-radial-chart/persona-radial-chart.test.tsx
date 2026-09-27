@@ -5,16 +5,16 @@ import userEvent from "@testing-library/user-event";
 import { DEFAULT_PERSONAS, PersonaRadialChart } from "./persona-radial-chart";
 
 /** 값 밴드 path만 골라냅니다 (그리드/hit area 제외) */
-function getBandPaths(container: HTMLElement, fillToken: string) {
+function getBandPaths(container: HTMLElement, fill: string) {
   return Array.from(
-    container.querySelectorAll<SVGPathElement>(
-      `path[fill="var(${fillToken})"]`,
-    ),
+    container.querySelectorAll<SVGPathElement>(`path[fill="${fill}"]`),
   );
 }
 
-const WHITE_BAND = "--color-rdx-white-4";
-const BLACK_BAND = "--color-rdx-black-4";
+// 컴포넌트의 HIGHLIGHT_BAND_FILL/DIMMED_BAND_FILL과 동일한 문자열(앱 테마
+// 반응형 — 다크면 흰색/라이트면 검정이 되는 강조, 반대 극성이 딤)
+const WHITE_BAND = "color-mix(in srgb, var(--icon-default) 20%, transparent)";
+const BLACK_BAND = "var(--background-sheer)";
 
 /**
  * 배지 텍스트로 Badge 루트를 찾습니다. 텍스트는 페이드인용으로 한 겹 더 감싼
@@ -213,7 +213,7 @@ describe("PersonaRadialChart", () => {
 
       // 하단 배지는 페르소나 배지와 달리 페이드용 span 중첩이 없어 요소 자체가 Badge입니다
       const badge = screen.getByText("Not Enough Data Yet");
-      expect(badge).toHaveClass("bg-primary");
+      expect(badge).toHaveClass("bg-[var(--background-bold)]");
       // 삭제된 비활성 상태의 흔적이 남아있지 않은지
       expect(badge).not.toHaveClass("bg-accent");
     });
@@ -225,7 +225,7 @@ describe("PersonaRadialChart", () => {
 
       // 균일 채움은 섹터별 밴드가 아니라 링 전체 도넛 1개입니다
       const uniformFill = container.querySelector<SVGPathElement>(
-        `path[fill="var(${WHITE_BAND})"][fill-rule="evenodd"]`,
+        `path[fill="${WHITE_BAND}"][fill-rule="evenodd"]`,
       );
       expect(uniformFill).not.toBeNull();
     });
@@ -370,7 +370,7 @@ describe("PersonaRadialChart", () => {
       render(<PersonaRadialChart personas={SELF_IS_RUNNER_UP} selfId="self" />);
 
       // 이름을 보여줄 때의 기준은 "이 페이지에서 설정된 셀프"입니다
-      expect(badgeOf("Self")).toHaveClass("bg-primary");
+      expect(badgeOf("Self")).toHaveClass("bg-[var(--background-bold)]");
       expect(badgeOf("Rival")).toHaveClass("bg-transparent");
     });
 
@@ -384,7 +384,7 @@ describe("PersonaRadialChart", () => {
       );
 
       // 값을 보여줄 때의 기준은 셀프가 아니라 그 지표의 1등입니다
-      expect(badgeOf("90%")).toHaveClass("bg-primary");
+      expect(badgeOf("90%")).toHaveClass("bg-[var(--background-bold)]");
       expect(badgeOf("10%")).toHaveClass("bg-transparent");
     });
 
@@ -403,7 +403,7 @@ describe("PersonaRadialChart", () => {
       const tied = screen.getAllByText("50%");
       expect(tied).toHaveLength(2);
       for (const label of tied) {
-        expect(label.parentElement).toHaveClass("bg-primary");
+        expect(label.parentElement).toHaveClass("bg-[var(--background-bold)]");
       }
     });
   });

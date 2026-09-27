@@ -1,5 +1,11 @@
 /**
  * Design Tokens - Effects (Shadow / Blur)
+ *
+ * ✅ 2026-09-26 새 기준 파일로 전환: Figma (G9YNa2vjdqDjnML9y5hXJ4,
+ * ❄️ GB_Design-System — Atom), "Token Documentation — Effects" 프레임
+ * (node-id 7372:457)에서 27개 전부 재확인 — 기존 값과 완전히 동일, 변경 없음.
+ *
+ * --- 이전 파일(PrsHuyyra9LzqqrDwmrB5P) 기준 조사 기록 (참고용, 값 변경 없어 유지) ---
  * Source: Figma (PrsHuyyra9LzqqrDwmrB5P)
  *   - Box Shadow 7개(shadow-2xs~2xl): node-id 4111-3488 (⭐️Component 하위, 기존 조사)
  *   - 나머지 20개(Box Shadow 4개 + Backdrop Blur 8개 + Blur 8개):

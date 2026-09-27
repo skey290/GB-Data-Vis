@@ -12,7 +12,7 @@ const FIGMA_URL =
  * 되어 마우스와 무관하게 해당 variant가 고정됩니다 (`Interactive` story만 예외).
  */
 const meta = {
-  title: "UI/PersonaRadialChart",
+  title: "Dashboard/UI/PersonaRadialChart",
   component: PersonaRadialChart,
   tags: ["autodocs"],
   parameters: {
@@ -24,12 +24,12 @@ const meta = {
   decorators: [
     (Story) => (
       /*
-       * `.dark`를 직접 걸어 다크 팔레트로 고정합니다. Figma 원본이 다크 배경에만
-       * 그려져 있고 값 밴드가 흰색 20%라, 라이트 배경에서는 거의 보이지 않습니다.
-       * (이 프로젝트는 backgrounds addon이 아니라 `.dark` 클래스로 테마를 바꿉니다.)
-       * 배지가 500×500 프레임 바깥으로 넘쳐 배치되므로 여백도 함께 둡니다.
+       * `.dark`를 강제하지 않습니다 — 컴포넌트가 앱 테마를 그대로 따르도록
+       * 재확정된 이후(persona-radial-chart.tsx 상단 주석 참고), Storybook
+       * 툴바의 라이트/다크 토글에 맞춰 값 밴드도 반전되어야 합니다. 배지가
+       * 500×500 프레임 바깥으로 넘쳐 배치되므로 여백만 둡니다.
        */
-      <div className="dark bg-background p-[var(--spacing-24)]">
+      <div className="bg-background p-[var(--spacing-24)]">
         <Story />
       </div>
     ),

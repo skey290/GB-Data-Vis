@@ -48,9 +48,27 @@
 /components/*
 !/components/ui/
 /components/ui/*
-!/components/ui/persona-radial-chart/
 !/components/ui/avatar/
 !/components/ui/badge/
+
+# ── Dashboard 앱 전용 컴포넌트 (PersonaRadialChart가 2026-09-27 여기로 이동) ──
+!/components/dashboard/
+/components/dashboard/*
+!/components/dashboard/ui/
+/components/dashboard/ui/*
+!/components/dashboard/ui/persona-radial-chart/
+!/components/dashboard/ui/persona-orbit/
+!/components/dashboard/ui/persona-slot/
+
+# ── Compass 앱 전용 컴포넌트 (범용 디자인 시스템과 별도 공개) ──
+!/components/compass/
+/components/compass/*
+!/components/compass/ui/
+/components/compass/ui/*
+!/components/compass/ui/compass-persona-ring/
+!/components/compass/ui/compass-impact-dot/
+!/components/compass/ui/compass-self-cluster/
+!/components/compass/ui/compass-dial/
 
 # ── 위 허용 목록보다 우선해서, 어떤 위치에서도 제외 ──
 node_modules

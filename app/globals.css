@@ -52,50 +52,46 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.145 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.556 0 0);
+  /*
+   * ✅ 2026-09-26 새 기준 파일로 전환: Figma (G9YNa2vjdqDjnML9y5hXJ4,
+   * ❄️ GB_Design-System — Atom)의 semantic 색상(src/tokens/colors.css)에서
+   * 값을 그대로 가져왔습니다. oklch() 계산값 대신 Figma가 확정한 hex를
+   * 직접 씁니다. Shadcn의 역할 이름(primary/secondary/accent/muted/...)
+   * 구조는 그대로 유지하고, 그 뒤에 채우는 값만 Figma 기준으로 교체했습니다
+   * (CLAUDE.md "디자인 우선순위 규칙": 구조는 Shadcn, 값은 Figma).
+   * Figma에는 "primary/secondary/accent/card/popover" 같은 컴포넌트 역할
+   * 이름이 없어(원자적인 background/text/icon/border 체계만 존재), 아래
+   * 매핑은 값 기준으로 가장 가까운 semantic 토큰을 판단해 연결한 것입니다.
+   *
+   * 전부 `var(--semantic-token)` 참조라 다크모드 전환은 여기서 다시 선언할
+   * 필요가 없습니다 — src/tokens/colors.css의 `.dark` 블록에서 각 semantic
+   * 토큰 자체가 재정의되면 아래 값들도 자동으로 따라 바뀝니다(2026-09-26
+   * Light/Dark 79개 전체 확정 완료, 더 이상 미확인 항목 없음).
+   */
+  --background: var(--background-default); /* #ffffff / dark #0a0a0a */
+  --foreground: var(--text-default); /* #0a0a0a / dark #fafafa */
+  --card: var(--background-surface); /* #ffffff / dark #171717 */
+  --card-foreground: var(--text-default);
+  --popover: var(--background-overlay); /* #ffffff / dark #262626 */
+  --popover-foreground: var(--text-default);
+  --primary: var(--background-bold); /* #171717 / dark #e5e5e5 */
+  --primary-foreground: var(--text-invert); /* #fafafa / dark #171717 */
+  --secondary: var(--background-subtler); /* #f5f5f5 / dark #262626 */
+  --secondary-foreground: var(--text-default);
+  --muted: var(--background-subtler);
+  --muted-foreground: var(--text-subtle); /* #737373 / dark #a3a3a3 */
+  --accent: var(--background-selected); /* #f5f5f5 / dark #404040 */
+  --accent-foreground: var(--text-bold); /* #171717 / dark #e5e5e5 */
+  --destructive: var(
+    --background-error-default
+  ); /* #dc2626, 라이트/다크 동일 */
+  --border: var(--border-default); /* #e5e5e5 / dark #404040 */
+  --input: var(--border-default);
+  --ring: var(--border-static-gray); /* #737373, 라이트/다크 동일 */
   /* Tooltip Inversed variant 전용 — 앱 테마와 무관하게 항상 --primary/--primary-foreground의
-     다크모드 resolve값으로 고정 (Figma Inversed 스펙, .dark 블록의 --primary/--primary-foreground와 동일 값) */
-  --tooltip-inversed-bg: oklch(0.922 0 0); /* #e5e5e5 */
-  --tooltip-inversed-fg: oklch(0.205 0 0); /* #171717 */
-}
-
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.269 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.371 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  /* neutral-700 / #404040 — Figma DS 다크모드 Alert border 리터럴 값과 일치 (2026-08-02 확인) */
-  --border: oklch(0.371 0 0);
-  --input: oklch(0.205 0 0);
-  --ring: oklch(0.556 0 0);
+     다크모드 resolve값으로 고정 (Figma Inversed 스펙, 위 dark 값과 동일한 리터럴) */
+  --tooltip-inversed-bg: #e5e5e5;
+  --tooltip-inversed-fg: #171717;
 }
 
 @theme inline {

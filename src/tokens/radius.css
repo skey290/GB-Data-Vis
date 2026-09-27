@@ -1,5 +1,19 @@
 /**
  * Design Tokens - Border Radius
+ *
+ * ✅ 2026-09-26 새 기준 파일로 전환: Figma (G9YNa2vjdqDjnML9y5hXJ4,
+ * ❄️ GB_Design-System — Atom), "Token Documentation — Spacing & Layout" 프레임
+ * (node-id 7370:594)에서 10개(none/xs/sm/md/lg/xl/2xl/3xl/4xl/full) 전부
+ * 재확인 — 기존 값과 완전히 동일, 변경 없음.
+ *
+ * ⚠️ 이름은 새 파일의 `--radius-*`(접두사 없음) 표기를 따르지 않고 기존
+ * `--radius-scale-*`를 유지했습니다. 이유: `app/globals.css`에 이미 Shadcn
+ * 기본 `--radius-sm/md/lg/xl`(전부 `calc(var(--radius) - Npx)` 계산식 기반)이
+ * 선언되어 있어, 그대로 `-scale-`을 떼면 완전히 다른 두 값 체계가 같은 변수명을
+ * 다시 선언하게 됩니다. 지금은 우연히 최종 px 값이 같아 안 보이지만, Shadcn
+ * `--radius` 기준값이 바뀌면 조용히 깨질 수 있어 접두사를 유지했습니다.
+ *
+ * --- 이전 파일(PrsHuyyra9LzqqrDwmrB5P) 기준 검증 기록 (참고용, 값 변경 없어 유지) ---
  * Source: Figma (PrsHuyyra9LzqqrDwmrB5P, 📌 GB_Design-System-v2.3)
  *
  * ✅ 2026-09-17 재검증: 2026-08-01 당시 "Design Token" 문서 페이지(현재 삭제됨)의

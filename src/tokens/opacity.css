@@ -1,5 +1,15 @@
 /**
  * Design Tokens - Opacity
+ *
+ * ✅ 2026-09-26 새 기준 파일로 전환: Figma (G9YNa2vjdqDjnML9y5hXJ4,
+ * ❄️ GB_Design-System — Atom), "Token Documentation — Spacing & Layout" 프레임
+ * (node-id 7370:594)에서 6단계(50/70/80/85/90/100%)를 재확인 — 값 전부 기존과 동일.
+ * 이름도 이미 동일한 퍼센트 기반 표기(`--opacity-50` 등)라 변경 불필요.
+ *
+ * 🗑️ 폐기 후보(새 문서에 없음, 값 변경 없이 보류 — 실사용 여부 미확인이라 삭제는
+ * 하지 않음): 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 55, 60, 65, 75, 95(%).
+ *
+ * --- 이전 파일(PrsHuyyra9LzqqrDwmrB5P) 기준 검증 기록 (참고용, 값 변경 없어 유지) ---
  * Source: Figma (PrsHuyyra9LzqqrDwmrB5P, 📌 GB_Design-System-v2.3)
  *
  * ✅ 2026-09-17 재검증: 2026-08-01 당시 "Design Token" 문서 페이지(현재 삭제됨)의
