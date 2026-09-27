@@ -692,8 +692,10 @@ describe("PersonaRadialChart", () => {
       const { container: idle } = render(<PersonaRadialChart />);
       const { container: active } = render(<PersonaRadialChart hover="self" />);
 
+      // `span`으로 한정 — PersonaOrbit의 500×500 wrapper(`div`)도 이제
+      // pointer-events-none이라, 태그로 구분하지 않으면 그게 먼저 잡힙니다.
       const overlayOf = (container: HTMLElement) =>
-        container.querySelector<HTMLElement>(".pointer-events-none")!;
+        container.querySelector<HTMLElement>("span.pointer-events-none")!;
 
       expect(overlayOf(idle)).toHaveClass("opacity-0");
       expect(overlayOf(active)).toHaveClass("opacity-100");

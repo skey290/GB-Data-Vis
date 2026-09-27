@@ -91,7 +91,15 @@ export function PersonaOrbit({
 }: PersonaOrbitProps) {
   return (
     <div
-      className={cn("relative size-[calc(var(--scale-500)*1px)]", className)}
+      // pointer-events-none — 이 500×500 wrapper 전체가 PersonaRadialChart의
+      // SVG 지표 링 위에 겹쳐 놓이는데, 배경까지 히트박스를 그대로 두면 아바타가
+      // 없는 링 영역의 마우스 이벤트를 이 div가 가로채 밑 SVG로 못 내려가고,
+      // 결국 아바타(셀프) hover만 동작하는 것처럼 보이게 됩니다. 실제 클릭/hover가
+      // 필요한 자식(슬롯, 중앙 문구)에만 pointer-events-auto로 되살립니다.
+      className={cn(
+        "relative size-[calc(var(--scale-500)*1px)] pointer-events-none",
+        className,
+      )}
       {...props}
     >
       {slots.map((persona, index) => {
@@ -110,7 +118,7 @@ export function PersonaOrbit({
         return (
           <div
             key={slotId}
-            className="absolute"
+            className="absolute pointer-events-auto"
             style={{
               left: `calc(50% + ${round(position.x)}px)`,
               top: `calc(50% + ${round(position.y)}px)`,
@@ -134,6 +142,7 @@ export function PersonaOrbit({
           "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
           "whitespace-nowrap text-center",
           "text-xs-bold text-foreground",
+          "pointer-events-auto",
           FADE_IN,
           onCenterClick && "cursor-pointer",
         )}
