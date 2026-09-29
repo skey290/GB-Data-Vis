@@ -1,12 +1,14 @@
-# PersonaRadialChart
+# GB Data Vis
 
-셀프(self)와 8개 페르소나를 3개 지표로 비교하는 원형 데이터 시각화 컴포넌트입니다.
+Gabrielle 앱(Dashboard / Compass)에서 쓰는 **커스텀 데이터 시각화 컴포넌트 모음**입니다.
+D3 같은 차트 라이브러리 없이, SVG path 계산과 WebGL(three.js)을 직접 다뤄 구현했습니다.
 
-- **각도** — 8개 섹터 = 8명의 페르소나 (12시 스포크가 정확히 수직)
-- **반지름** — 3개 동심원 링 = Growth Potential / Qualified Reach / Engagement Intensity
-- **값** — 링 안쪽 경계를 공유하는 반투명 밴드를 겹쳐 쌓아, 안쪽일수록 밝아지는 8단계로 표현
-
-D3 같은 차트 라이브러리 없이 SVG path를 직접 계산합니다.
+|                                                                    |                                                                    |
+| ------------------------------------------------------------------ | ------------------------------------------------------------------ |
+| ![PersonaRadialChart](docs/assets/persona-radial-chart.png)        | ![CompassAnalysis](docs/assets/compass-analysis.png)               |
+| **PersonaRadialChart** — 셀프 vs 8개 페르소나, 3개 지표 원형 비교  | **CompassAnalysis** — 랭킹 다이얼 + 페르소나 클러스터 합성 뷰      |
+| ![CompassSphere](docs/assets/compass-sphere.png)                   | ![CompassDetailView](docs/assets/compass-detail-view.png)          |
+| **CompassSphere** — three.js 파티클 3D 클라우드, hover로 라벨 전환 | **CompassDetailView** — 지표 상세 패널 (증감 배지, 에러 상태 포함) |
 
 ## 빠르게 실행하기
 
@@ -15,17 +17,50 @@ npm install
 npm run storybook
 ```
 
-http://localhost:6006 이 열립니다. **`UI/PersonaRadialChart` → `Interactive`** 스토리가 실제 마우스 hover로 동작하는 버전입니다.
+http://localhost:6006 이 열립니다. 아래는 바로 보면 좋은 story들입니다.
 
-- 링 위에 올리면 → 바깥 배지 8개가 그 지표의 **값**으로 전환
-- 아바타 위에 올리면 → 그 아바타만 강조 (흰 링 + 블러 + 딤)
-- 좌측 Controls에서 `selfCount` / `posting` / `hover`를 바꿔볼 수 있습니다
+| 앱            | Story                                             | 특징                                              |
+| ------------- | ------------------------------------------------- | ------------------------------------------------- |
+| **Dashboard** | `Dashboard/UI/PersonaRadialChart` → `Interactive` | 링 hover 시 배지가 값으로 전환, 아바타 hover 강조 |
+| **Dashboard** | `Dashboard/UI/PersonaOrbit` → `Interactive`       | 궤도형 페르소나 배치                              |
+| **Compass**   | `Compass/UI/CompassSphere` → `Playground`         | three.js 파티클 3D 시각화, hover로 라벨 순환      |
+| **Compass**   | `Compass/UI/CompassDial` → `Playground`           | 랭킹 원형 게이지 + 눈금(tick)                     |
+| **Compass**   | `Compass/UI/CompassAnalysis` → `Playground`       | 다이얼 + 셀프 클러스터 + 랭킹 배지 합성 뷰        |
+| **Compass**   | `Compass/UI/CompassDetailView` → `Default`        | 지표 상세 패널, 증감(delta) 배지                  |
 
-`SingleSelf`는 빈 슬롯, `NoPostingHoverReach`는 데이터 없는 상태의 처리를 보여줍니다.
+## 구성
+
+```
+app/                                          Next.js 앱 (Compass 데모 페이지 포함)
+components/dashboard/ui/
+  persona-radial-chart/                       셀프×페르소나×3지표 원형 차트
+  persona-orbit/                              궤도형 페르소나 배치
+  persona-slot/                               PersonaOrbit이 재사용하는 슬롯
+components/compass/ui/
+  compass-dial/ + compass-dial-tick/          랭킹 원형 게이지 + 눈금
+  compass-sphere/                             three.js 파티클 3D 시각화
+  compass-analysis/ + compass-analysis-menu/  다이얼·클러스터 합성 뷰 + 지표 선택 메뉴
+  compass-detail-view/                        지표 상세 패널
+  compass-self-cluster/ + compass-self-avatar/  셀프 아바타 군집 배치
+  compass-growth-avatar/                      성장 지표가 붙은 아바타
+  compass-metric-card/                        지표 요약 카드
+  compass-floating-nav/                       플로팅 내비게이션
+components/ui/
+  avatar/, badge/                             위 차트들이 공통으로 재사용하는 디자인 시스템 컴포넌트
+lib/
+  utils.ts                                    cn() — clsx + tailwind-merge 커스텀 설정
+  sprite-icon.tsx                             /public/icons.svg 스프라이트 아이콘 헬퍼
+src/tokens/*.css                              디자인 토큰 (색상/타이포/스페이싱/이펙트)
+app/globals.css                               토큰 import + 테마
+public/icons.svg, public/images/personas/     컴포넌트가 참조하는 아이콘·페르소나 이미지
+docs/                                         스펙 문서
+```
+
+이 저장소는 **공개하기로 정한 것만** 담고 있습니다. 원본 프로젝트에는 다른 컴포넌트(Input, Select, Chips 등)도 있지만 여기에는 포함하지 않았습니다.
 
 ## 먼저 읽어주세요
 
-**[docs/persona-radial-chart-spec.md](docs/persona-radial-chart-spec.md)** 에 설계 의도와 결정 근거가 정리되어 있습니다.
+**[docs/persona-radial-chart-spec.md](docs/persona-radial-chart-spec.md)** 에 PersonaRadialChart의 설계 의도와 결정 근거가 정리되어 있습니다.
 
 코드만 봐서는 역추적하기 어려운 것들이 담겨 있습니다. 예를 들어:
 
@@ -35,32 +70,16 @@ http://localhost:6006 이 열립니다. **`UI/PersonaRadialChart` → `Interacti
 
 문서 마지막의 **미확정 항목**도 확인해주세요. Figma와 값이 다른 부분이 아직 남아 있습니다.
 
-## 구성
-
-```
-components/ui/persona-radial-chart/   차트 본체 + 스토리 + 테스트
-components/ui/avatar/                 차트가 재사용하는 아바타
-components/ui/badge/                  차트가 재사용하는 배지
-lib/utils.ts                          cn() — clsx + tailwind-merge 커스텀 설정
-src/tokens/*.css                      디자인 토큰 (색상/타이포/스페이싱/이펙트)
-app/globals.css                       토큰 import + 테마
-docs/                                 스펙 문서
-```
-
-이 저장소는 **차트가 동작하는 데 필요한 것만** 담고 있습니다. 원본 프로젝트에는 다른 컴포넌트(Input, Chips, Switch 등)도 있지만 여기에는 포함하지 않았습니다.
-
 ## 명령어
 
 | 명령어              | 설명                              |
 | ------------------- | --------------------------------- |
 | `npm run storybook` | Storybook (http://localhost:6006) |
-| `npm test`          | Vitest — 차트 테스트 54개         |
+| `npm test`          | Vitest                            |
 | `npm run typecheck` | `tsc --noEmit`                    |
 | `npm run lint`      | oxlint                            |
 | `npm run build`     | Next.js 프로덕션 빌드             |
 | `npm run dev`       | Next.js 개발 서버                 |
-
-> ⚠️ `npm test`를 돌리면 **Badge 2건 + Avatar 1건이 실패**합니다 (`69개 중 3개`). 차트 테스트 54개는 전부 통과합니다. 이 3건은 원본 프로젝트에서도 동일하게 실패하던 기존 이슈이고, 차트 동작과는 무관합니다. 놀라지 마세요.
 
 ## 작업 시 주의사항
 
@@ -75,14 +94,14 @@ fill = "var(--color-rdx-white-4)";
 className = "text-xs-bold";
 ```
 
-**새 타이포그래피 클래스를 추가한다면 `lib/utils.ts`의 `TYPOGRAPHY_PRESET_CLASSES`에도 등록해야 합니다.** 등록하지 않으면 `cn()`(tailwind-merge)이 그 클래스를 텍스트 _색상_ 유틸리티로 오인해 **조용히 삭제**합니다. 에러도 경고도 없고 빌드·타입체크·테스트가 전부 통과하며, 폰트 크기만 기본값으로 렌더됩니다. 실제로 한 번 겪은 문제입니다.
+**새 타이포그래피 클래스를 추가한다면 `lib/utils.ts`의 `TYPOGRAPHY_PRESET_CLASSES`에도 등록해야 합니다.** 등록하지 않으면 `cn()`(tailwind-merge)이 그 클래스를 텍스트 _색상_ 유틸리티로 오인해 **조용히 삭제**합니다. 에러도 경고도 없고 빌드·타입체크·테스트가 전부 통과하며, 폰트 크기만 기본값으로 렌더됩니다.
 
-**차트 내부의 반지름·각도 상수는 디자인 토큰이 아닙니다.** SVG `viewBox` 내부의 기하 좌표값이라 순수 숫자로 둡니다. 반면 컴포넌트 바깥 치수(캔버스 500, 아바타 40)는 토큰을 씁니다.
+**차트 내부의 반지름·각도 상수는 디자인 토큰이 아닙니다.** SVG `viewBox` 내부의 기하 좌표값이라 순수 숫자로 둡니다. 반면 컴포넌트 바깥 치수(캔버스 크기, 아바타 크기)는 토큰을 씁니다.
 
 ## 기술 스택
 
-Next.js 16 · React 19 · TypeScript 5.9 · Tailwind CSS v4 · Storybook 10 · Vitest 4
+Next.js 16 · React 19 · TypeScript 5.9 · Tailwind CSS v4 · three.js · Storybook 10 · Vitest 4
 
 ## 테마
 
-Figma 원본이 다크 배경에만 그려져 있어 **다크 전용**입니다. 값 밴드가 흰색 20%라 라이트 배경에서는 거의 보이지 않습니다. Storybook 스토리는 `.dark` 클래스를 걸어 다크로 고정해두었습니다.
+Figma 원본이 다크 배경 기준으로 그려져 있어 **다크 전용**인 컴포넌트가 많습니다. Storybook 스토리는 `.dark` 클래스를 걸어 다크로 고정해두었습니다.

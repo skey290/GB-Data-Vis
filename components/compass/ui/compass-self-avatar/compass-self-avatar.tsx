@@ -112,6 +112,8 @@ export function CompassSelfAvatar({
   onMouseLeave,
   ...props
 }: CompassSelfAvatarProps) {
+  const [isHovered, setIsHovered] = React.useState(false);
+
   if (variant === "guide") {
     const size = GUIDE_SIZE_PX[guideSize];
     return (
@@ -126,7 +128,6 @@ export function CompassSelfAvatar({
     );
   }
 
-  const [isHovered, setIsHovered] = React.useState(false);
   const isActive = status === "active" || isHovered;
   const showError = variant === "self" && !isActive && error;
   const hoverHandlers = {

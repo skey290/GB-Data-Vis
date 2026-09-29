@@ -25,10 +25,11 @@
 # ── Next.js 앱 (globals.css가 토큰 11개를 import 함) ──
 !/app/
 
-# ── cn() 유틸 (tailwind-merge 커스텀 설정 포함) ──
+# ── cn() 유틸 (tailwind-merge 커스텀 설정 포함) + 스프라이트 아이콘 헬퍼 ──
 !/lib/
 /lib/*
 !/lib/utils.ts
+!/lib/sprite-icon.tsx
 
 # ── 디자인 토큰 CSS ──
 !/src/
@@ -38,10 +39,19 @@
 # ── Storybook 설정 ──
 !/.storybook/
 
+# ── 아이콘 스프라이트 + 컴포넌트가 참조하는 페르소나 이미지 (없으면 아이콘/아바타가 깨짐) ──
+!/public/
+/public/*
+!/public/icons.svg
+!/public/images/
+/public/images/*
+!/public/images/personas/
+
 # ── 스펙 문서 (차트 것만) ──
 !/docs/
 /docs/*
 !/docs/persona-radial-chart-spec.md
+!/docs/assets/
 
 # ── 차트 + 차트가 재사용하는 컴포넌트만 ──
 !/components/

@@ -12,7 +12,7 @@
 
 - **Figma**: `GB_Design-System-v2.2` (`PrsHuyyra9LzqqrDwmrB5P`) node `5526:7658`
 - **원본 variant 구성**: `Self(1|8) × Posting(true|false) × Hover(5종)` = **15개**
-- **구현 위치**: `components/ui/persona-radial-chart/`
+- **구현 위치**: `components/dashboard/ui/persona-radial-chart/`
 
 > ⚠️ **다크 전용**: Figma 원본이 다크 배경에만 그려져 있습니다. 배지·그리드·텍스트는 시맨틱 토큰이라 라이트 테마에서도 자동 대응하지만, **값 밴드만은 흰색 20%를 리터럴로 쓰고 있어 라이트 배경에서는 거의 보이지 않습니다.** Figma에 라이트 variant가 생기기 전까지 원본 값을 그대로 따릅니다.
 
@@ -342,7 +342,7 @@ Growth는 `10/20/30/40/50/60/70/80`의 **완전한 사다리꼴**입니다. 동�
 
 ## 9. 구현 파일
 
-`components/ui/persona-radial-chart/` (프로젝트 규칙대로 컴포넌트 1개 = 4파일)
+`components/dashboard/ui/persona-radial-chart/` (프로젝트 규칙대로 컴포넌트 1개 = 4파일)
 
 | 파일                               | 내용                                                                                                                  |
 | ---------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
