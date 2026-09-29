@@ -3,6 +3,10 @@
 Gabrielle 앱(Dashboard / Compass)에서 쓰는 **커스텀 데이터 시각화 컴포넌트 모음**입니다.
 D3 같은 차트 라이브러리 없이, SVG path 계산과 WebGL(three.js)을 직접 다뤄 구현했습니다.
 
+![Compass 앱 데모](docs/assets/compass-app-demo.png)
+
+_실제로 조립된 화면 — CompassSphere(3D 파티클) + CompassDetailView, `npm run dev` 후 `/compass`에서 확인 가능._
+
 |                                                                    |                                                                    |
 | ------------------------------------------------------------------ | ------------------------------------------------------------------ |
 | ![PersonaRadialChart](docs/assets/persona-radial-chart.png)        | ![CompassAnalysis](docs/assets/compass-analysis.png)               |
@@ -28,10 +32,12 @@ http://localhost:6006 이 열립니다. 아래는 바로 보면 좋은 story들�
 | **Compass**   | `Compass/UI/CompassAnalysis` → `Playground`       | 다이얼 + 셀프 클러스터 + 랭킹 배지 합성 뷰        |
 | **Compass**   | `Compass/UI/CompassDetailView` → `Default`        | 지표 상세 패널, 증감(delta) 배지                  |
 
+Compass 컴포넌트들을 실제 화면으로 조립한 모습은 `npm run dev` 후 http://localhost:3000/compass 에서 볼 수 있습니다.
+
 ## 구성
 
 ```
-app/                                          Next.js 앱 (Compass 데모 페이지 포함)
+app/compass/page.tsx                          Compass 앱 전체를 조립한 실동작 데모 페이지
 components/dashboard/ui/
   persona-radial-chart/                       셀프×페르소나×3지표 원형 차트
   persona-orbit/                              궤도형 페르소나 배치
@@ -46,7 +52,11 @@ components/compass/ui/
   compass-metric-card/                        지표 요약 카드
   compass-floating-nav/                       플로팅 내비게이션
 components/ui/
-  avatar/, badge/                             위 차트들이 공통으로 재사용하는 디자인 시스템 컴포넌트
+  avatar/, badge/, button/, button-group/,    데이터 시각화 컴포넌트와 Compass 데모 페이지가
+  tabs/, toggle/, tooltip/, select/,          공통으로 재사용하는 디자인 시스템 컴포넌트
+  gnb/, floating-profile/, compass-toolbar/,
+  menu-button/, menu-notification/,
+  noti-dropdown/
 lib/
   utils.ts                                    cn() — clsx + tailwind-merge 커스텀 설정
   sprite-icon.tsx                             /public/icons.svg 스프라이트 아이콘 헬퍼
@@ -56,7 +66,7 @@ public/icons.svg, public/images/personas/     컴포넌트가 참조하는 아�
 docs/                                         스펙 문서
 ```
 
-이 저장소는 **공개하기로 정한 것만** 담고 있습니다. 원본 프로젝트에는 다른 컴포넌트(Input, Select, Chips 등)도 있지만 여기에는 포함하지 않았습니다.
+이 저장소는 **공개하기로 정한 것만** 담고 있습니다. `components/ui/`에는 위 목록 외에도 Input, Chips 등 더 많은 컴포넌트가 원본 프로젝트에 있지만, 여기에는 데이터 시각화 컴포넌트가 실제로 의존하는 것만 포함했습니다.
 
 ## 먼저 읽어주세요
 

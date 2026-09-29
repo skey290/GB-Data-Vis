@@ -60,6 +60,18 @@
 /components/ui/*
 !/components/ui/avatar/
 !/components/ui/badge/
+!/components/ui/button/
+!/components/ui/button-group/
+!/components/ui/compass-toolbar/
+!/components/ui/floating-profile/
+!/components/ui/gnb/
+!/components/ui/menu-button/
+!/components/ui/menu-notification/
+!/components/ui/noti-dropdown/
+!/components/ui/select/
+!/components/ui/tabs/
+!/components/ui/toggle/
+!/components/ui/tooltip/
 
 # ── Dashboard 앱 전용 컴포넌트 (PersonaRadialChart가 2026-09-27 여기로 이동) ──
 !/components/dashboard/
