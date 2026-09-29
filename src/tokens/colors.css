@@ -162,6 +162,14 @@
    */
   --color-shimmer-gray: #d9d9d9;
 
+  /*
+   * compass-sphere 전용 raw 색. Figma Make 프로토타입(get_variable_defs 미지원
+   * 파일 타입)에서 이식한 값이라 Figma 변수와 대조하지 못했다 — 원본 Design
+   * 파일이 확인되면 실제 바인딩 변수로 교체할 것(사용자 승인, 2026-09-29).
+   */
+  --color-sphere-particle: #dd77ee;
+  --color-sphere-particle-hover: #c561d4;
+
   /* Non-changeable — 라이트/다크 무관 고정 색 */
   --color-accent-non-changeable: var(
     --color-neutral-450

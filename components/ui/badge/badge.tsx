@@ -25,6 +25,11 @@ const badgeVariants = cva(
           "bg-[var(--background-disabled)] text-[var(--text-static-gray)] shadow-[inset_0_0_0_var(--border-1)_var(--border-overlay)]",
         alarm:
           "bg-transparent text-[var(--text-warning)] shadow-[inset_0_0_0_var(--border-1)_var(--border-warning)]",
+        // Figma "Detail view"(❄️ GB_Compass, node-id 8003:12444)의 "+0.2pp" 증가
+        // 델타 뱃지 — alarm(경고 빨강)과 동일한 형태(투명 배경 + inset border)로
+        // success 색상(--text-success/--border-success)만 다르게 매핑 (2026-09-28 추가)
+        success:
+          "bg-transparent text-[var(--text-success)] shadow-[inset_0_0_0_var(--border-1)_var(--border-success)]",
         destructive:
           "bg-[var(--background-error-default)] text-[var(--text-default)]",
       },

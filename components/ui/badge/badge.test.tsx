@@ -24,6 +24,7 @@ describe("Badge", () => {
     ["outline", "text-[var(--text-subtle)]"],
     ["disabled", "bg-[var(--background-disabled)]"],
     ["alarm", "text-[var(--text-warning)]"],
+    ["success", "text-[var(--text-success)]"],
     ["destructive", "bg-[var(--background-error-default)]"],
   ] as const)(
     "renders the %s variant with expected classes",

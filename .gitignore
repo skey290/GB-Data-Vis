@@ -69,6 +69,15 @@
 !/components/compass/ui/compass-impact-dot/
 !/components/compass/ui/compass-self-cluster/
 !/components/compass/ui/compass-dial/
+!/components/compass/ui/compass-dial-tick/
+!/components/compass/ui/compass-analysis/
+!/components/compass/ui/compass-analysis-menu/
+!/components/compass/ui/compass-detail-view/
+!/components/compass/ui/compass-floating-nav/
+!/components/compass/ui/compass-growth-avatar/
+!/components/compass/ui/compass-metric-card/
+!/components/compass/ui/compass-self-avatar/
+!/components/compass/ui/compass-sphere/
 
 # ── 위 허용 목록보다 우선해서, 어떤 위치에서도 제외 ──
 node_modules

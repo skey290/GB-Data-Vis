@@ -25,6 +25,7 @@ const meta = {
         "outline",
         "disabled",
         "alarm",
+        "success",
         "destructive",
       ],
     },
@@ -102,6 +103,19 @@ export const Alarm: Story = {
     const badge = canvas.getByText("Badge");
 
     await expect(badge.className).toContain("text-[var(--text-warning)]");
+  },
+};
+
+export const Success: Story = {
+  args: {
+    variant: "success",
+    children: "+0.2pp",
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const badge = canvas.getByText("+0.2pp");
+
+    await expect(badge.className).toContain("text-[var(--text-success)]");
   },
 };
 
