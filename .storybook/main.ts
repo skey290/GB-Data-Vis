@@ -8,7 +8,11 @@ const config: StorybookConfig = {
     "../components/**/*.stories.@(js|jsx|mjs|ts|tsx)",
   ],
   staticDirs: ["../public"],
-  addons: ["@storybook/addon-designs", "storybook-dark-mode"],
+  addons: [
+    "@storybook/addon-docs",
+    "@storybook/addon-designs",
+    "storybook-dark-mode",
+  ],
   framework: {
     name: "@storybook/nextjs",
     options: {},
