@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { createSpriteIcon } from "@/lib/sprite-icon";
 import { Gnb, type GnbItem } from "@/components/ui/gnb";
 import { FloatingProfile } from "@/components/ui/floating-profile";
-import { CompassToolbar } from "@/components/ui/compass-toolbar";
+import { CompassToolbar } from "@/components/compass/ui/compass-toolbar";
 import {
   CompassFloatingNav,
   type CompassFloatingNavItemId,

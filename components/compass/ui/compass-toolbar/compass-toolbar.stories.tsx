@@ -25,7 +25,7 @@ function ControlledCompassToolbar(props: CompassToolbarProps) {
 }
 
 const meta = {
-  title: "UI/CompassToolbar",
+  title: "Compass/UI/CompassToolbar",
   component: CompassToolbar,
   tags: ["autodocs"],
   parameters: {

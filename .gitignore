@@ -62,7 +62,6 @@
 !/components/ui/badge/
 !/components/ui/button/
 !/components/ui/button-group/
-!/components/ui/compass-toolbar/
 !/components/ui/floating-profile/
 !/components/ui/gnb/
 !/components/ui/google-button/
@@ -91,6 +90,7 @@
 !/components/compass/ui/compass-persona-ring/
 !/components/compass/ui/compass-impact-dot/
 !/components/compass/ui/compass-self-cluster/
+!/components/compass/ui/compass-toolbar/
 !/components/compass/ui/compass-dial/
 !/components/compass/ui/compass-dial-tick/
 !/components/compass/ui/compass-analysis/

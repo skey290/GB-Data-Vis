@@ -51,10 +51,11 @@ components/compass/ui/
   compass-growth-avatar/                      성장 지표가 붙은 아바타
   compass-metric-card/                        지표 요약 카드
   compass-floating-nav/                       플로팅 내비게이션
+  compass-toolbar/                            사이드바 옆 세그먼트 토글 + Select 툴바
 components/ui/
   avatar/, badge/, button/, button-group/,    데이터 시각화 컴포넌트와 Compass 데모 페이지가
   tabs/, toggle/, tooltip/, select/,          공통으로 재사용하는 디자인 시스템 컴포넌트
-  gnb/, floating-profile/, compass-toolbar/,
+  gnb/, floating-profile/,
   menu-button/, menu-notification/,
   noti-dropdown/
 lib/
