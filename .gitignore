@@ -2,8 +2,8 @@
 # 허용 목록(allowlist) 방식
 #
 # 이 저장소(GB-Data-Vis)는 Dashboard/Compass 등 특정 앱에 종속된 컴포넌트만
-# 공개합니다. 범용 디자인 시스템 UI 컴포넌트는 별도 저장소
-# (gabrielle-design-system → GB-Design-System)에서 공개합니다.
+# 공개합니다. 범용 디자인 시스템 UI 컴포넌트는 별도 저장소(GB-Design-System)
+# 에서 공개합니다.
 # 그래서 먼저 전부 제외한 뒤, 아래에서 필요한 것만 되살립니다.
 #
 # 로컬 폴더에는 범용 컴포넌트(components/ui/*)와 AI 작업 메모가 그대로
