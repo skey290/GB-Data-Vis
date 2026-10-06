@@ -137,13 +137,7 @@ export function CompassGrowthAvatar({
   );
 
   return (
-    <div
-      className={cn(
-        "relative isolate size-[calc(var(--scale-100)*1px)]",
-        className,
-      )}
-      {...props}
-    >
+    <div className={cn("relative isolate size-[100px]", className)} {...props}>
       <CompassSelfAvatar
         variant="self"
         status={status}

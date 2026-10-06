@@ -96,10 +96,7 @@ export function PersonaOrbit({
       // 없는 링 영역의 마우스 이벤트를 이 div가 가로채 밑 SVG로 못 내려가고,
       // 결국 아바타(셀프) hover만 동작하는 것처럼 보이게 됩니다. 실제 클릭/hover가
       // 필요한 자식(슬롯, 중앙 문구)에만 pointer-events-auto로 되살립니다.
-      className={cn(
-        "relative size-[calc(var(--scale-500)*1px)] pointer-events-none",
-        className,
-      )}
+      className={cn("relative size-[500px] pointer-events-none", className)}
       {...props}
     >
       {slots.map((persona, index) => {

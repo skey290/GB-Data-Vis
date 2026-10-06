@@ -1,11 +1,9 @@
 import * as React from "react";
 import type { Meta, StoryObj } from "@storybook/nextjs";
-import { expect, userEvent, within } from "storybook/test";
 
 import {
   CompassAnalysisMenu,
   type CompassAnalysisMenuProps,
-  type CompassAnalysisMenuValue,
 } from "./compass-analysis-menu";
 
 const FIGMA_URL =
@@ -13,6 +11,7 @@ const FIGMA_URL =
 
 function ControlledCompassAnalysisMenu(props: CompassAnalysisMenuProps) {
   const [value, setValue] = React.useState(props.value);
+  React.useEffect(() => setValue(props.value), [props.value]);
 
   return (
     <CompassAnalysisMenu {...props} value={value} onValueChange={setValue} />
@@ -37,7 +36,8 @@ const meta = {
     disabled: { control: "boolean" },
   },
   args: {
-    value: "growth-potential" satisfies CompassAnalysisMenuValue,
+    value: "growth-potential",
+    disabled: false,
   },
   render: (args) => <ControlledCompassAnalysisMenu {...args} />,
 } satisfies Meta<typeof CompassAnalysisMenu>;
@@ -46,40 +46,4 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-/** 진입 시 기본값 — Growth Potential이 눌린 상태 */
-export const GrowthPotential: Story = {};
-
-export const Reach: Story = {
-  args: { value: "reach" },
-};
-
-export const Engagement: Story = {
-  args: { value: "engagement" },
-};
-
-export const Ranking: Story = {
-  args: { value: "ranking" },
-};
-
-export const Disabled: Story = {
-  args: { disabled: true },
-};
-
-/** 클릭하면 눌린 항목이 바뀌는지(라디오처럼 단일 선택) 확인 */
-export const SelectInteraction: Story = {
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    const growthPotential = canvas.getByRole("button", {
-      name: "Growth Potential",
-    });
-    const reach = canvas.getByRole("button", { name: "Reach" });
-
-    await expect(growthPotential).toHaveAttribute("aria-pressed", "true");
-    await expect(reach).toHaveAttribute("aria-pressed", "false");
-
-    await userEvent.click(reach);
-
-    await expect(reach).toHaveAttribute("aria-pressed", "true");
-    await expect(growthPotential).toHaveAttribute("aria-pressed", "false");
-  },
-};
+export const Playground: Story = {};

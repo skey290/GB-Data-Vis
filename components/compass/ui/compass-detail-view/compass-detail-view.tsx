@@ -1,4 +1,5 @@
 import * as React from "react";
+import { CircleX } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Badge, type BadgeProps } from "@/components/ui/badge";
@@ -244,12 +245,10 @@ function FrostedBox({ children }: { children: React.ReactNode }) {
 function ErrorBoxContent({ onRetry }: { onRetry?: () => void }) {
   return (
     <FrostedBox>
-      <svg
+      <CircleX
         className="size-[24px] text-[var(--icon-default)]"
         aria-hidden="true"
-      >
-        <use href="/icons.svg#circle-x-icon" />
-      </svg>
+      />
       <p className="text-lg-medium text-center text-[var(--text-default)]">
         We couldn&apos;t fetch your data
       </p>
@@ -443,8 +442,7 @@ export function CompassDetailView({
   return (
     <div
       className={cn(
-        // 660px: Figma "Detail view" 프레임 자체의 물리적 폭(내부 기하 상수,
-        // --scale-*와 매칭되지 않음)
+        // 660px: Figma "Detail view" 프레임 자체의 물리적 폭(내부 기하 상수)
         "isolate flex w-[660px] max-w-[660px] flex-col items-start gap-[var(--spacing-5)]",
         "bg-[var(--background-subtlest)] px-[var(--spacing-9)] pt-[var(--spacing-3)] pb-[var(--spacing-8)]",
         className,

@@ -60,7 +60,7 @@ export function PersonaSlot({
       <div
         className={cn(
           "relative overflow-hidden",
-          "size-[calc(var(--scale-40)*1px)]",
+          "size-[40px]",
           "rounded-[var(--radius-scale-full)]",
           HIGHLIGHT_RING,
           COLOR_TRANSITION,
@@ -101,7 +101,7 @@ export function PersonaSlot({
       aria-label={PLACEHOLDER_LABEL}
       className={cn(
         "flex items-center justify-center",
-        "size-[calc(var(--scale-40)*1px)]",
+        "size-[40px]",
         "rounded-[var(--radius-scale-full)]",
         "text-xxs-medium text-muted-foreground",
         "border-[length:var(--border-1)] border-dashed",

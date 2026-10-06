@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { Bell } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -18,11 +19,11 @@ import { cn } from "@/lib/utils";
  */
 export interface MenuNotificationProps extends Omit<
   React.ButtonHTMLAttributes<HTMLButtonElement>,
-  "type"
+  "type" | "disabled"
 > {
   /** Figma `Type` variant */
   type?: "icon" | "text";
-  /** Figma `Status` variant */
+  /** Figma `Status` variant. disabled 상태는 여기 하나로만 표현 — 네이티브 `disabled` prop은 따로 받지 않음. */
   status?: "default" | "active" | "disabled";
   /** `type="text"`에서 렌더링할 라벨 */
   label?: string;
@@ -40,14 +41,13 @@ export const MenuNotification = React.forwardRef<
     label = "Notification",
     showDot = true,
     className,
-    disabled,
     "aria-label": ariaLabel,
     ...props
   },
   ref,
 ) {
   const isActive = status === "active";
-  const isDisabled = status === "disabled" || disabled;
+  const isDisabled = status === "disabled";
   const displayDot = showDot && !isDisabled;
 
   return (
@@ -61,9 +61,9 @@ export const MenuNotification = React.forwardRef<
       aria-label={ariaLabel ?? (type === "icon" ? label : undefined)}
       className={cn(
         "inline-flex items-center outline-none transition-colors",
-        "focus-visible:shadow-[var(--shadow-focus-ring)]",
+        "focus-visible:shadow-[var(--gb-shadow-focus-ring)]",
         "disabled:pointer-events-none disabled:cursor-not-allowed",
-        type === "text" && "gap-[var(--spacing-3)]",
+        type === "text" && "gap-[var(--gb-spacing-3)]",
         className,
       )}
       {...props}
@@ -71,31 +71,29 @@ export const MenuNotification = React.forwardRef<
       <span
         className={cn(
           "relative inline-flex shrink-0 items-center justify-center",
-          "size-[var(--spacing-8)] rounded-[var(--radius-scale-md)]",
-          isActive && "bg-[var(--background-static-gray)]",
+          "size-[var(--gb-spacing-8)] rounded-[var(--gb-radius-scale-md)]",
+          isActive && "bg-[var(--gb-background-static-gray)]",
         )}
       >
-        <svg
+        <Bell
           aria-hidden="true"
           className={cn(
-            "size-[var(--spacing-4)]",
+            "size-[var(--gb-spacing-4)]",
             isDisabled
-              ? "text-[var(--icon-static-gray)]"
+              ? "text-[var(--gb-icon-static-gray)]"
               : isActive
-                ? "text-[var(--icon-static-white)]"
-                : "text-[var(--icon-subtle)]",
+                ? "text-[var(--gb-icon-static-white)]"
+                : "text-[var(--gb-icon-subtle)]",
           )}
-        >
-          <use href="/icons.svg#bell-icon" />
-        </svg>
+        />
         {displayDot ? (
           <span
             aria-hidden="true"
             data-testid="menu-notification-dot"
             className={cn(
-              "absolute top-[var(--spacing-2-5)] right-[var(--spacing-2-5)]",
-              "size-[var(--spacing-1)] rounded-[var(--radius-scale-full)]",
-              "bg-[var(--background-warning-default)]",
+              "absolute top-[var(--gb-spacing-2-5)] right-[var(--gb-spacing-2-5)]",
+              "size-[var(--gb-spacing-1)] rounded-[var(--gb-radius-scale-full)]",
+              "bg-[var(--gb-background-warning-default)]",
             )}
           />
         ) : null}
@@ -115,10 +113,10 @@ export const MenuNotification = React.forwardRef<
                 "block truncate whitespace-nowrap transition-opacity duration-200 ease-linear",
                 type === "text" ? "opacity-100" : "opacity-0",
                 isDisabled
-                  ? "text-base-medium text-[var(--text-static-gray)]"
+                  ? "text-base-medium text-[var(--gb-text-static-gray)]"
                   : isActive
-                    ? "text-base-semi-bold text-[var(--text-bold)]"
-                    : "text-base-medium text-[var(--text-subtle)]",
+                    ? "text-base-semi-bold text-[var(--gb-text-bold)]"
+                    : "text-base-medium text-[var(--gb-text-subtle)]",
               )}
             >
               {label}

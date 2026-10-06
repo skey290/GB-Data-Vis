@@ -28,41 +28,95 @@
  */
 
 :root {
-  --shadow-2xs: 0px 1px 0px 0px #0000000d;
-  --shadow-xs: 0px 1px 2px 0px #0000001a;
-  --shadow-sm: 0px 1px 3px 0px #0000001a;
-  --shadow-md: 0px 2px 4px -2px #0000001a, 0px 4px 6px -1px #0000001a;
-  --shadow-lg: 0px 4px 6px -4px #0000001a, 0px 10px 15px -3px #0000001a;
-  --shadow-xl: 0px 8px 10px -6px #0000001a, 0px 20px 25px -5px #0000001a;
-  --shadow-2xl: 0px 25px 50px -12px #00000040;
+  --gb-shadow-2xs: 0px 1px 0px 0px #0000000d;
+
+  --gb-shadow-xs: 0px 1px 2px 0px #0000001a;
+
+  --gb-shadow-sm: 0px 1px 3px 0px #0000001a;
+
+  --gb-shadow-md: 0px 2px 4px -2px #0000001a, 0px 4px 6px -1px #0000001a;
+
+  --gb-shadow-lg: 0px 4px 6px -4px #0000001a, 0px 10px 15px -3px #0000001a;
+
+  --gb-shadow-xl: 0px 8px 10px -6px #0000001a, 0px 20px 25px -5px #0000001a;
+
+  --gb-shadow-2xl: 0px 25px 50px -12px #00000040;
 
   /* Box Shadow — 나머지 4개 (Figma "Box Shadow" 그룹, 11개 중 위 7개 제외) */
-  --shadow-inner: inset 0px 2px 4px 0px #0000000f;
-  --shadow-none: 0px 0px 0px 0px #00000000;
+  --gb-shadow-inner: inset 0px 2px 4px 0px #0000000f;
+
+  --gb-shadow-none: 0px 0px 0px 0px #00000000;
+
   /* Focus ring: 포커스 상태 아웃라인 용도 (box-shadow 링 스타일, spread 3px) */
-  --shadow-focus-ring: 0px 0px 0px 3px #a1a1a180;
+  --gb-shadow-focus-ring: 0px 0px 0px 3px #a1a1a180;
+
   /* Destructive: 위험/삭제 액션 요소의 포커스·에러 링 용도 (box-shadow 링 스타일, spread 3px) */
-  --shadow-destructive: 0px 0px 0px 3px #dc262633;
+  --gb-shadow-destructive: 0px 0px 0px 3px #dc262633;
 
   /* Backdrop Blur (8) — Figma "Backdrop Blur" 그룹, BACKGROUND_BLUR effect */
-  --backdrop-blur-none: blur(0px);
-  --backdrop-blur-sm: blur(4px);
+  --gb-backdrop-blur-none: blur(0px);
+
+  --gb-backdrop-blur-sm: blur(4px);
+
   /* Figma effect 이름이 접미사 없는 "backdrop-blur"(기본값) → 값(8px)을 이름에 사용 */
-  --backdrop-blur-8: blur(8px);
-  --backdrop-blur-md: blur(12px);
-  --backdrop-blur-lg: blur(16px);
-  --backdrop-blur-xl: blur(24px);
-  --backdrop-blur-2xl: blur(40px);
-  --backdrop-blur-3xl: blur(64px);
+  --gb-backdrop-blur-8: blur(8px);
+
+  --gb-backdrop-blur-md: blur(12px);
+
+  --gb-backdrop-blur-lg: blur(16px);
+
+  --gb-backdrop-blur-xl: blur(24px);
+
+  --gb-backdrop-blur-2xl: blur(40px);
+
+  --gb-backdrop-blur-3xl: blur(64px);
 
   /* Blur (8) — Figma "Blur" 그룹, FOREGROUND_BLUR(Layer Blur) effect */
-  --blur-none: blur(0px);
-  --blur-sm: blur(4px);
+  --gb-blur-none: blur(0px);
+
+  --gb-blur-sm: blur(4px);
+
   /* Figma effect 이름이 접미사 없는 "blur"(기본값) → 값(8px)을 이름에 사용 */
-  --blur-8: blur(8px);
-  --blur-md: blur(12px);
-  --blur-lg: blur(16px);
-  --blur-xl: blur(24px);
-  --blur-2xl: blur(40px);
-  --blur-3xl: blur(64px);
+  --gb-blur-8: blur(8px);
+
+  --gb-blur-md: blur(12px);
+
+  --gb-blur-lg: blur(16px);
+
+  --gb-blur-xl: blur(24px);
+
+  --gb-blur-2xl: blur(40px);
+
+  --gb-blur-3xl: blur(64px);
+}
+
+/* 하위호환 alias — --gb- 접두사 마이그레이션 기간 동안 기존 이름 유지. 컴포넌트 사용처 전환이 끝나면 이 블록과 아래 alias들을 제거합니다. */
+:root {
+  --shadow-2xs: var(--gb-shadow-2xs);
+  --shadow-xs: var(--gb-shadow-xs);
+  --shadow-sm: var(--gb-shadow-sm);
+  --shadow-md: var(--gb-shadow-md);
+  --shadow-lg: var(--gb-shadow-lg);
+  --shadow-xl: var(--gb-shadow-xl);
+  --shadow-2xl: var(--gb-shadow-2xl);
+  --shadow-inner: var(--gb-shadow-inner);
+  --shadow-none: var(--gb-shadow-none);
+  --shadow-focus-ring: var(--gb-shadow-focus-ring);
+  --shadow-destructive: var(--gb-shadow-destructive);
+  --backdrop-blur-none: var(--gb-backdrop-blur-none);
+  --backdrop-blur-sm: var(--gb-backdrop-blur-sm);
+  --backdrop-blur-8: var(--gb-backdrop-blur-8);
+  --backdrop-blur-md: var(--gb-backdrop-blur-md);
+  --backdrop-blur-lg: var(--gb-backdrop-blur-lg);
+  --backdrop-blur-xl: var(--gb-backdrop-blur-xl);
+  --backdrop-blur-2xl: var(--gb-backdrop-blur-2xl);
+  --backdrop-blur-3xl: var(--gb-backdrop-blur-3xl);
+  --blur-none: var(--gb-blur-none);
+  --blur-sm: var(--gb-blur-sm);
+  --blur-8: var(--gb-blur-8);
+  --blur-md: var(--gb-blur-md);
+  --blur-lg: var(--gb-blur-lg);
+  --blur-xl: var(--gb-blur-xl);
+  --blur-2xl: var(--gb-blur-2xl);
+  --blur-3xl: var(--gb-blur-3xl);
 }

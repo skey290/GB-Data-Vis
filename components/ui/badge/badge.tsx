@@ -34,10 +34,9 @@ const badgeVariants = cva(
           "bg-[var(--background-error-default)] text-[var(--text-default)]",
       },
       size: {
-        // 20px/28px: 컴포넌트 자체 높이라 간격 전용인 --spacing-*가 아닌 범용 숫자 풀
-        // --scale-*를 참조 (Figma 스펙 확정값)
-        "20": "h-[calc(var(--scale-20)*1px)] px-[var(--spacing-1-5)] text-xs-medium",
-        "28": "h-[calc(var(--scale-28)*1px)] px-[var(--spacing-3)] text-sm-medium",
+        // 20px/28px: Figma 스펙 확정값
+        "20": "h-[20px] px-[var(--spacing-1-5)] text-xs-medium",
+        "28": "h-[28px] px-[var(--spacing-3)] text-sm-medium",
       },
     },
     compoundVariants: [
@@ -78,10 +77,7 @@ export function Badge({
       {...props}
     >
       {icon && (
-        <span
-          className="shrink-0 size-[calc(var(--scale-10)*1px)]"
-          aria-hidden="true"
-        >
+        <span className="shrink-0 size-[10px]" aria-hidden="true">
           {icon}
         </span>
       )}

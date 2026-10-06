@@ -2,10 +2,14 @@
 
 import * as React from "react";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
-import type { LucideIcon } from "lucide-react";
+import {
+  type LucideIcon,
+  PanelLeftClose as PanelLeftCloseIcon,
+  PanelLeftOpen as PanelLeftOpenIcon,
+  Settings as SettingsIcon,
+} from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { createSpriteIcon } from "@/lib/sprite-icon";
 import { MenuButton } from "@/components/ui/menu-button";
 import { MenuNotification } from "@/components/ui/menu-notification";
 import {
@@ -55,10 +59,6 @@ export interface GnbProps {
   className?: string;
 }
 
-const PanelLeftCloseIcon = createSpriteIcon("panel-left-close-icon");
-const PanelLeftOpenIcon = createSpriteIcon("panel-left-open-icon");
-const SettingsIcon = createSpriteIcon("settings-icon");
-
 export function Gnb({
   expanded,
   onExpandedChange,
@@ -84,18 +84,18 @@ export function Gnb({
   return (
     <div
       className={cn(
-        "dark flex h-full flex-col gap-[var(--spacing-2-5)] overflow-hidden",
-        "bg-[var(--background-subtlest)] px-[var(--spacing-2)] py-[var(--spacing-5)]",
+        "dark flex h-full flex-col gap-[var(--gb-spacing-2-5)] overflow-hidden",
+        "bg-[var(--gb-background-subtlest)] px-[var(--gb-spacing-2)] py-[var(--gb-spacing-5)]",
         "transition-[width] duration-200 ease-linear",
         expanded
-          ? // Figma 확정값 250px — --scale-*에 일치하는 값이 없어 예외적으로 하드코딩
+          ? // Figma 확정값 250px
             "w-[250px] items-start"
-          : "w-[calc(var(--scale-48)*1px)] items-center",
+          : "w-[48px] items-center",
         className,
       )}
     >
       {expanded ? (
-        <div className="flex w-full items-center gap-[var(--spacing-3)]">
+        <div className="flex w-full items-center gap-[var(--gb-spacing-3)]">
           <MenuButton
             type="icon"
             icon={PanelLeftCloseIcon}
@@ -105,7 +105,7 @@ export function Gnb({
           <img
             src="/images/logo.png"
             alt="Gabrielle"
-            className="h-[var(--spacing-5)] w-auto"
+            className="h-[var(--gb-spacing-5)] w-auto"
           />
         </div>
       ) : (
@@ -154,13 +154,13 @@ export function Gnb({
         className={expanded ? "w-full" : undefined}
       />
 
-      <div role="separator" className="h-[calc(var(--scale-8)*1px)] w-full">
-        <div className="mt-[calc(var(--scale-4)*1px)] h-[length:var(--border-1)] w-full bg-[var(--border-default)]" />
+      <div role="separator" className="h-[8px] w-full">
+        <div className="mt-[4px] h-[length:var(--gb-border-1)] w-full bg-[var(--gb-border-default)]" />
       </div>
 
       <nav
         aria-label="Main"
-        className="flex w-full flex-1 flex-col gap-[var(--spacing-2-5)] overflow-y-auto"
+        className="flex w-full flex-1 flex-col gap-[var(--gb-spacing-2-5)] overflow-y-auto"
       >
         {items.map((item) => {
           const isDisabled = disabledIds.includes(item.id);

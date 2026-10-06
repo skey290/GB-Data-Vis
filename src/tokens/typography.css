@@ -55,7 +55,7 @@
   /* 2026-09-27: 실제로 어디서도 Inter 폰트가 로드되지 않아 브라우저가 시스템
      기본 sans-serif로 대체 렌더링하던 문제 발견 — app/layout.tsx(+ Storybook
      preview)의 next/font(Inter)가 생성한 --font-inter를 참조하도록 교체 */
-  --font-sans: var(--font-inter), sans-serif;
+  --gb-font-sans: var(--font-inter), sans-serif;
 
   /* Font Size (14) — xxs 포함, 새 Foundation 문서와 완전 일치 */
   /*
@@ -66,46 +66,79 @@
    * line-height 12px는 기존 --leading-3와 값이 정확히 일치해 재사용합니다.
    * (2026-09-10 사용자 승인 — 12px로 대체하면 40px 아바타 원을 넘칩니다.)
    */
-  --text-xxs: 8px;
-  --text-xs: 12px;
-  --text-sm: 14px;
-  --text-base: 16px;
-  --text-lg: 18px;
-  --text-xl: 20px;
-  --text-2xl: 24px;
-  --text-3xl: 30px;
-  --text-4xl: 36px;
-  --text-5xl: 48px;
-  --text-6xl: 60px;
-  --text-7xl: 72px;
-  --text-8xl: 96px;
-  --text-9xl: 128px;
+  --gb-text-xxs: 8px;
+
+  --gb-text-xs: 12px;
+
+  --gb-text-sm: 14px;
+
+  --gb-text-base: 16px;
+
+  --gb-text-lg: 18px;
+
+  --gb-text-xl: 20px;
+
+  --gb-text-2xl: 24px;
+
+  --gb-text-3xl: 30px;
+
+  --gb-text-4xl: 36px;
+
+  --gb-text-5xl: 48px;
+
+  --gb-text-6xl: 60px;
+
+  --gb-text-7xl: 72px;
+
+  --gb-text-8xl: 96px;
+
+  --gb-text-9xl: 128px;
 
   /* Font Weight (9) */
-  --font-weight-thin: 100;
-  --font-weight-extralight: 200;
-  --font-weight-light: 300;
-  --font-weight-normal: 400;
-  --font-weight-medium: 500;
-  --font-weight-semibold: 600;
-  --font-weight-bold: 700;
-  --font-weight-extrabold: 800;
-  --font-weight-black: 900;
+  --gb-font-weight-thin: 100;
+
+  --gb-font-weight-extralight: 200;
+
+  --gb-font-weight-light: 300;
+
+  --gb-font-weight-normal: 400;
+
+  --gb-font-weight-medium: 500;
+
+  --gb-font-weight-semibold: 600;
+
+  --gb-font-weight-bold: 700;
+
+  --gb-font-weight-extrabold: 800;
+
+  --gb-font-weight-black: 900;
 
   /* Line Height (leading, 13) — 절대 px 값 */
-  --leading-3: 12px;
-  --leading-4: 16px;
-  --leading-5: 20px;
-  --leading-6: 24px;
-  --leading-7: 28px;
-  --leading-8: 32px;
-  --leading-9: 36px;
-  --leading-10: 40px;
-  --leading-12: 48px;
-  --leading-15: 60px;
-  --leading-18: 72px;
-  --leading-24: 96px;
-  --leading-32: 128px;
+  --gb-leading-3: 12px;
+
+  --gb-leading-4: 16px;
+
+  --gb-leading-5: 20px;
+
+  --gb-leading-6: 24px;
+
+  --gb-leading-7: 28px;
+
+  --gb-leading-8: 32px;
+
+  --gb-leading-9: 36px;
+
+  --gb-leading-10: 40px;
+
+  --gb-leading-12: 48px;
+
+  --gb-leading-15: 60px;
+
+  --gb-leading-18: 72px;
+
+  --gb-leading-24: 96px;
+
+  --gb-leading-32: 128px;
 
   /*
    * Letter Spacing (tracking, 1). 2026-09-26 사용자 확정: 새 Foundation
@@ -114,5 +147,47 @@
    * "Figma에 없으면 없는 게 맞다"는 원칙에 따라 삭제했습니다. 실사용처도
    * 전혀 없었습니다(코드 전체 재확인 완료).
    */
-  --tracking-normal: 0px;
+  --gb-tracking-normal: 0px;
+}
+
+/* 하위호환 alias — --gb- 접두사 마이그레이션 기간 동안 기존 이름 유지. 컴포넌트 사용처 전환이 끝나면 이 블록과 아래 alias들을 제거합니다. */
+:root {
+  --font-sans: var(--gb-font-sans);
+  --text-xxs: var(--gb-text-xxs);
+  --text-xs: var(--gb-text-xs);
+  --text-sm: var(--gb-text-sm);
+  --text-base: var(--gb-text-base);
+  --text-lg: var(--gb-text-lg);
+  --text-xl: var(--gb-text-xl);
+  --text-2xl: var(--gb-text-2xl);
+  --text-3xl: var(--gb-text-3xl);
+  --text-4xl: var(--gb-text-4xl);
+  --text-5xl: var(--gb-text-5xl);
+  --text-6xl: var(--gb-text-6xl);
+  --text-7xl: var(--gb-text-7xl);
+  --text-8xl: var(--gb-text-8xl);
+  --text-9xl: var(--gb-text-9xl);
+  --font-weight-thin: var(--gb-font-weight-thin);
+  --font-weight-extralight: var(--gb-font-weight-extralight);
+  --font-weight-light: var(--gb-font-weight-light);
+  --font-weight-normal: var(--gb-font-weight-normal);
+  --font-weight-medium: var(--gb-font-weight-medium);
+  --font-weight-semibold: var(--gb-font-weight-semibold);
+  --font-weight-bold: var(--gb-font-weight-bold);
+  --font-weight-extrabold: var(--gb-font-weight-extrabold);
+  --font-weight-black: var(--gb-font-weight-black);
+  --leading-3: var(--gb-leading-3);
+  --leading-4: var(--gb-leading-4);
+  --leading-5: var(--gb-leading-5);
+  --leading-6: var(--gb-leading-6);
+  --leading-7: var(--gb-leading-7);
+  --leading-8: var(--gb-leading-8);
+  --leading-9: var(--gb-leading-9);
+  --leading-10: var(--gb-leading-10);
+  --leading-12: var(--gb-leading-12);
+  --leading-15: var(--gb-leading-15);
+  --leading-18: var(--gb-leading-18);
+  --leading-24: var(--gb-leading-24);
+  --leading-32: var(--gb-leading-32);
+  --tracking-normal: var(--gb-tracking-normal);
 }

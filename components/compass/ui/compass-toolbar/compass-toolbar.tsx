@@ -64,7 +64,7 @@ export function CompassToolbar({
       <div
         role="radiogroup"
         className={cn(
-          "inline-flex h-[calc(var(--scale-36)*1px)] w-fit items-center",
+          "inline-flex h-[36px] w-fit items-center",
           "rounded-[var(--radius-scale-lg)] border-[length:var(--border-1)] border-[var(--border-default)] border-solid",
           "bg-[var(--background-selected)] p-[var(--spacing-0-5)]",
         )}

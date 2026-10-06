@@ -225,4 +225,30 @@ describe("Select", () => {
     await user.click(screen.getByRole("combobox"));
     expect(await screen.findByText("Weeks")).toBeInTheDocument();
   });
+
+  it("scrolls the listbox down when 'Show more options' is clicked (>6 options)", async () => {
+    // jsdom에는 scrollBy 구현이 없어, 리스트 엘리먼트 인스턴스에 직접 mock을 꽂아
+    // 호출 자체(올바른 인자로 호출되는지)를 검증한다.
+    const user = userEvent.setup();
+    const manyOptions = Array.from({ length: 10 }, (_, i) => ({
+      value: `v${i}`,
+      label: `Option ${i}`,
+    }));
+    render(<Select type="self" options={manyOptions} />);
+
+    await user.click(screen.getByRole("combobox"));
+    const listbox = await screen.findByRole("listbox");
+    const scrollBySpy = vi.fn();
+    listbox.scrollBy = scrollBySpy;
+
+    const scrollNextButton = await screen.findByRole("button", {
+      name: "Show more options",
+    });
+    await user.click(scrollNextButton);
+
+    expect(scrollBySpy).toHaveBeenCalledWith({
+      top: listbox.clientHeight,
+      behavior: "smooth",
+    });
+  });
 });

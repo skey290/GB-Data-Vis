@@ -90,8 +90,8 @@ const TICK_GEOMETRY: Record<
 };
 
 /**
- * 루트 컨테이너 너비(px) — Figma 프레임 자체의 물리적 치수라 --scale-*와 매칭되지
- * 않는 기하 상수. 높이(117px)는 className의 `h-[117px]`에 직접 사용.
+ * 루트 컨테이너 너비(px) — Figma 프레임 자체의 물리적 치수인 기하 상수.
+ * 높이(117px)는 className의 `h-[117px]`에 직접 사용.
  */
 const ROOT_WIDTH = 4;
 

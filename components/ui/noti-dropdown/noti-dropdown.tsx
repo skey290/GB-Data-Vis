@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { Settings } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Tabs } from "@/components/ui/tabs";
@@ -76,7 +77,7 @@ export function NotiDropdown({
   return (
     <div
       className={cn(
-        "dark flex w-[calc(var(--scale-300)*1px)] flex-col items-start gap-[var(--spacing-2)]",
+        "dark flex w-[300px] flex-col items-start gap-[var(--spacing-2)]",
         "rounded-[var(--radius-scale-md)] border-[length:var(--border-1)] border-[var(--border-default)] border-solid",
         "bg-[var(--background-overlay)] py-[var(--spacing-1)]",
         // Figma 그림자(0 4px 3px + 0 2px 2px, 10% 블랙)와 정확히 일치하는 토큰이
@@ -102,15 +103,13 @@ export function NotiDropdown({
           aria-label="Notification settings"
           onClick={onSettingsClick}
           className={cn(
-            "inline-flex size-[calc(var(--scale-36)*1px)] shrink-0 items-center justify-center",
+            "inline-flex size-[36px] shrink-0 items-center justify-center",
             "rounded-[var(--radius-scale-full)] text-[var(--icon-default)]",
             "outline-none transition-colors",
             "hover:text-[var(--icon-subtlest)] focus-visible:shadow-[var(--shadow-focus-ring)]",
           )}
         >
-          <svg aria-hidden="true" className="size-[var(--spacing-4)]">
-            <use href="/icons.svg#settings-icon" />
-          </svg>
+          <Settings aria-hidden="true" className="size-[var(--spacing-4)]" />
         </button>
       </div>
       <div className="flex w-full items-stretch">
@@ -162,7 +161,7 @@ export function NotiDropdown({
           >
             <div
               className={cn(
-                "relative w-[calc(var(--scale-10)*1px)] rounded-[var(--radius-scale-full)] bg-[var(--background-subtler)]",
+                "relative w-[10px] rounded-[var(--radius-scale-full)] bg-[var(--background-subtler)]",
                 SCROLLBAR_TRACK_HEIGHT_CLASS,
               )}
             >

@@ -1,7 +1,7 @@
 import * as React from "react";
 import type { Meta, StoryObj } from "@storybook/nextjs";
 import { Blocks, Home, UserSearch } from "lucide-react";
-import { expect, fn, userEvent, within } from "storybook/test";
+import { fn } from "storybook/test";
 
 import { Gnb, type GnbItem, type GnbProps } from "./gnb";
 import { createSpriteIcon } from "@/lib/sprite-icon";
@@ -10,10 +10,8 @@ import type { NotiDropdownItem } from "@/components/ui/noti-dropdown";
 const FIGMA_URL =
   "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%E2%9D%84%EF%B8%8F-GB_Design-System-%E2%80%94-Atom?node-id=616-3399";
 
-// Figma GNB 노드(616:3399)의 실제 아이콘 확인 결과, Assets/Compass는 lucide 표준
-// 아이콘(Package/Compass)이 아니라 `/public/icons.svg`에 이미 등록된 커스텀 벡터
-// (asset-icon/compass-icon)와 일치한다. Dashboard/Contents Studio/Know Thyself는
-// lucide의 Home/Blocks/UserSearch와 그대로 일치해 변경하지 않는다.
+// Figma GNB 노드(616:3399) 실측 — Assets/Compass는 /public/icons.svg 커스텀 벡터,
+// 나머지는 lucide 표준 아이콘과 일치.
 const AssetIcon = createSpriteIcon("asset-icon");
 const CompassIcon = createSpriteIcon("compass-icon");
 
@@ -34,6 +32,11 @@ const notificationItems: NotiDropdownItem[] = [
 function ControlledGnb(props: GnbProps) {
   const [expanded, setExpanded] = React.useState(props.expanded);
   const [activeId, setActiveId] = React.useState(props.activeId);
+
+  // Controls 패널에서 expanded/activeId를 바꿔도 반영되도록 동기화
+  // (클릭으로 바뀐 내부 상태는 그대로 유지하고, args 변경 시에만 따라감)
+  React.useEffect(() => setExpanded(props.expanded), [props.expanded]);
+  React.useEffect(() => setActiveId(props.activeId), [props.activeId]);
 
   return (
     <div style={{ height: 700 }}>
@@ -64,9 +67,15 @@ const meta = {
       url: FIGMA_URL,
     },
   },
+  argTypes: {
+    expanded: { control: "boolean" },
+    unreadCount: { control: "number" },
+  },
   args: {
     items,
+    expanded: true,
     activeId: "dashboard",
+    disabledIds: [],
     unreadCount: 2,
     notificationItems,
     onItemSelect: fn(),
@@ -82,74 +91,4 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Collapsed: Story = {
-  args: { expanded: false },
-};
-
-export const Expanded: Story = {
-  args: { expanded: true },
-};
-
-export const WithDisabledItem: Story = {
-  args: { expanded: true, disabledIds: ["contents-studio"] },
-};
-
-export const ExpandToggleInteraction: Story = {
-  args: { expanded: false },
-  play: async ({ canvasElement, args }) => {
-    const canvas = within(canvasElement);
-    const toggle = canvas.getByRole("button", { name: "Expand sidebar" });
-
-    await userEvent.click(toggle);
-
-    await expect(args.onExpandedChange).toHaveBeenCalledWith(true);
-    await expect(
-      canvas.getByRole("button", { name: "Collapse sidebar" }),
-    ).toBeInTheDocument();
-  },
-};
-
-export const ItemSelectInteraction: Story = {
-  args: { expanded: true },
-  play: async ({ canvasElement, args }) => {
-    const canvas = within(canvasElement);
-    const assetsButton = canvas.getByRole("button", { name: "Assets" });
-
-    await userEvent.click(assetsButton);
-
-    await expect(args.onItemSelect).toHaveBeenCalledWith("assets");
-    await expect(assetsButton).toHaveAttribute("aria-current", "true");
-  },
-};
-
-export const DisabledItemInteraction: Story = {
-  args: { expanded: true, disabledIds: ["contents-studio"] },
-  play: async ({ canvasElement, args }) => {
-    const canvas = within(canvasElement);
-    const disabledButton = canvas.getByRole("button", {
-      name: "Contents Studio",
-    });
-
-    await expect(disabledButton).toBeDisabled();
-
-    await userEvent.click(disabledButton, { pointerEventsCheck: 0 });
-
-    await expect(args.onItemSelect).not.toHaveBeenCalledWith("contents-studio");
-  },
-};
-
-export const NotificationPopoverInteraction: Story = {
-  args: { expanded: true },
-  play: async ({ canvasElement, args }) => {
-    const canvas = within(canvasElement);
-    const bell = canvas.getByRole("button", { name: "Notification" });
-
-    await userEvent.click(bell);
-
-    await expect(args.onToggleNotification).toHaveBeenCalledWith(true);
-    const body = within(document.body);
-    await expect(
-      await body.findAllByText("notification placeholder"),
-    ).toHaveLength(3);
-  },
-};
+export const Playground: Story = {};

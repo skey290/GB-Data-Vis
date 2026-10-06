@@ -17,8 +17,8 @@ import { cn } from "@/lib/utils";
  *   이름 대신 임의의 유저 이미지를 받는 범용 구조로 설계했다 — 실제 다이얼에
  *   배치되는 셀프는 유저가 만든 사람이라 고정 enum이 맞지 않는다(사용자 승인,
  *   2026-09-28).
- * - `Size`: `guide`에서만 의미 있다. 100/200/300은 `--scale-*`와 일치하지만
- *   150/250은 매칭되는 토큰이 없어 리터럴 px로 고정한다(사용자 승인, 2026-09-28).
+ * - `Size`: `guide`에서만 의미 있다. 100/150/200/250/300 전부 리터럴 px로
+ *   고정한다(사용자 승인, 2026-09-28).
  * - `Status=default/active`: `self`/`empty`에서만 유효.
  * - `Error=true`: `self` && `status="default"`에서만 유효(Figma 조합 규칙).
  *
@@ -62,7 +62,7 @@ export interface CompassSelfAvatarProps extends Omit<
   description?: string;
 }
 
-/** Figma `Size` 축(px). 150/250은 --scale-*에 매칭되는 토큰이 없어 리터럴 유지 */
+/** Figma `Size` 축(px), 전부 리터럴 유지 */
 const GUIDE_SIZE_PX: Record<CompassSelfAvatarGuideSize, number> = {
   100: 100,
   150: 150,
@@ -145,7 +145,7 @@ export function CompassSelfAvatar({
     return (
       <div
         className={cn(
-          "relative flex size-[calc(var(--scale-100)*1px)] shrink-0 cursor-pointer items-center justify-center rounded-[var(--radius-scale-full)] text-center transition-colors duration-150",
+          "relative flex size-[100px] shrink-0 cursor-pointer items-center justify-center rounded-[var(--radius-scale-full)] text-center transition-colors duration-150",
           isActive
             ? "border-[length:var(--border-2)] border-[var(--border-static-white)] bg-[var(--background-sheer)]"
             : "border-[length:var(--border-1)] border-dashed border-[var(--border-muted)]",
@@ -173,7 +173,7 @@ export function CompassSelfAvatar({
   return (
     <div
       className={cn(
-        "relative size-[calc(var(--scale-100)*1px)] shrink-0 cursor-pointer overflow-hidden rounded-[var(--radius-scale-full)] transition-colors duration-150",
+        "relative size-[100px] shrink-0 cursor-pointer overflow-hidden rounded-[var(--radius-scale-full)] transition-colors duration-150",
         isActive &&
           "border-[length:var(--border-2)] border-[var(--border-static-white)]",
         className,

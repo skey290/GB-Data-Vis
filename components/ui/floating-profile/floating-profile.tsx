@@ -19,9 +19,8 @@ import { ButtonGroup } from "@/components/ui/button-group";
  *   정확히 일치합니다(부모 폭 32px 기준 `right: 52px` → 카드 우측 끝 `-20`, 폭
  *   620px → 좌측 끝 `-640`).
  *
- * 카드 폭(620px)과 아바타 기준 오프셋(right-52px), 닫기 버튼 위치 등은 `--scale-*`
- * 토큰에 매칭되는 값이 없어 Figma 원본 고정 px 값을 그대로 사용합니다(반응형이 아닌
- * 고정폭 플로팅 카드).
+ * 카드 폭(620px)과 아바타 기준 오프셋(right-52px), 닫기 버튼 위치 등은 Figma
+ * 원본 고정 px 값을 그대로 사용합니다(반응형이 아닌 고정폭 플로팅 카드).
  *
  * `avatarSrc` 없음("no profile"): Figma에 `Type=no profile, Open=false`(node
  * `7425:4495`) 심볼이 추가됨 — 프로필 사진 없이 어두운 배경 + 흰색 실루엣 유저
@@ -74,7 +73,7 @@ function PolaroidCorner({ className }: { className?: string }) {
       aria-hidden="true"
       viewBox="0 0 51 51"
       className={cn(
-        "absolute size-[calc(var(--scale-50)*1px)] text-[var(--color-neutral-50)]",
+        "absolute size-[50px] text-[var(--color-neutral-50)]",
         className,
       )}
     >
@@ -218,7 +217,7 @@ export function FloatingProfile({
           />
 
           {/* 역할명 탭 헤더 */}
-          <div className="flex h-[calc(var(--scale-48)*1px)] w-full shrink-0 items-center border-b-[length:var(--border-1)] border-[var(--border-mute)]">
+          <div className="flex h-[48px] w-full shrink-0 items-center border-b-[length:var(--border-1)] border-[var(--border-mute)]">
             <div className="flex h-full items-center gap-[var(--spacing-2)] border-b-[length:var(--border-1)] border-[var(--border-bolder)] px-[var(--spacing-3)]">
               <p className="text-sm-semi-bold whitespace-nowrap text-[var(--text-default)]">
                 {title}
@@ -264,27 +263,21 @@ export function FloatingProfile({
               <Button
                 variant="outline"
                 onClick={onEditAssets}
-                className={cn(
-                  "h-[calc(var(--scale-36)*1px)] flex-1",
-                  secondaryButtonClassName,
-                )}
+                className={cn("h-[36px] flex-1", secondaryButtonClassName)}
               >
                 Edit Assets
               </Button>
               <Button
                 variant="outline"
                 onClick={onEditGoal}
-                className={cn(
-                  "h-[calc(var(--scale-36)*1px)] flex-1",
-                  secondaryButtonClassName,
-                )}
+                className={cn("h-[36px] flex-1", secondaryButtonClassName)}
               >
                 Edit Goal
               </Button>
               <Button
                 variant="primary"
                 onClick={onCtaClick}
-                className="h-[calc(var(--scale-36)*1px)] flex-1 bg-[var(--background-bold)] text-[var(--text-invert)] hover:opacity-[var(--opacity-90)]"
+                className="h-[36px] flex-1 bg-[var(--background-bold)] text-[var(--text-invert)] hover:opacity-[var(--opacity-90)]"
               >
                 {resolvedCtaLabel}
               </Button>

@@ -8,8 +8,8 @@ const toggleItemVariants = cva(
   cn(
     "inline-flex shrink-0 items-center justify-center",
     // 34px: 토큰 스케일(32px/36px)에 정확히 일치하는 값이 없어 예외적으로 하드코딩 (Figma 스펙 확정값)
-    // 높이(36px)는 컴포넌트 자체 치수라 간격 전용인 --spacing-*가 아닌 범용 숫자 풀 --scale-*를 참조
-    "h-[calc(var(--scale-36)*1px)] w-[34px]",
+    // 높이(36px)는 컴포넌트 자체 치수라 Figma 스펙 확정값
+    "h-[36px] w-[34px]",
     "outline-none transition-colors",
     "focus-visible:z-10 focus-visible:shadow-[var(--shadow-focus-ring)]",
     // Figma에는 hover 상태가 없어 배경/색 변화는 없고 커서만 바뀝니다.
@@ -96,7 +96,7 @@ function ToggleButton({
       <span
         aria-hidden="true"
         data-slot="toggle-icon"
-        className="inline-flex size-[calc(var(--scale-16)*1px)] items-center justify-center"
+        className="inline-flex size-[16px] items-center justify-center"
       >
         {icon}
       </span>

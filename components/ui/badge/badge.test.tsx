@@ -15,7 +15,7 @@ describe("Badge", () => {
 
     const badge = screen.getByText("Outline");
     expect(badge.className).toContain("text-[var(--text-subtle)]");
-    expect(badge.className).toContain("h-[calc(var(--scale-20)*1px)]");
+    expect(badge.className).toContain("h-[20px]");
   });
 
   it.each([
@@ -47,8 +47,8 @@ describe("Badge", () => {
   });
 
   it.each([
-    ["20", "h-[calc(var(--scale-20)*1px)]"],
-    ["28", "h-[calc(var(--scale-28)*1px)]"],
+    ["20", "h-[20px]"],
+    ["28", "h-[28px]"],
   ] as const)(
     "renders size %s with expected height class",
     (size, expectedClass) => {

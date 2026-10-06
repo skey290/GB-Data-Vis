@@ -8,13 +8,11 @@ import { cn } from "@/lib/utils";
  * 2026-09-27 재조사: hover/disabled 색상을 Button과 동일한 static-gray/static-white
  * 패턴으로 갱신(실측 확인).
  *
- * 높이값(36px)은 Figma 스펙 확정값입니다. `--spacing-*`는 간격(gap/padding) 전용
- * 토큰이라 컴포넌트 자체 치수에는 맞지 않아, 범용 숫자 풀인 `--scale-*`를
- * `calc(var(--scale-N)*1px)` 형태로 참조합니다 (avatar.tsx와 동일 관례).
+ * 높이값(36px)은 Figma 스펙 확정값입니다.
  */
 const googleButtonClassName = cn(
   "inline-flex shrink-0 items-center justify-center gap-[var(--spacing-1-5)]",
-  "h-[calc(var(--scale-36)*1px)] rounded-[var(--radius-scale-lg)] px-[var(--spacing-4)]",
+  "h-[36px] rounded-[var(--radius-scale-lg)] px-[var(--spacing-4)]",
   "border-[length:var(--border-1)] border-solid",
   "text-sm-medium whitespace-nowrap",
   "outline-none transition-colors",

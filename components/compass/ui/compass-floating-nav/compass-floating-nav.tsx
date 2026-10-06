@@ -51,7 +51,7 @@ export function CompassFloatingNav({
       role="tablist"
       className={cn(
         "dark inline-flex items-center gap-[var(--spacing-3)]",
-        // 53px: Figma "Floating pill" 프레임 자체의 확정 높이(--scale-*와 매칭되지 않는 기하 상수)
+        // 53px: Figma "Floating pill" 프레임 자체의 확정 높이
         "h-[53px] w-fit",
         "rounded-[var(--radius-scale-full)] border-[length:var(--border-1)] border-[var(--border-default)] border-solid",
         "bg-[var(--background-sheer)] px-[var(--spacing-2-5)] py-[var(--spacing-2)]",
@@ -72,7 +72,7 @@ export function CompassFloatingNav({
             disabled={disabled}
             onClick={() => onItemSelect?.("home")}
             className={cn(
-              "inline-flex size-[calc(var(--scale-36)*1px)] shrink-0 items-center justify-center",
+              "inline-flex size-[36px] shrink-0 items-center justify-center",
               "rounded-[var(--radius-scale-full)] outline-none transition-colors",
               "focus-visible:shadow-[var(--shadow-focus-ring)]",
               "disabled:pointer-events-none disabled:cursor-not-allowed",

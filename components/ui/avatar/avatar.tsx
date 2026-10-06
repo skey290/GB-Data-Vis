@@ -8,8 +8,8 @@ import { cn } from "@/lib/utils";
 const avatarVariants = cva(
   cn(
     "relative inline-flex shrink-0 items-center justify-center overflow-hidden",
-    // 32px: 컴포넌트 자체 크기라 --spacing-*가 아닌 --scale-*를 참조 (Figma 스펙 확정값, Style 축과 무관하게 고정)
-    "size-[calc(var(--scale-32)*1px)]",
+    // 32px: Figma 스펙 확정값, Style 축과 무관하게 고정
+    "size-[32px]",
   ),
   {
     variants: {
@@ -111,7 +111,7 @@ export function Avatar({
         <svg
           aria-hidden="true"
           // 18px: Figma의 아이콘 컨테이너 크기(--scale-18) 그대로
-          className="size-[calc(var(--scale-18)*1px)] text-[var(--icon-default)]"
+          className="size-[18px] text-[var(--icon-default)]"
         >
           <use href="/icons.svg#user-filled-icon" />
         </svg>

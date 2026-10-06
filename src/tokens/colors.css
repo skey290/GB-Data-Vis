@@ -57,101 +57,173 @@
 
 :root {
   /* Primitive - Neutral (11) + 450 예외 */
-  --color-neutral-50: #fafafa;
-  --color-neutral-100: #f5f5f5;
-  --color-neutral-200: #e5e5e5;
-  --color-neutral-300: #d4d4d4;
-  --color-neutral-400: #a3a3a3;
+  --gb-color-neutral-50: #fafafa;
+
+  --gb-color-neutral-100: #f5f5f5;
+
+  --gb-color-neutral-200: #e5e5e5;
+
+  --gb-color-neutral-300: #d4d4d4;
+
+  --gb-color-neutral-400: #a3a3a3;
+
   /* ⚠️ Figma 문서 라벨: "neutral/450" — 11단계 스케일 밖의 예외 값(raw, `--` 미부여) */
-  --color-neutral-450: #828282;
-  --color-neutral-500: #737373;
-  --color-neutral-600: #525252;
-  --color-neutral-700: #404040;
-  --color-neutral-800: #262626;
-  --color-neutral-900: #171717;
-  --color-neutral-950: #0a0a0a;
+  --gb-color-neutral-450: #828282;
+
+  --gb-color-neutral-500: #737373;
+
+  --gb-color-neutral-600: #525252;
+
+  --gb-color-neutral-700: #404040;
+
+  --gb-color-neutral-800: #262626;
+
+  --gb-color-neutral-900: #171717;
+
+  --gb-color-neutral-950: #0a0a0a;
 
   /* Primitive - Red (11) */
-  --color-red-50: #fef2f2;
-  --color-red-100: #fee2e2;
-  --color-red-200: #fecaca;
-  --color-red-300: #fca5a5;
-  --color-red-400: #f87171;
-  --color-red-500: #ef4444;
-  --color-red-600: #dc2626;
-  --color-red-700: #b91c1c;
-  --color-red-800: #991b1b;
-  --color-red-900: #7f1d1d;
-  --color-red-950: #450a0a;
+  --gb-color-red-50: #fef2f2;
+
+  --gb-color-red-100: #fee2e2;
+
+  --gb-color-red-200: #fecaca;
+
+  --gb-color-red-300: #fca5a5;
+
+  --gb-color-red-400: #f87171;
+
+  --gb-color-red-500: #ef4444;
+
+  --gb-color-red-600: #dc2626;
+
+  --gb-color-red-700: #b91c1c;
+
+  --gb-color-red-800: #991b1b;
+
+  --gb-color-red-900: #7f1d1d;
+
+  --gb-color-red-950: #450a0a;
 
   /* Primitive - Orange (11) */
-  --color-orange-50: #fff7ed;
-  --color-orange-100: #ffedd5;
-  --color-orange-200: #fed7aa;
-  --color-orange-300: #fdba74;
-  --color-orange-400: #fb923c;
-  --color-orange-500: #f97316;
-  --color-orange-600: #ea580c;
-  --color-orange-700: #c2410c;
-  --color-orange-800: #9a3412;
-  --color-orange-900: #7c2d12;
-  --color-orange-950: #431407;
+  --gb-color-orange-50: #fff7ed;
+
+  --gb-color-orange-100: #ffedd5;
+
+  --gb-color-orange-200: #fed7aa;
+
+  --gb-color-orange-300: #fdba74;
+
+  --gb-color-orange-400: #fb923c;
+
+  --gb-color-orange-500: #f97316;
+
+  --gb-color-orange-600: #ea580c;
+
+  --gb-color-orange-700: #c2410c;
+
+  --gb-color-orange-800: #9a3412;
+
+  --gb-color-orange-900: #7c2d12;
+
+  --gb-color-orange-950: #431407;
 
   /* Primitive - Yellow (11) */
-  --color-yellow-50: #fefce8;
-  --color-yellow-100: #fef9c3;
-  --color-yellow-200: #fef08a;
-  --color-yellow-300: #fde047;
-  --color-yellow-400: #facc15;
-  --color-yellow-500: #eab308;
-  --color-yellow-600: #ca8a04;
-  --color-yellow-700: #a16207;
-  --color-yellow-800: #854d0e;
-  --color-yellow-900: #713f12;
-  --color-yellow-950: #422006;
+  --gb-color-yellow-50: #fefce8;
+
+  --gb-color-yellow-100: #fef9c3;
+
+  --gb-color-yellow-200: #fef08a;
+
+  --gb-color-yellow-300: #fde047;
+
+  --gb-color-yellow-400: #facc15;
+
+  --gb-color-yellow-500: #eab308;
+
+  --gb-color-yellow-600: #ca8a04;
+
+  --gb-color-yellow-700: #a16207;
+
+  --gb-color-yellow-800: #854d0e;
+
+  --gb-color-yellow-900: #713f12;
+
+  --gb-color-yellow-950: #422006;
 
   /* Primitive - Green (11) */
-  --color-green-50: #f0fdf4;
-  --color-green-100: #dcfce7;
-  --color-green-200: #bbf7d0;
-  --color-green-300: #86efac;
-  --color-green-400: #4ade80;
-  --color-green-500: #22c55e;
-  --color-green-600: #16a34a;
-  --color-green-700: #15803d;
-  --color-green-800: #166534;
-  --color-green-900: #14532d;
-  --color-green-950: #052e16;
+  --gb-color-green-50: #f0fdf4;
+
+  --gb-color-green-100: #dcfce7;
+
+  --gb-color-green-200: #bbf7d0;
+
+  --gb-color-green-300: #86efac;
+
+  --gb-color-green-400: #4ade80;
+
+  --gb-color-green-500: #22c55e;
+
+  --gb-color-green-600: #16a34a;
+
+  --gb-color-green-700: #15803d;
+
+  --gb-color-green-800: #166534;
+
+  --gb-color-green-900: #14532d;
+
+  --gb-color-green-950: #052e16;
 
   /* Primitive - Blue (11) */
-  --color-blue-50: #eff6ff;
-  --color-blue-100: #dbeafe;
-  --color-blue-200: #bfdbfe;
-  --color-blue-300: #93c5fd;
-  --color-blue-400: #60a5fa;
-  --color-blue-500: #3b82f6;
-  --color-blue-600: #2563eb;
-  --color-blue-700: #1d4ed8;
-  --color-blue-800: #1e40af;
-  --color-blue-900: #1e3a8a;
-  --color-blue-950: #172554;
+  --gb-color-blue-50: #eff6ff;
+
+  --gb-color-blue-100: #dbeafe;
+
+  --gb-color-blue-200: #bfdbfe;
+
+  --gb-color-blue-300: #93c5fd;
+
+  --gb-color-blue-400: #60a5fa;
+
+  --gb-color-blue-500: #3b82f6;
+
+  --gb-color-blue-600: #2563eb;
+
+  --gb-color-blue-700: #1d4ed8;
+
+  --gb-color-blue-800: #1e40af;
+
+  --gb-color-blue-900: #1e3a8a;
+
+  --gb-color-blue-950: #172554;
 
   /* Primitive - Violet (11) */
-  --color-violet-50: #f5f3ff;
-  --color-violet-100: #ede9fe;
-  --color-violet-200: #ddd6fe;
-  --color-violet-300: #c4b5fd;
-  --color-violet-400: #a78bfa;
-  --color-violet-500: #8b5cf6;
-  --color-violet-600: #7c3aed;
-  --color-violet-700: #6d28d9;
-  --color-violet-800: #5b21b6;
-  --color-violet-900: #4c1d95;
-  --color-violet-950: #2e1065;
+  --gb-color-violet-50: #f5f3ff;
+
+  --gb-color-violet-100: #ede9fe;
+
+  --gb-color-violet-200: #ddd6fe;
+
+  --gb-color-violet-300: #c4b5fd;
+
+  --gb-color-violet-400: #a78bfa;
+
+  --gb-color-violet-500: #8b5cf6;
+
+  --gb-color-violet-600: #7c3aed;
+
+  --gb-color-violet-700: #6d28d9;
+
+  --gb-color-violet-800: #5b21b6;
+
+  --gb-color-violet-900: #4c1d95;
+
+  --gb-color-violet-950: #2e1065;
 
   /* Primitive - Base (단일 값, 스텝 없음) */
-  --color-white: #ffffff;
-  --color-black: #000000;
+  --gb-color-white: #ffffff;
+
+  --gb-color-black: #000000;
 
   /*
    * shimmer-gray(구 rdx-gray-6)만 primitive와 값이 정확히 일치하지 않는 근사치라
@@ -160,128 +232,205 @@
    * 2026-09-27 전량 재조사 후 시맨틱 토큰 참조로 전환되거나 삭제되어 더 이상
    * 존재하지 않습니다 — 위 "Legacy 정리 완결" 참고.)
    */
-  --color-shimmer-gray: #d9d9d9;
+  --gb-color-shimmer-gray: #d9d9d9;
 
   /*
    * compass-sphere 전용 raw 색. Figma Make 프로토타입(get_variable_defs 미지원
    * 파일 타입)에서 이식한 값이라 Figma 변수와 대조하지 못했다 — 원본 Design
    * 파일이 확인되면 실제 바인딩 변수로 교체할 것(사용자 승인, 2026-09-29).
    */
-  --color-sphere-particle: #dd77ee;
-  --color-sphere-particle-hover: #c561d4;
+  --gb-color-sphere-particle: #dd77ee;
+
+  --gb-color-sphere-particle-hover: #c561d4;
 
   /* Non-changeable — 라이트/다크 무관 고정 색 */
-  --color-accent-non-changeable: var(
+  --gb-color-accent-non-changeable: var(
     --color-neutral-450
   ); /* #828282, 새 neutral/450과 값 일치 */
-  --color-semantic-non-changeable: var(--color-white); /* #ffffff, 변경 없음 */
+  --gb-color-semantic-non-changeable: var(
+    --color-white
+  ); /* #ffffff, 변경 없음 */
 
   /*
    * Semantic — Background (26, Light). Figma 이름 그대로 `--color-` 접두사 없이 사용.
    * 문서 라벨과 실제 바인딩 변수명이 다른 것은 주석에 라벨을 남김.
    */
-  --background-default: #ffffff;
-  --background-subtlest: #fafafa;
-  --background-subtler: #f5f5f5;
-  --background-subtle: #e5e5e5;
-  --background-bold: #171717;
-  --background-bolder: #0a0a0a;
-  --background-surface: #ffffff;
-  --background-surface-secondary: #fafafa;
-  --background-overlay: #ffffff;
-  --background-backdrop: #0000004d;
-  --background-sheer: #ffffff33;
-  --background-static-white: #ffffff;
+  --gb-background-default: #ffffff;
+
+  --gb-background-subtlest: #fafafa;
+
+  --gb-background-subtler: #f5f5f5;
+
+  --gb-background-subtle: #e5e5e5;
+
+  --gb-background-bold: #171717;
+
+  --gb-background-bolder: #0a0a0a;
+
+  --gb-background-surface: #ffffff;
+
+  --gb-background-surface-secondary: #fafafa;
+
+  --gb-background-overlay: #ffffff;
+
+  --gb-background-backdrop: #0000004d;
+
+  --gb-background-sheer: #ffffff33;
+
+  --gb-background-static-white: #ffffff;
+
   /* 문서 라벨은 "background/mute"지만 실제 바인딩은 static-gray 값 */
-  --background-static-gray: #737373;
-  --background-selected: #f5f5f5;
-  --background-disabled: #f5f5f5;
-  --background-disabled-bold: #737373;
-  --background-error-default: #dc2626;
-  --background-error-subtle: #fef2f2;
-  --background-warning-default: #f87171;
-  --background-info-default: #2563eb;
-  --background-info-subtle: #eff6ff;
-  --background-success-default: #16a34a;
-  --background-success-subtle: #f0fdf4;
+  --gb-background-static-gray: #737373;
+
+  --gb-background-selected: #f5f5f5;
+
+  --gb-background-disabled: #f5f5f5;
+
+  --gb-background-disabled-bold: #737373;
+
+  --gb-background-error-default: #dc2626;
+
+  --gb-background-error-subtle: #fef2f2;
+
+  --gb-background-warning-default: #f87171;
+
+  --gb-background-info-default: #2563eb;
+
+  --gb-background-info-subtle: #eff6ff;
+
+  --gb-background-success-default: #16a34a;
+
+  --gb-background-success-subtle: #f0fdf4;
+
   /* raw 토큰(Figma에 "--" 미부여), 값이 기존 primitive와 일치해 alias로 등록 */
-  --background-mute-subtle: var(--color-neutral-450); /* #828282 */
-  --background-mute-subtler: var(--color-neutral-200); /* #e5e5e5 */
+  --gb-background-mute-subtle: var(--color-neutral-450); /* #828282 */
+
+  --gb-background-mute-subtler: var(--color-neutral-200); /* #e5e5e5 */
 
   /*
    * Semantic — Text (15, Light). `text/popover`는 Figma 문서 오배선으로 판단되어
    * (실제로는 border-overlay 값을 보여줌) 이 파일에 추가하지 않았습니다.
    */
-  --text-default: #0a0a0a;
-  --text-subtle: #737373;
-  --text-subtlest: #a3a3a3;
-  --text-invert: #fafafa;
-  --text-static-white: #ffffff;
-  --text-static-gray: #737373;
-  --text-error: #dc2626;
-  --text-error-static: #dc2626;
-  --text-warning: #f87171;
-  --text-info: #2563eb;
-  --text-success: #16a34a;
-  --text-bold: #171717;
-  --text-selected: #f5f5f5;
-  --text-emphasis: #171717;
-  --text-subtler: var(--color-neutral-450); /* raw 토큰, #828282 */
+  --gb-text-default: #0a0a0a;
+
+  --gb-text-subtle: #737373;
+
+  --gb-text-subtlest: #a3a3a3;
+
+  --gb-text-invert: #fafafa;
+
+  --gb-text-static-white: #ffffff;
+
+  --gb-text-static-gray: #737373;
+
+  --gb-text-error: #dc2626;
+
+  --gb-text-error-static: #dc2626;
+
+  --gb-text-warning: #f87171;
+
+  --gb-text-info: #2563eb;
+
+  --gb-text-success: #16a34a;
+
+  --gb-text-bold: #171717;
+
+  --gb-text-selected: #f5f5f5;
+
+  --gb-text-emphasis: #171717;
+
+  --gb-text-subtler: var(--color-neutral-450); /* raw 토큰, #828282 */
 
   /* Semantic — Icon (17, Light) */
-  --icon-default: #0a0a0a;
-  --icon-subtle: #737373;
-  --icon-subtlest: #a3a3a3;
-  --icon-invert: #fafafa;
-  --icon-static-white: #ffffff;
-  --icon-static-gray: #737373;
-  --icon-error: #dc2626;
-  --icon-error-static: #dc2626;
-  --icon-warning: #f87171;
-  --icon-info: #2563eb;
-  --icon-success: #16a34a;
-  --icon-bold: #171717;
-  --icon-fainter: #f5f5f5;
-  --icon-selected: #f5f5f5;
-  --icon-emphasis: #171717;
-  --icon-pressed: #e5e5e5;
-  --icon-faint: #e5e5e5;
+  --gb-icon-default: #0a0a0a;
+
+  --gb-icon-subtle: #737373;
+
+  --gb-icon-subtlest: #a3a3a3;
+
+  --gb-icon-invert: #fafafa;
+
+  --gb-icon-static-white: #ffffff;
+
+  --gb-icon-static-gray: #737373;
+
+  --gb-icon-error: #dc2626;
+
+  --gb-icon-error-static: #dc2626;
+
+  --gb-icon-warning: #f87171;
+
+  --gb-icon-info: #2563eb;
+
+  --gb-icon-success: #16a34a;
+
+  --gb-icon-bold: #171717;
+
+  --gb-icon-fainter: #f5f5f5;
+
+  --gb-icon-selected: #f5f5f5;
+
+  --gb-icon-emphasis: #171717;
+
+  --gb-icon-pressed: #e5e5e5;
+
+  --gb-icon-faint: #e5e5e5;
 
   /*
    * Semantic — Border (Light). 문서 라벨은 "border/subtler"지만 실제 바인딩은
    * border-subtle 값. "border/subtle"(raw, 값 #e5e5e5)은 별도 raw 토큰인데
    * border-default와 값이 동일해 별도 변수 대신 alias로만 남김.
    */
-  --border-default: #e5e5e5;
-  --border-subtle: #f5f5f5;
-  --border-bold: #737373;
-  --border-bolder: #0a0a0a;
-  --border-invert: #171717;
-  --border-error: #dc2626;
-  --border-error-static: #dc2626;
-  --border-warning: #f87171;
-  --border-info: #2563eb;
-  --border-success: #16a34a;
-  --border-overlay: #ffffff;
-  --border-muted: #737373;
-  --border-static-white: #ffffff;
-  --border-static-gray: #737373;
-  --border-selected: #f5f5f5;
+  --gb-border-default: #e5e5e5;
+
+  --gb-border-subtle: #f5f5f5;
+
+  --gb-border-bold: #737373;
+
+  --gb-border-bolder: #0a0a0a;
+
+  --gb-border-invert: #171717;
+
+  --gb-border-error: #dc2626;
+
+  --gb-border-error-static: #dc2626;
+
+  --gb-border-warning: #f87171;
+
+  --gb-border-info: #2563eb;
+
+  --gb-border-success: #16a34a;
+
+  --gb-border-overlay: #ffffff;
+
+  --gb-border-muted: #737373;
+
+  --gb-border-static-white: #ffffff;
+
+  --gb-border-static-gray: #737373;
+
+  --gb-border-selected: #f5f5f5;
+
   /* raw 토큰들(Figma에 "--" 미부여), 값이 기존 primitive/토큰과 일치해 alias로 등록 */
-  --border-mute: var(--color-neutral-450); /* #828282 */
-  --border-invert-strong: var(--color-neutral-900); /* #171717 */
-  --border-default-strong: var(--color-neutral-50); /* #fafafa */
-  --border-contrast: var(--color-white); /* #ffffff */
+  --gb-border-mute: var(--color-neutral-450); /* #828282 */
+
+  --gb-border-invert-strong: var(--color-neutral-900); /* #171717 */
+
+  --gb-border-default-strong: var(--color-neutral-50); /* #fafafa */
+
+  --gb-border-contrast: var(--color-white); /* #ffffff */
+
   /* raw 토큰(Figma에 "--" 미부여). Light 값은 border-default와 같지만 Dark 값이
      달라(#171717) 별도 리터럴로 둡니다 — alias 불가 */
-  --border-subtle-raw: #e5e5e5;
+  --gb-border-subtle-raw: #e5e5e5;
+
   /*
    * raw 토큰(Figma 원본 라벨 "border/mute-subtle", "--" 미부여). 2026-09-27 사용자가
    * Figma에서 신규 추가 — Button `link` variant의 `state=active` 밑줄(underline
    * decoration) 전용 색상. 라이트/다크 스와치(node 7413:3 / 7413:6) 양쪽 모두
    * #a3a3a3으로 확인되어 라이트/다크 무관 고정값입니다(다른 raw 토큰과 동일 패턴).
    */
-  --border-mute-subtle: #a3a3a3;
+  --gb-border-mute-subtle: #a3a3a3;
 }
 
 /*
@@ -293,68 +442,120 @@
  */
 .dark {
   /* Background */
-  --background-default: #0a0a0a;
-  --background-subtlest: #171717;
-  --background-subtler: #262626;
-  --background-subtle: #404040;
-  --background-bold: #e5e5e5;
-  --background-surface: #171717;
-  --background-overlay: #262626;
-  --background-sheer: #00000033; /* "background/sheer-invert" 데모 스와치로 이전에 확인, 이번에 재확인 */
-  --background-error-subtle: #450a0a;
-  --background-info-default: #60a5fa;
-  --background-info-subtle: #172554;
-  --background-success-default: #4ade80;
-  --background-success-subtle: #052e16;
-  --background-bolder: #fafafa;
-  --background-selected: #404040;
-  --background-surface-secondary: #262626;
-  --background-disabled-bold: #a3a3a3;
-  --background-disabled: #404040;
-  --background-mute-subtler: #171717; /* raw, :root의 neutral-200 alias를 dark에서 재정의 */
+  --gb-background-default: #0a0a0a;
+
+  --gb-background-subtlest: #171717;
+
+  --gb-background-subtler: #262626;
+
+  --gb-background-subtle: #404040;
+
+  --gb-background-bold: #e5e5e5;
+
+  --gb-background-surface: #171717;
+
+  --gb-background-overlay: #262626;
+
+  --gb-background-sheer: #00000033; /* "background/sheer-invert" 데모 스와치로 이전에 확인, 이번에 재확인 */
+
+  --gb-background-error-subtle: #450a0a;
+
+  --gb-background-info-default: #60a5fa;
+
+  --gb-background-info-subtle: #172554;
+
+  --gb-background-success-default: #4ade80;
+
+  --gb-background-success-subtle: #052e16;
+
+  --gb-background-bolder: #fafafa;
+
+  --gb-background-selected: #404040;
+
+  --gb-background-surface-secondary: #262626;
+
+  --gb-background-disabled-bold: #a3a3a3;
+
+  --gb-background-disabled: #404040;
+
+  --gb-background-mute-subtler: #171717; /* raw, :root의 neutral-200 alias를 dark에서 재정의 */
 
   /* Text */
-  --text-default: #fafafa;
-  --text-subtle: #a3a3a3;
-  --text-subtlest: #737373;
-  --text-invert: #171717;
-  --text-error: #f87171;
-  --text-info: #60a5fa;
-  --text-success: #4ade80;
-  --text-bold: #e5e5e5;
-  --text-selected: #404040;
-  --text-emphasis: #fafafa;
+  --gb-text-default: #fafafa;
+
+  --gb-text-subtle: #a3a3a3;
+
+  --gb-text-subtlest: #737373;
+
+  --gb-text-invert: #171717;
+
+  --gb-text-error: #f87171;
+
+  --gb-text-info: #60a5fa;
+
+  --gb-text-success: #4ade80;
+
+  --gb-text-bold: #e5e5e5;
+
+  --gb-text-selected: #404040;
+
+  --gb-text-emphasis: #fafafa;
 
   /* Icon */
-  --icon-default: #fafafa;
-  --icon-subtle: #a3a3a3;
-  --icon-subtlest: #737373;
-  --icon-invert: #171717;
-  --icon-error: #f87171;
-  --icon-info: #60a5fa;
-  --icon-success: #4ade80;
-  --icon-bold: #e5e5e5;
-  --icon-fainter: #262626;
-  --icon-selected: #404040;
-  --icon-emphasis: #fafafa;
-  --icon-pressed: #171717;
-  --icon-faint: #404040;
+  --gb-icon-default: #fafafa;
+
+  --gb-icon-subtle: #a3a3a3;
+
+  --gb-icon-subtlest: #737373;
+
+  --gb-icon-invert: #171717;
+
+  --gb-icon-error: #f87171;
+
+  --gb-icon-info: #60a5fa;
+
+  --gb-icon-success: #4ade80;
+
+  --gb-icon-bold: #e5e5e5;
+
+  --gb-icon-fainter: #262626;
+
+  --gb-icon-selected: #404040;
+
+  --gb-icon-emphasis: #fafafa;
+
+  --gb-icon-pressed: #171717;
+
+  --gb-icon-faint: #404040;
 
   /* Border */
-  --border-default: #404040;
-  --border-subtle: #262626;
-  --border-invert: #e5e5e5;
-  --border-error: #f87171;
-  --border-info: #60a5fa;
-  --border-success: #4ade80;
-  --border-bolder: #fafafa;
-  --border-overlay: #262626;
-  --border-muted: #a3a3a3;
-  --border-selected: #404040;
-  --border-invert-strong: #fafafa; /* raw */
-  --border-default-strong: #171717; /* raw */
-  --border-contrast: #000000; /* raw */
-  --border-subtle-raw: #171717; /* raw, :root의 리터럴(#e5e5e5)을 dark에서 재정의 */
+  --gb-border-default: #404040;
+
+  --gb-border-subtle: #262626;
+
+  --gb-border-invert: #e5e5e5;
+
+  --gb-border-error: #f87171;
+
+  --gb-border-info: #60a5fa;
+
+  --gb-border-success: #4ade80;
+
+  --gb-border-bolder: #fafafa;
+
+  --gb-border-overlay: #262626;
+
+  --gb-border-muted: #a3a3a3;
+
+  --gb-border-selected: #404040;
+
+  --gb-border-invert-strong: #fafafa; /* raw */
+
+  --gb-border-default-strong: #171717; /* raw */
+
+  --gb-border-contrast: #000000; /* raw */
+
+  --gb-border-subtle-raw: #171717; /* raw, :root의 리터럴(#e5e5e5)을 dark에서 재정의 */
 }
 
 /*
@@ -369,88 +570,329 @@
  */
 .light {
   /* Background */
-  --background-default: #ffffff;
-  --background-subtlest: #fafafa;
-  --background-subtler: #f5f5f5;
-  --background-subtle: #e5e5e5;
-  --background-bold: #171717;
-  --background-bolder: #0a0a0a;
-  --background-surface: #ffffff;
-  --background-surface-secondary: #fafafa;
-  --background-overlay: #ffffff;
-  --background-backdrop: #0000004d;
-  --background-sheer: #ffffff33;
-  --background-static-white: #ffffff;
-  --background-static-gray: #737373;
-  --background-selected: #f5f5f5;
-  --background-disabled: #f5f5f5;
-  --background-disabled-bold: #737373;
-  --background-error-default: #dc2626;
-  --background-error-subtle: #fef2f2;
-  --background-warning-default: #f87171;
-  --background-info-default: #2563eb;
-  --background-info-subtle: #eff6ff;
-  --background-success-default: #16a34a;
-  --background-success-subtle: #f0fdf4;
-  --background-mute-subtle: #828282;
-  --background-mute-subtler: #e5e5e5;
+  --gb-background-default: #ffffff;
+
+  --gb-background-subtlest: #fafafa;
+
+  --gb-background-subtler: #f5f5f5;
+
+  --gb-background-subtle: #e5e5e5;
+
+  --gb-background-bold: #171717;
+
+  --gb-background-bolder: #0a0a0a;
+
+  --gb-background-surface: #ffffff;
+
+  --gb-background-surface-secondary: #fafafa;
+
+  --gb-background-overlay: #ffffff;
+
+  --gb-background-backdrop: #0000004d;
+
+  --gb-background-sheer: #ffffff33;
+
+  --gb-background-static-white: #ffffff;
+
+  --gb-background-static-gray: #737373;
+
+  --gb-background-selected: #f5f5f5;
+
+  --gb-background-disabled: #f5f5f5;
+
+  --gb-background-disabled-bold: #737373;
+
+  --gb-background-error-default: #dc2626;
+
+  --gb-background-error-subtle: #fef2f2;
+
+  --gb-background-warning-default: #f87171;
+
+  --gb-background-info-default: #2563eb;
+
+  --gb-background-info-subtle: #eff6ff;
+
+  --gb-background-success-default: #16a34a;
+
+  --gb-background-success-subtle: #f0fdf4;
+
+  --gb-background-mute-subtle: #828282;
+
+  --gb-background-mute-subtler: #e5e5e5;
 
   /* Text */
-  --text-default: #0a0a0a;
-  --text-subtle: #737373;
-  --text-subtlest: #a3a3a3;
-  --text-invert: #fafafa;
-  --text-static-white: #ffffff;
-  --text-static-gray: #737373;
-  --text-error: #dc2626;
-  --text-error-static: #dc2626;
-  --text-warning: #f87171;
-  --text-info: #2563eb;
-  --text-success: #16a34a;
-  --text-bold: #171717;
-  --text-selected: #f5f5f5;
-  --text-emphasis: #171717;
-  --text-subtler: #828282;
+  --gb-text-default: #0a0a0a;
+
+  --gb-text-subtle: #737373;
+
+  --gb-text-subtlest: #a3a3a3;
+
+  --gb-text-invert: #fafafa;
+
+  --gb-text-static-white: #ffffff;
+
+  --gb-text-static-gray: #737373;
+
+  --gb-text-error: #dc2626;
+
+  --gb-text-error-static: #dc2626;
+
+  --gb-text-warning: #f87171;
+
+  --gb-text-info: #2563eb;
+
+  --gb-text-success: #16a34a;
+
+  --gb-text-bold: #171717;
+
+  --gb-text-selected: #f5f5f5;
+
+  --gb-text-emphasis: #171717;
+
+  --gb-text-subtler: #828282;
 
   /* Icon */
-  --icon-default: #0a0a0a;
-  --icon-subtle: #737373;
-  --icon-subtlest: #a3a3a3;
-  --icon-invert: #fafafa;
-  --icon-static-white: #ffffff;
-  --icon-static-gray: #737373;
-  --icon-error: #dc2626;
-  --icon-error-static: #dc2626;
-  --icon-warning: #f87171;
-  --icon-info: #2563eb;
-  --icon-success: #16a34a;
-  --icon-bold: #171717;
-  --icon-fainter: #f5f5f5;
-  --icon-selected: #f5f5f5;
-  --icon-emphasis: #171717;
-  --icon-pressed: #e5e5e5;
-  --icon-faint: #e5e5e5;
+  --gb-icon-default: #0a0a0a;
+
+  --gb-icon-subtle: #737373;
+
+  --gb-icon-subtlest: #a3a3a3;
+
+  --gb-icon-invert: #fafafa;
+
+  --gb-icon-static-white: #ffffff;
+
+  --gb-icon-static-gray: #737373;
+
+  --gb-icon-error: #dc2626;
+
+  --gb-icon-error-static: #dc2626;
+
+  --gb-icon-warning: #f87171;
+
+  --gb-icon-info: #2563eb;
+
+  --gb-icon-success: #16a34a;
+
+  --gb-icon-bold: #171717;
+
+  --gb-icon-fainter: #f5f5f5;
+
+  --gb-icon-selected: #f5f5f5;
+
+  --gb-icon-emphasis: #171717;
+
+  --gb-icon-pressed: #e5e5e5;
+
+  --gb-icon-faint: #e5e5e5;
 
   /* Border */
-  --border-default: #e5e5e5;
-  --border-subtle: #f5f5f5;
-  --border-bold: #737373;
-  --border-bolder: #0a0a0a;
-  --border-invert: #171717;
-  --border-error: #dc2626;
-  --border-error-static: #dc2626;
-  --border-warning: #f87171;
-  --border-info: #2563eb;
-  --border-success: #16a34a;
-  --border-overlay: #ffffff;
-  --border-muted: #737373;
-  --border-static-white: #ffffff;
-  --border-static-gray: #737373;
-  --border-selected: #f5f5f5;
-  --border-mute: #828282;
-  --border-invert-strong: #171717;
-  --border-default-strong: #fafafa;
-  --border-contrast: #ffffff;
-  --border-subtle-raw: #e5e5e5;
-  --border-mute-subtle: #a3a3a3;
+  --gb-border-default: #e5e5e5;
+
+  --gb-border-subtle: #f5f5f5;
+
+  --gb-border-bold: #737373;
+
+  --gb-border-bolder: #0a0a0a;
+
+  --gb-border-invert: #171717;
+
+  --gb-border-error: #dc2626;
+
+  --gb-border-error-static: #dc2626;
+
+  --gb-border-warning: #f87171;
+
+  --gb-border-info: #2563eb;
+
+  --gb-border-success: #16a34a;
+
+  --gb-border-overlay: #ffffff;
+
+  --gb-border-muted: #737373;
+
+  --gb-border-static-white: #ffffff;
+
+  --gb-border-static-gray: #737373;
+
+  --gb-border-selected: #f5f5f5;
+
+  --gb-border-mute: #828282;
+
+  --gb-border-invert-strong: #171717;
+
+  --gb-border-default-strong: #fafafa;
+
+  --gb-border-contrast: #ffffff;
+
+  --gb-border-subtle-raw: #e5e5e5;
+
+  --gb-border-mute-subtle: #a3a3a3;
+}
+
+/* 하위호환 alias — --gb- 접두사 마이그레이션 기간 동안 기존 이름 유지. 컴포넌트 사용처 전환이 끝나면 이 블록과 아래 alias들을 제거합니다. */
+:root {
+  --color-neutral-50: var(--gb-color-neutral-50);
+  --color-neutral-100: var(--gb-color-neutral-100);
+  --color-neutral-200: var(--gb-color-neutral-200);
+  --color-neutral-300: var(--gb-color-neutral-300);
+  --color-neutral-400: var(--gb-color-neutral-400);
+  --color-neutral-450: var(--gb-color-neutral-450);
+  --color-neutral-500: var(--gb-color-neutral-500);
+  --color-neutral-600: var(--gb-color-neutral-600);
+  --color-neutral-700: var(--gb-color-neutral-700);
+  --color-neutral-800: var(--gb-color-neutral-800);
+  --color-neutral-900: var(--gb-color-neutral-900);
+  --color-neutral-950: var(--gb-color-neutral-950);
+  --color-red-50: var(--gb-color-red-50);
+  --color-red-100: var(--gb-color-red-100);
+  --color-red-200: var(--gb-color-red-200);
+  --color-red-300: var(--gb-color-red-300);
+  --color-red-400: var(--gb-color-red-400);
+  --color-red-500: var(--gb-color-red-500);
+  --color-red-600: var(--gb-color-red-600);
+  --color-red-700: var(--gb-color-red-700);
+  --color-red-800: var(--gb-color-red-800);
+  --color-red-900: var(--gb-color-red-900);
+  --color-red-950: var(--gb-color-red-950);
+  --color-orange-50: var(--gb-color-orange-50);
+  --color-orange-100: var(--gb-color-orange-100);
+  --color-orange-200: var(--gb-color-orange-200);
+  --color-orange-300: var(--gb-color-orange-300);
+  --color-orange-400: var(--gb-color-orange-400);
+  --color-orange-500: var(--gb-color-orange-500);
+  --color-orange-600: var(--gb-color-orange-600);
+  --color-orange-700: var(--gb-color-orange-700);
+  --color-orange-800: var(--gb-color-orange-800);
+  --color-orange-900: var(--gb-color-orange-900);
+  --color-orange-950: var(--gb-color-orange-950);
+  --color-yellow-50: var(--gb-color-yellow-50);
+  --color-yellow-100: var(--gb-color-yellow-100);
+  --color-yellow-200: var(--gb-color-yellow-200);
+  --color-yellow-300: var(--gb-color-yellow-300);
+  --color-yellow-400: var(--gb-color-yellow-400);
+  --color-yellow-500: var(--gb-color-yellow-500);
+  --color-yellow-600: var(--gb-color-yellow-600);
+  --color-yellow-700: var(--gb-color-yellow-700);
+  --color-yellow-800: var(--gb-color-yellow-800);
+  --color-yellow-900: var(--gb-color-yellow-900);
+  --color-yellow-950: var(--gb-color-yellow-950);
+  --color-green-50: var(--gb-color-green-50);
+  --color-green-100: var(--gb-color-green-100);
+  --color-green-200: var(--gb-color-green-200);
+  --color-green-300: var(--gb-color-green-300);
+  --color-green-400: var(--gb-color-green-400);
+  --color-green-500: var(--gb-color-green-500);
+  --color-green-600: var(--gb-color-green-600);
+  --color-green-700: var(--gb-color-green-700);
+  --color-green-800: var(--gb-color-green-800);
+  --color-green-900: var(--gb-color-green-900);
+  --color-green-950: var(--gb-color-green-950);
+  --color-blue-50: var(--gb-color-blue-50);
+  --color-blue-100: var(--gb-color-blue-100);
+  --color-blue-200: var(--gb-color-blue-200);
+  --color-blue-300: var(--gb-color-blue-300);
+  --color-blue-400: var(--gb-color-blue-400);
+  --color-blue-500: var(--gb-color-blue-500);
+  --color-blue-600: var(--gb-color-blue-600);
+  --color-blue-700: var(--gb-color-blue-700);
+  --color-blue-800: var(--gb-color-blue-800);
+  --color-blue-900: var(--gb-color-blue-900);
+  --color-blue-950: var(--gb-color-blue-950);
+  --color-violet-50: var(--gb-color-violet-50);
+  --color-violet-100: var(--gb-color-violet-100);
+  --color-violet-200: var(--gb-color-violet-200);
+  --color-violet-300: var(--gb-color-violet-300);
+  --color-violet-400: var(--gb-color-violet-400);
+  --color-violet-500: var(--gb-color-violet-500);
+  --color-violet-600: var(--gb-color-violet-600);
+  --color-violet-700: var(--gb-color-violet-700);
+  --color-violet-800: var(--gb-color-violet-800);
+  --color-violet-900: var(--gb-color-violet-900);
+  --color-violet-950: var(--gb-color-violet-950);
+  --color-white: var(--gb-color-white);
+  --color-black: var(--gb-color-black);
+  --color-shimmer-gray: var(--gb-color-shimmer-gray);
+  --color-sphere-particle: var(--gb-color-sphere-particle);
+  --color-sphere-particle-hover: var(--gb-color-sphere-particle-hover);
+  --color-accent-non-changeable: var(--gb-color-accent-non-changeable);
+  --color-semantic-non-changeable: var(--gb-color-semantic-non-changeable);
+  --background-default: var(--gb-background-default);
+  --background-subtlest: var(--gb-background-subtlest);
+  --background-subtler: var(--gb-background-subtler);
+  --background-subtle: var(--gb-background-subtle);
+  --background-bold: var(--gb-background-bold);
+  --background-bolder: var(--gb-background-bolder);
+  --background-surface: var(--gb-background-surface);
+  --background-surface-secondary: var(--gb-background-surface-secondary);
+  --background-overlay: var(--gb-background-overlay);
+  --background-backdrop: var(--gb-background-backdrop);
+  --background-sheer: var(--gb-background-sheer);
+  --background-static-white: var(--gb-background-static-white);
+  --background-static-gray: var(--gb-background-static-gray);
+  --background-selected: var(--gb-background-selected);
+  --background-disabled: var(--gb-background-disabled);
+  --background-disabled-bold: var(--gb-background-disabled-bold);
+  --background-error-default: var(--gb-background-error-default);
+  --background-error-subtle: var(--gb-background-error-subtle);
+  --background-warning-default: var(--gb-background-warning-default);
+  --background-info-default: var(--gb-background-info-default);
+  --background-info-subtle: var(--gb-background-info-subtle);
+  --background-success-default: var(--gb-background-success-default);
+  --background-success-subtle: var(--gb-background-success-subtle);
+  --background-mute-subtle: var(--gb-background-mute-subtle);
+  --background-mute-subtler: var(--gb-background-mute-subtler);
+  --text-default: var(--gb-text-default);
+  --text-subtle: var(--gb-text-subtle);
+  --text-subtlest: var(--gb-text-subtlest);
+  --text-invert: var(--gb-text-invert);
+  --text-static-white: var(--gb-text-static-white);
+  --text-static-gray: var(--gb-text-static-gray);
+  --text-error: var(--gb-text-error);
+  --text-error-static: var(--gb-text-error-static);
+  --text-warning: var(--gb-text-warning);
+  --text-info: var(--gb-text-info);
+  --text-success: var(--gb-text-success);
+  --text-bold: var(--gb-text-bold);
+  --text-selected: var(--gb-text-selected);
+  --text-emphasis: var(--gb-text-emphasis);
+  --text-subtler: var(--gb-text-subtler);
+  --icon-default: var(--gb-icon-default);
+  --icon-subtle: var(--gb-icon-subtle);
+  --icon-subtlest: var(--gb-icon-subtlest);
+  --icon-invert: var(--gb-icon-invert);
+  --icon-static-white: var(--gb-icon-static-white);
+  --icon-static-gray: var(--gb-icon-static-gray);
+  --icon-error: var(--gb-icon-error);
+  --icon-error-static: var(--gb-icon-error-static);
+  --icon-warning: var(--gb-icon-warning);
+  --icon-info: var(--gb-icon-info);
+  --icon-success: var(--gb-icon-success);
+  --icon-bold: var(--gb-icon-bold);
+  --icon-fainter: var(--gb-icon-fainter);
+  --icon-selected: var(--gb-icon-selected);
+  --icon-emphasis: var(--gb-icon-emphasis);
+  --icon-pressed: var(--gb-icon-pressed);
+  --icon-faint: var(--gb-icon-faint);
+  --border-default: var(--gb-border-default);
+  --border-subtle: var(--gb-border-subtle);
+  --border-bold: var(--gb-border-bold);
+  --border-bolder: var(--gb-border-bolder);
+  --border-invert: var(--gb-border-invert);
+  --border-error: var(--gb-border-error);
+  --border-error-static: var(--gb-border-error-static);
+  --border-warning: var(--gb-border-warning);
+  --border-info: var(--gb-border-info);
+  --border-success: var(--gb-border-success);
+  --border-overlay: var(--gb-border-overlay);
+  --border-muted: var(--gb-border-muted);
+  --border-static-white: var(--gb-border-static-white);
+  --border-static-gray: var(--gb-border-static-gray);
+  --border-selected: var(--gb-border-selected);
+  --border-mute: var(--gb-border-mute);
+  --border-invert-strong: var(--gb-border-invert-strong);
+  --border-default-strong: var(--gb-border-default-strong);
+  --border-contrast: var(--gb-border-contrast);
+  --border-subtle-raw: var(--gb-border-subtle-raw);
+  --border-mute-subtle: var(--gb-border-mute-subtle);
 }

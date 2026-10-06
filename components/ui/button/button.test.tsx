@@ -32,22 +32,31 @@ describe("Button", () => {
     },
   );
 
-  it("renders an icon from the /icons.svg sprite for icon-only variants", () => {
+  it("renders a lucide-react icon for icon ids registered in LUCIDE_SPRITE_MAP", () => {
     render(<Button variant="icon" icon="search-icon" />);
 
     const button = screen.getByRole("button", { name: "search-icon" });
-    const use = button.querySelector("use");
 
-    expect(use).toHaveAttribute("href", "/icons.svg#search-icon");
+    expect(button.querySelector("use")).not.toBeInTheDocument();
+    expect(button.querySelector("svg")).toBeInTheDocument();
   });
 
-  it("falls back to the circle-dashed-icon placeholder when no icon id is given", () => {
+  it("falls back to the circle-dashed-icon placeholder (lucide) when no icon id is given", () => {
     render(<Button variant="ghost" />);
 
     const button = screen.getByRole("button", { name: "circle-dashed-icon" });
+
+    expect(button.querySelector("use")).not.toBeInTheDocument();
+    expect(button.querySelector("svg")).toBeInTheDocument();
+  });
+
+  it("falls back to the /icons.svg sprite for app-specific icon ids outside LUCIDE_SPRITE_MAP", () => {
+    render(<Button variant="icon" icon="google-icon" />);
+
+    const button = screen.getByRole("button", { name: "google-icon" });
     const use = button.querySelector("use");
 
-    expect(use).toHaveAttribute("href", "/icons.svg#circle-dashed-icon");
+    expect(use).toHaveAttribute("href", "/icons.svg#google-icon");
   });
 
   it("disables the button when the disabled prop is true", () => {
@@ -61,7 +70,7 @@ describe("Button", () => {
 
     const button = screen.getByText("Link");
     expect(button.className).toContain(
-      "decoration-[var(--border-mute-subtle)]",
+      "decoration-[var(--gb-border-mute-subtle)]",
     );
   });
 
@@ -69,5 +78,33 @@ describe("Button", () => {
     render(<Button data-testid="custom-button">Custom</Button>);
 
     expect(screen.getByTestId("custom-button")).toBeInTheDocument();
+  });
+
+  it("forwards ref to the underlying button element", () => {
+    const ref = { current: null as HTMLButtonElement | null };
+    render(<Button ref={ref}>Ref</Button>);
+
+    expect(ref.current).toBeInstanceOf(HTMLButtonElement);
+  });
+
+  it.each(["ghost", "icon-rounded"] as const)(
+    "renders the %s variant without visible text content",
+    (variant) => {
+      render(<Button variant={variant} icon="plus-icon" />);
+
+      expect(
+        screen.getByRole("button", { name: "plus-icon" }),
+      ).toBeInTheDocument();
+    },
+  );
+
+  it("disables the mute variant", () => {
+    render(
+      <Button variant="mute" disabled>
+        Mute disabled
+      </Button>,
+    );
+
+    expect(screen.getByText("Mute disabled")).toBeDisabled();
   });
 });

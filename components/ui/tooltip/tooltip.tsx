@@ -3,6 +3,7 @@
 import * as React from "react";
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
 import { cva, type VariantProps } from "class-variance-authority";
+import { X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -123,9 +124,7 @@ export function Tooltip({
                   "top-[var(--spacing-3-5)] right-[var(--spacing-4)]",
                 )}
               >
-                <svg aria-hidden="true" className="size-[var(--spacing-4)]">
-                  <use href="/icons.svg#x-icon" />
-                </svg>
+                <X aria-hidden="true" className="size-[var(--spacing-4)]" />
               </button>
             )}
             <TooltipPrimitive.Arrow asChild width={10} height={10}>

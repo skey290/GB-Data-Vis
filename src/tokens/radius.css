@@ -35,14 +35,37 @@
  */
 
 :root {
-  --radius-scale-none: 0px;
-  --radius-scale-xs: 2px;
-  --radius-scale-sm: 6px;
-  --radius-scale-md: 8px;
-  --radius-scale-lg: 10px;
-  --radius-scale-xl: 14px;
-  --radius-scale-2xl: 18px;
-  --radius-scale-3xl: 22px;
-  --radius-scale-4xl: 26px;
-  --radius-scale-full: 9999px;
+  --gb-radius-scale-none: 0px;
+
+  --gb-radius-scale-xs: 2px;
+
+  --gb-radius-scale-sm: 6px;
+
+  --gb-radius-scale-md: 8px;
+
+  --gb-radius-scale-lg: 10px;
+
+  --gb-radius-scale-xl: 14px;
+
+  --gb-radius-scale-2xl: 18px;
+
+  --gb-radius-scale-3xl: 22px;
+
+  --gb-radius-scale-4xl: 26px;
+
+  --gb-radius-scale-full: 9999px;
+}
+
+/* 하위호환 alias — --gb- 접두사 마이그레이션 기간 동안 기존 이름 유지. 컴포넌트 사용처 전환이 끝나면 이 블록과 아래 alias들을 제거합니다. */
+:root {
+  --radius-scale-none: var(--gb-radius-scale-none);
+  --radius-scale-xs: var(--gb-radius-scale-xs);
+  --radius-scale-sm: var(--gb-radius-scale-sm);
+  --radius-scale-md: var(--gb-radius-scale-md);
+  --radius-scale-lg: var(--gb-radius-scale-lg);
+  --radius-scale-xl: var(--gb-radius-scale-xl);
+  --radius-scale-2xl: var(--gb-radius-scale-2xl);
+  --radius-scale-3xl: var(--gb-radius-scale-3xl);
+  --radius-scale-4xl: var(--gb-radius-scale-4xl);
+  --radius-scale-full: var(--gb-radius-scale-full);
 }

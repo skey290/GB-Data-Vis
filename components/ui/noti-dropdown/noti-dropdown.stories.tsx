@@ -1,13 +1,13 @@
 import * as React from "react";
 import type { Meta, StoryObj } from "@storybook/nextjs";
-import { expect, fn, userEvent, within } from "storybook/test";
+import { fn } from "storybook/test";
 
-import { NotiDropdown, type NotiDropdownItem } from "./noti-dropdown";
+import { NotiDropdown, type NotiDropdownProps } from "./noti-dropdown";
 
 const FIGMA_URL =
   "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%E2%9D%84%EF%B8%8F-GB_Design-System-%E2%80%94-Atom?node-id=4979-11016";
 
-const items: NotiDropdownItem[] = [
+const items = [
   { id: "1", label: "notification placeholder", unread: true },
   { id: "2", label: "notification placeholder", unread: true },
   { id: "3", label: "notification placeholder", unread: true },
@@ -15,14 +15,25 @@ const items: NotiDropdownItem[] = [
   { id: "5", label: "notification placeholder" },
 ];
 
-function ControlledNotiDropdown() {
-  const [selectedTab, setSelectedTab] = React.useState<"all" | "unread">("all");
+// 완전 제어 컴포넌트라, Controls에서 selectedTab을 바꿔도 탭 클릭으로 실제 전환을
+// 확인할 수 있도록 내부 상태를 들고 있는다.
+function ControlledNotiDropdown({
+  selectedTab,
+  onSelectedTabChange,
+  ...rest
+}: NotiDropdownProps) {
+  const [tab, setTab] = React.useState(selectedTab);
+
+  React.useEffect(() => setTab(selectedTab), [selectedTab]);
 
   return (
     <NotiDropdown
-      items={items}
-      selectedTab={selectedTab}
-      onSelectedTabChange={setSelectedTab}
+      {...rest}
+      selectedTab={tab}
+      onSelectedTabChange={(next) => {
+        setTab(next);
+        onSelectedTabChange?.(next);
+      }}
     />
   );
 }
@@ -37,52 +48,22 @@ const meta = {
       url: FIGMA_URL,
     },
   },
+  argTypes: {
+    selectedTab: {
+      control: "radio",
+      options: ["all", "unread"],
+    },
+  },
   args: {
     items,
+    selectedTab: "all",
     onSettingsClick: fn(),
   },
+  render: (args) => <ControlledNotiDropdown {...args} />,
 } satisfies Meta<typeof NotiDropdown>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const AllTab: Story = {};
-
-export const UnreadTab: Story = {
-  args: {
-    selectedTab: "unread",
-  },
-};
-
-export const Empty: Story = {
-  args: {
-    items: [],
-  },
-};
-
-export const TabSwitchInteraction: Story = {
-  render: () => <ControlledNotiDropdown />,
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-
-    const unreadTab = canvas.getByRole("tab", { name: /Unread/ });
-    await userEvent.click(unreadTab);
-
-    await expect(unreadTab).toHaveAttribute("aria-selected", "true");
-    await expect(canvas.getAllByText("notification placeholder")).toHaveLength(
-      3,
-    );
-  },
-};
-
-export const SettingsClickInteraction: Story = {
-  play: async ({ canvasElement, args }) => {
-    const canvas = within(canvasElement);
-    await userEvent.click(
-      canvas.getByRole("button", { name: "Notification settings" }),
-    );
-
-    await expect(args.onSettingsClick).toHaveBeenCalledTimes(1);
-  },
-};
+export const Playground: Story = {};

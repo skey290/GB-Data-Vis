@@ -55,8 +55,8 @@ export function Tabs({
             className={cn(
               "inline-flex shrink-0 items-center justify-center whitespace-nowrap",
               "gap-[var(--spacing-2)] px-[var(--spacing-3)]",
-              // 48px: 컴포넌트 자체 높이라 간격 전용인 --spacing-*가 아닌 범용 숫자 풀 --scale-*를 참조 (Figma 스펙 확정값)
-              "h-[calc(var(--scale-48)*1px)]",
+              // 48px: 컴포넌트 자체 높이라 Figma 스펙 확정값
+              "h-[48px]",
               "border-b-[length:var(--border-1)] border-b-transparent",
               "outline-none transition-colors",
               // focus-visible ring: outline-offset -3px는 토큰 스케일에 일치값이 없어 예외적으로 하드코딩 (Figma 스펙 확정값)

@@ -222,7 +222,7 @@ function ScrollableDetailView() {
           aria-hidden="true"
           className="shrink-0 py-[var(--spacing-1)] pr-[var(--spacing-1)]"
         >
-          <div className="relative h-full w-[calc(var(--scale-10)*1px)] rounded-[var(--radius-scale-full)] bg-[var(--background-subtler)]">
+          <div className="relative h-full w-[10px] rounded-[var(--radius-scale-full)] bg-[var(--background-subtler)]">
             <div
               className="absolute inset-x-0 rounded-[var(--radius-scale-full)] bg-[var(--background-subtle)]"
               style={{ top: `${thumb.top}%`, height: `${thumb.height}%` }}

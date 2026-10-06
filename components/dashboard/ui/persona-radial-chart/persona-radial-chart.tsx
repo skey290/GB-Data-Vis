@@ -25,7 +25,7 @@ import {
  * 아바타인지 빈 슬롯인지에 따라 문구만 갈립니다.)
  *
  * ⚠️ 좌표계 주의: 아래 반지름/각도 상수는 CSS 길이가 아니라 SVG `viewBox` 내부의
- * 기하 좌표값입니다. 그래서 `--spacing-*` / `--scale-*` 토큰을 쓰지 않고 순수 숫자
+ * 기하 좌표값입니다. 그래서 `--spacing-*` 토큰을 쓰지 않고 순수 숫자
  * 상수로 둡니다. 반면 컴포넌트 바깥 치수(캔버스, 아바타, 배지)는 토큰을 사용합니다.
  * (대시보드 파일의 `Guide` 그리드 SVG를 직접 내려받아 반지름 127.775/159.781/
  * 199.539/249.549를 다시 실측 대조했고, 기존 상수와 정확히 일치함을 확인했습니다.)
@@ -552,7 +552,7 @@ export function PersonaRadialChart({
     <div
       className={cn(
         // Figma 컴포넌트 프레임 500×500. 배지는 이 밖으로 넘쳐 배치됩니다
-        "relative size-[calc(var(--scale-500)*1px)]",
+        "relative size-[500px]",
         className,
       )}
       onMouseLeave={() => {

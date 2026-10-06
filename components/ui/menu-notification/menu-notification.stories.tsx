@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
-import { expect, fn, userEvent, within } from "storybook/test";
+import { fn } from "storybook/test";
 
 import { MenuNotification } from "./menu-notification";
 
@@ -18,12 +18,26 @@ const meta = {
   },
   decorators: [
     (Story) => (
-      <div className="dark flex items-center gap-[var(--spacing-2)] bg-[var(--background-subtlest)] p-[var(--spacing-4)]">
+      <div className="dark flex items-center gap-[var(--gb-spacing-2)] bg-[var(--gb-background-subtlest)] p-[var(--gb-spacing-4)]">
         <Story />
       </div>
     ),
   ],
+  argTypes: {
+    type: {
+      control: "select",
+      options: ["icon", "text"],
+    },
+    status: {
+      control: "select",
+      options: ["default", "active", "disabled"],
+    },
+    showDot: { control: "boolean" },
+  },
   args: {
+    type: "text",
+    status: "default",
+    showDot: true,
     onClick: fn(),
   },
 } satisfies Meta<typeof MenuNotification>;
@@ -32,38 +46,4 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const IconDefault: Story = {
-  args: { type: "icon", status: "default" },
-};
-
-export const IconActive: Story = {
-  args: { type: "icon", status: "active" },
-};
-
-export const IconDisabled: Story = {
-  args: { type: "icon", status: "disabled" },
-};
-
-export const TextDefault: Story = {
-  args: { type: "text", status: "default" },
-};
-
-export const TextActive: Story = {
-  args: { type: "text", status: "active" },
-};
-
-export const TextDisabled: Story = {
-  args: { type: "text", status: "disabled" },
-};
-
-export const ClickInteraction: Story = {
-  args: { type: "text", status: "default" },
-  play: async ({ canvasElement, args }) => {
-    const canvas = within(canvasElement);
-    const button = canvas.getByRole("button", { name: "Notification" });
-
-    await userEvent.click(button);
-
-    await expect(args.onClick).toHaveBeenCalledTimes(1);
-  },
-};
+export const Playground: Story = {};

@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
+import { ChevronDown, ChevronUp, Plus } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -241,29 +242,23 @@ export function Select({
           )}
         >
           {isSocialMediaIcon ? (
-            <svg
+            <Plus
               aria-hidden="true"
               className="size-[var(--spacing-4)] shrink-0"
-            >
-              <use href="/icons.svg#plus-icon" />
-            </svg>
+            />
           ) : (
             <>
               <span className="truncate">{triggerLabel}</span>
               {open ? (
-                <svg
+                <ChevronUp
                   aria-hidden="true"
                   className="size-[var(--spacing-4)] shrink-0"
-                >
-                  <use href="/icons.svg#chevron-up-icon" />
-                </svg>
+                />
               ) : (
-                <svg
+                <ChevronDown
                   aria-hidden="true"
                   className="size-[var(--spacing-4)] shrink-0"
-                >
-                  <use href="/icons.svg#chevron-down-icon" />
-                </svg>
+                />
               )}
             </>
           )}
@@ -331,10 +326,8 @@ export function Select({
                   >
                     {isCountryNumber ? (
                       <>
-                        {/* Figma 확정값: 코드 컬럼 고정폭 50px. 컴포넌트 자체 치수라 간격 전용인 --spacing-*가 아닌 범용 숫자 풀 --scale-*를 참조 */}
-                        <span className="w-[calc(var(--scale-50)*1px)] shrink-0">
-                          {option.code}
-                        </span>
+                        {/* Figma 확정값: 코드 컬럼 고정폭 50px. 컴포넌트 자체 치수라 Figma 스펙 확정값 */}
+                        <span className="w-[50px] shrink-0">{option.code}</span>
                         <span className="min-w-0 flex-1 truncate">
                           {option.label}
                         </span>
@@ -356,7 +349,7 @@ export function Select({
               >
                 <div
                   className={cn(
-                    "relative w-[calc(var(--scale-10)*1px)] rounded-[var(--radius-scale-full)] bg-[var(--background-subtler)]",
+                    "relative w-[10px] rounded-[var(--radius-scale-full)] bg-[var(--background-subtler)]",
                     SCROLLBAR_TRACK_HEIGHT_CLASS,
                   )}
                 >
@@ -376,12 +369,10 @@ export function Select({
               onClick={handleScrollNext}
               className="flex h-[var(--spacing-7)] w-full items-center justify-center outline-none"
             >
-              <svg
+              <ChevronDown
                 aria-hidden="true"
                 className="size-[var(--spacing-4)] text-muted-foreground"
-              >
-                <use href="/icons.svg#chevron-down-icon" />
-              </svg>
+              />
             </button>
           )}
         </PopoverPrimitive.Content>
