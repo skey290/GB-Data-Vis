@@ -1,31 +1,20 @@
 /**
  * Design Tokens - Spacing (통합 스케일)
  *
- * ✅ 2026-09-26 새 기준 파일로 전환: Figma (G9YNa2vjdqDjnML9y5hXJ4,
- * ❄️ GB_Design-System — Atom), "Token Documentation — Spacing & Layout" 프레임
- * (node-id 7370:594)에서 22단계(0~256px)를 재확인 — 값 전부 기존과 동일.
+ * Source: Figma (G9YNa2vjdqDjnML9y5hXJ4, ❄️ GB_Design-System — Atom),
+ * "Token Documentation — Spacing & Layout" 프레임(node-id 7370:594). 22단계
+ * (0~256px). padding과 gap을 하나의 숫자 스케일로 통합해 표현합니다.
  *
- * 🗑️ 2026-09-27 폐기 완료: 새 문서에 없고 실사용처도 0건으로 확인되어 삭제함 —
- * --spacing-px(1px), --spacing-14/28/36/40/44/48/52/56/60/72/80/96
- * (56, 112, 144, 160, 176, 192, 208, 224, 240, 288, 320, 384px).
+ * 이름은 새 문서의 px값 기반 표기(예: 16px를 "sp-16")가 아니라 기존 Tailwind
+ * 인덱스 기반 이름(`--spacing-4` = 16px)을 유지했습니다 — 그대로 옮기면 기존
+ * `--spacing-16`(64px, 인덱스 16)과 새 이름 체계의 `--spacing-16`(16px, px값
+ * 16 표기)이 같은 이름·다른 값으로 충돌해 코드 전체에 조용히 잘못된 spacing이
+ * 적용될 위험이 있습니다.
  *
- * ⚠️ 이름은 새 파일의 px값 기반 표기(예: 16px를 "sp-16"으로 표기)를 따르지 않고
- * 기존 Tailwind 인덱스 기반 이름(`--spacing-4` = 16px)을 유지했습니다. 이유:
- * 그대로 옮기면 예를 들어 기존 `--spacing-16`(64px, 인덱스 16)과 새 이름 체계의
- * `--spacing-16`(16px, px값 16 표기)이 같은 이름·다른 값으로 충돌해 코드 전체에
- * 조용히 잘못된 spacing이 적용될 위험이 있습니다.
- *
- * --- 이전 파일(PrsHuyyra9LzqqrDwmrB5P) 기준 재구조화 기록 (참고용, 값 변경 없어 유지) ---
- * 2026-09-17 재구조화: 기존에 별도였던 padding(방향별 175개, `padding.css`)과
- * gap(34개, 이 파일의 이전 버전)이 Figma에서 하나의 spacing 숫자 스케일로
- * 통합되었습니다. 값 자체는 변경 없이(px 스텝 목록 동일) 이름만
- * `--spacing-padding-*` / `--spacing-gap-*` → `--spacing-*`로 합쳤습니다.
- *
- * 방향별(top/right/bottom/left) 전용 변수 컬렉션도 Figma에서 폐지되었습니다.
- * 방향이 필요한 곳(pt-/pr-/pb-/pl- 등)에는 아래 동일한 스케일 값을
- * 속성별로 개별 적용합니다(예: `pl-[var(--spacing-3)] pr-[var(--spacing-2)]`).
- * 좌우 값이 다른 컴포넌트(예: textarea)도 강제로 통일하지 않고 이 방식으로
- * 각자 다른 스케일 값을 참조합니다.
+ * 방향별(top/right/bottom/left) 전용 변수 컬렉션은 없습니다. 방향이 필요한
+ * 곳(pt-/pr-/pb-/pl- 등)에는 아래 동일한 스케일 값을 속성별로 개별 적용합니다
+ * (예: `pl-[var(--spacing-3)] pr-[var(--spacing-2)]`) — 좌우 값이 다른
+ * 컴포넌트도 강제로 통일하지 않고 각자 다른 스케일 값을 참조합니다.
  */
 
 :root {

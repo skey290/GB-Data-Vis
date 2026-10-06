@@ -1,63 +1,24 @@
 /**
  * Design Tokens - Text Styles (완성된 스타일 클래스)
  *
- * ✅ 2026-09-26 새 기준 파일로 전환: Figma (G9YNa2vjdqDjnML9y5hXJ4,
- * ❄️ GB_Design-System — Atom), "Token Documentation — Text Styles" 프레임
- * (node-id 7372:2)에서 재확인. 사이즈(xxs~9xl, 14단계) × 웨이트(Thin~Black,
- * 9단계) = 126개 + Time Stamp 1개 = 총 127개로, 기존 xxs는 Medium 1종만
- * 있었던 것과 달리 **xxs도 9웨이트 전체가 정의**되어 있어 8개를 추가했습니다.
- * 나머지 117개(xs~9xl × 9웨이트) + Time Stamp는 이전과 값 동일, 변경 없음.
+ * Source: Figma (G9YNa2vjdqDjnML9y5hXJ4, ❄️ GB_Design-System — Atom),
+ * "Token Documentation — Text Styles" 프레임(node-id 7372:2). 사이즈(xxs~9xl,
+ * 14단계) × 웨이트(Thin~Black, 9단계) = 126개 + Time Stamp 1개 = 127개.
  *
- * --- 이전 파일(PrsHuyyra9LzqqrDwmrB5P) 기준 검증 기록 (참고용, 값 변경 없어 유지) ---
- * Source: Figma (PrsHuyyra9LzqqrDwmrB5P), frame "DS — Text Styles"
- * node-id: 4143:2666 (사용자가 이번에 지정한 노드 — 기존 4122:8786의 "이름표만
- * 있던" 버전을 대체/보완하기 위해 Figma에서 직접 편집해 만든 프레임으로 추정)
- *
- * ⚠️ 추측이 아니라 명시적으로 확인함: 이 프레임은 118개 스타일 각 행마다
- * "Style / Family / Weight (token → val) / Size (token → val) /
- * Line-H (token → val) / Spacing (token → val)" 6개 컬럼을 텍스트 레이어로
- * 갖고 있고, 각 셀 라벨이 "leading/4 → 16", "tracking/normal → 0",
- * "weight/black → 900", "size/xs → 12" 형식으로 **토큰명과 resolve된 값을
- * 화살표(→)로 함께 표기**하고 있습니다. get_metadata로 이 프레임(4143:2666)의
- * 레이어 트리(XML)를 조회해 118개 행 전부(Time Stamp 1개 + 13 size × 9 weight
- * 117개)에서 이 6개 컬럼 값을 직접 읽었습니다 — 라벨 텍스트에서 값을 추론한 것이
- * 아니라, "token → value" 쌍이 레이어 이름에 그대로 노출되어 있어 이를 그대로
- * 옮겼습니다.
- *
- * 검증: 118행 전체에서
- * - font-family: Time Stamp만 "Bitcount Grid Single", 나머지 117개는 전부
- *   "family/sans" (라벨상 문자열, 실제 폰트명은 명시 안 됨 → 기존
- *   --font-sans 재사용)
- * - font-weight: 9개 라벨(Black/Extra Bold/Bold/Semi Bold/Medium/Regular/
- *   Light/Extra Light/Thin)이 typography.css의 --font-weight-* 9개와
- *   1:1 매칭 (Regular → --font-weight-normal)
- * - font-size: 13개 그룹(Text-xs~Text-9xl)이 typography.css의
- *   --text-* 13개와 1:1 매칭, 그룹명과 size 토큰이 정확히 일치
- *   (예: Text-xs 그룹은 항상 size/xs → 12)
- * - line-height: size 그룹별로 정확히 1개 값만 존재 (weight와 무관하게 고정),
- *   전부 typography.css의 --leading-* 13개 값과 정확히 일치
- *   (Text-lg/Text-xl은 둘 다 leading/7 → 28을 공유)
- * - letter-spacing: 118개 전부 "tracking/normal → 0" — typography.css의
- *   --tracking-normal(0px)과 일치. 다른 tracking 값(tighter/tight/wide/
- *   wider/widest)은 이 118개 Text Style에서는 전혀 사용되지 않음.
- *
- * 위 5개 속성이 전부 기존 typography.css 토큰으로 커버되어 새 raw 값을 추가할
- * 필요가 없었습니다. 유일한 예외는 Time Stamp의 font-family
- * ("Bitcount Grid Single")로, typography.css에 대응 토큰이 없어 raw 값으로
- * 직접 기입했으나, 2026-09-27 실제 폰트가 로드되지 않아 monospace로 대체
- * 렌더링되는 문제가 발견되어 `app/layout.tsx`에 next/font(Bitcount_Grid_Single)로
- * 로드하고 그 결과 CSS 변수(`--font-time-stamp`)를 참조하도록 교체했습니다
+ * family/weight/size/line-height/letter-spacing 5개 속성 전부 typography.css
+ * 토큰으로 커버됩니다. 유일한 예외는 Time Stamp의 font-family
+ * ("Bitcount Grid Single")로, typography.css에 대응 토큰이 없어 `app/layout.tsx`의
+ * next/font(Bitcount_Grid_Single)가 만든 `--font-time-stamp`를 참조합니다
  * (아래 .text-time-stamp 참고).
  *
- * 클래스 네이밍: .text-{size}-{weight} (kebab-case). weight 라벨 kebab 변환은
- * Figma Style 컬럼 라벨을 그대로 사용 (Extra Bold → extra-bold,
- * Semi Bold → semi-bold, Regular → regular, Extra Light → extra-light 등).
+ * 클래스 네이밍: `.text-{size}-{weight}` (kebab-case). weight 라벨 kebab 변환은
+ * Figma Style 컬럼 라벨을 그대로 사용(Extra Bold → extra-bold, Semi Bold →
+ * semi-bold, Regular → regular, Extra Light → extra-light 등).
  *
- * ℹ️ 2026-09-17 명시: 이 값들은 Figma "Variable"이 아니라 "Text Style"이라는
- * 별도 기능입니다(`get_variable_defs`로 실제 컴포넌트를 조회하면
- * `"Text-sm/Medium":"Font(family:family/sans, style:Medium, size:size/sm, ...)"`
- * 처럼 복합 문자열로 반환되어 flat Variable과 구분됨). 실제 프로덕션
- * 컴포넌트에서 사용 중임을 라이브 조회로 확인했습니다.
+ * 이 값들은 Figma "Variable"이 아니라 "Text Style"이라는 별도 기능입니다
+ * (`get_variable_defs`로 조회하면 `"Text-sm/Medium":"Font(family:family/sans,
+ * style:Medium, size:size/sm, ...)"`처럼 복합 문자열로 반환되어 flat Variable과
+ * 구분됨).
  */
 
 /* Time Stamp (1) — font-family가 다른 유일한 특수 케이스 */
@@ -71,12 +32,7 @@
   letter-spacing: var(--tracking-normal);
 }
 
-/*
- * Text-xxs (9) — 2026-09-26 새 Foundation 문서(node-id 7372:2)에서 9웨이트 전체가
- * 확인되어 매트릭스를 완성했습니다. 기존엔 Medium 1종만 있었습니다(출처:
- * GB_Design-System-v2.2, Persona Radial Chart node 5526:7658의 빈 아바타 슬롯
- * "No Self" 라벨, Inter 500 / 8px / leading 12 / tracking 0, 2026-09-10).
- */
+/* Text-xxs (9) — Foundation 문서에서 9웨이트 전체가 정의되어 있음 */
 .text-xxs-black {
   font-family: var(--font-sans);
   font-size: var(--text-xxs);

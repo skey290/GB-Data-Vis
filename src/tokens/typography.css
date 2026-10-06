@@ -1,53 +1,23 @@
 /**
  * Design Tokens - Typography
  * Source: Figma (G9YNa2vjdqDjnML9y5hXJ4, ❄️ GB_Design-System — Atom),
- * "Token Documentation — Typography" 프레임(node-id 7370:476)
+ * "Token Documentation — Typography" 프레임(node-id 7370:476).
  *
- * ✅ 2026-09-26 새 기준 파일로 전환: 위 Foundation 문서 프레임에서 font size 14개
- * (xxs 포함), font weight 9개, line-height 13개, family(Inter)가 전부 기존 값과
- * 동일함을 재확인했습니다. 변수 이름만 새 파일의 명명 규칙에 맞춰 축약했습니다
- * (`--font-size-*` → `--text-*`, `--font-family-sans` → `--font-sans`,
- * `--font-leading-*` → `--leading-*`, `--font-tracking-*` → `--tracking-*`).
- * `--font-weight-*`는 새 파일도 동일한 이름을 써서 변경하지 않았습니다.
- * 이름 변경 전 재사용하던 컴포넌트(`src/tokens/text-styles.css`)도 함께 갱신했습니다.
+ * size/weight/leading(line-height)/tracking(letter-spacing)은 서로 독립된
+ * 4개의 스케일입니다 — "xs"는 size에만 있고 weight/leading/tracking에는
+ * 대응 항목이 없습니다(leading은 3,4,5...32 숫자 스텝, weight는 thin~black,
+ * tracking은 tighter~widest로 이름 체계도 다름). 그래서 "하나의 step에 4개
+ * 속성을 묶는" 구조가 아니라 --font-size-*, --font-weight-*, --font-leading-*,
+ * --font-tracking-* 네 그룹으로 나눴습니다.
  *
- * ⚠️ letter-spacing(tracking) 6개 중 `tracking-normal`(0px)만 이 문서와 실제
- * 컴포넌트 양쪽에서 재확인됨. 나머지 5개(tighter/tight/wide/wider/widest)는
- * 새 Foundation 문서에 별도 섹션이 없어 미확인 상태로 값만 유지했습니다(⚠️ FLAG).
+ * size × weight 조합 스타일 118개("DS — Text Styles", node-id 4122:8786)는
+ * `src/tokens/text-styles.css`에 별도로 있습니다.
  *
- * --- 이전 파일(PrsHuyyra9LzqqrDwmrB5P) 기준 검증 기록 (참고용, 값 변경 없어 유지) ---
- * 2026-09-17 재검증: 2026-08-01 당시 "Design Token" 문서 페이지(현재 삭제됨)의
- * 목업 스와치에서 `get_variable_defs`가 빈 값(`{}`)만 반환해 "Figma Variable
- * 아님"이라 판단했으나, 이는 문서 페이지 자체가 어떤 Variable에도 바인딩되지
- * 않은 손그림이었기 때문이었습니다. 실제 프로덕션 컴포넌트(Button, Chip,
- * Tooltip, Badge, GNB, Select, Toggle 등) 텍스트 레이어에 동일하게
- * `get_variable_defs`를 호출하자 `size/xs:12`, `size/sm:14`, `weight/normal:400`,
- * `weight/medium:500`, `weight/semibold:600`, `leading/4:16`, `leading/5:20`,
- * `tracking/normal:0`, `family/sans:Inter` 등이 이름 붙은 진짜 Variable 값으로
- * 반환됨을 확인했습니다(family/sans 포함). 값은 기존과 동일해 변경 없음.
+ * font-family: 이 프레임엔 font-family 값이 없어 "DS — Text Styles" 프레임의
+ * 설명 텍스트("Inter 기반 118개 스타일")에서 가져왔습니다.
  *
- * ⚠️ 구조 관련 주의사항 (원래 요청한 --font-{step}-size/-weight/-line-height/-letter-spacing
- * 번들 구조로 정리할 수 없었습니다):
- * 이 파일이 참조한 "tw/font" 프레임은 size / weight / leading(line-height) / tracking
- * (letter-spacing) 4개의 "독립된" 스케일입니다. 즉 "xs"는 size 스케일에만 존재하고
- * weight/leading/tracking 스케일에는 대응하는 "xs" 항목이 없습니다 (반대로 leading은
- * 3,4,5...32 같은 숫자 스텝, weight는 thin~black, tracking은 tighter~widest로 각각
- * 이름 체계가 다릅니다). 따라서 "하나의 step 이름에 4개 속성을 묶는" 구조가 아니라,
- * 4개의 독립적인 스케일로 나누어 --font-size-*, --font-weight-*, --font-leading-*,
- * --font-tracking-* 네 그룹으로 구성했습니다.
- *
- * 별도로, size × weight 조합 스타일 118개("DS — Text Styles", node-id 4122:8786,
- * 13 size × 9 weight + Time Stamp 1개)가 실제 Figma Text Style로 존재하지만,
- * 이번 추출 범위(적은 수의 "step")를 벗어나는 방대한 조합 매트릭스라 이 파일에는
- * 포함하지 않았습니다. 필요 시 별도 작업으로 진행 권장 (⚠️ FLAG).
- *
- * font-family: 이 프레임 자체에는 font-family 값이 없습니다. "DS — Text Styles"
- * 프레임의 설명 텍스트("Inter 기반 118개 스타일")에서 "Inter"라는 문자열을 확인해
- * --font-family-sans 값으로 추가했습니다 — 이는 라벨 텍스트에서 추론한 값이며 실제
- * font-family Variable/Property를 직접 읽은 것이 아니므로 ⚠️ FLAG.
- *
- * leading(line-height)과 tracking(letter-spacing) 값은 Figma에 절대 px 단위로
- * 정의되어 있습니다 (Tailwind의 상대 비율이 아닌 절대값 방식).
+ * leading/tracking은 Tailwind의 상대 비율이 아니라 Figma가 정의한 절대 px
+ * 단위입니다.
  */
 
 :root {
@@ -141,11 +111,9 @@
   --gb-leading-32: 128px;
 
   /*
-   * Letter Spacing (tracking, 1). 2026-09-26 사용자 확정: 새 Foundation
-   * 문서(node-id 7370:476)와 실제 컴포넌트 어디에도 tracking-normal(0px)
-   * 외의 나머지 5개(tighter/tight/wide/wider/widest)가 존재하지 않아 —
-   * "Figma에 없으면 없는 게 맞다"는 원칙에 따라 삭제했습니다. 실사용처도
-   * 전혀 없었습니다(코드 전체 재확인 완료).
+   * Letter Spacing (tracking, 1). Figma와 실제 컴포넌트 어디에도
+   * tracking-normal(0px) 외의 나머지 5개(tighter/tight/wide/wider/widest)가
+   * 존재하지 않아 — "Figma에 없으면 없는 게 맞다"는 원칙에 따라 이 1개만 둡니다.
    */
   --gb-tracking-normal: 0px;
 }

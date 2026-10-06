@@ -7,33 +7,21 @@ import { cn } from "@/lib/utils";
  *
  * 컴퍼스 다이얼에 배치될 "셀프 1명"을 표현하는 원자 컴포넌트. 원형 배치(각도/반지름
  * 계산)는 상위 조립 컴포넌트의 몫이며, 이 파일은 정사각 프레임 안에 셀프 콘텐츠
- * (이미지 / 미배정 슬롯 / 가이드 링) 하나만 그린다. `compass-dial-tick`과 달리
- * 회전·방향 개념이 없다.
+ * (이미지 / 미배정 슬롯 / 가이드 링) 하나만 그린다.
  *
  * Figma variant → props 매핑:
- * - `Style=impact`(빈 점선 가이드 링, 5단계 사이즈) → `variant="guide"`
- * - `Style=empty`(셀프 미배정 슬롯) → `variant="empty"`
- * - 9개 페르소나 예시(data scientist 등) → `variant="self"`. Figma의 고정 9개
- *   이름 대신 임의의 유저 이미지를 받는 범용 구조로 설계했다 — 실제 다이얼에
- *   배치되는 셀프는 유저가 만든 사람이라 고정 enum이 맞지 않는다(사용자 승인,
- *   2026-09-28).
- * - `Size`: `guide`에서만 의미 있다. 100/150/200/250/300 전부 리터럴 px로
- *   고정한다(사용자 승인, 2026-09-28).
- * - `Status=default/active`: `self`/`empty`에서만 유효.
- * - `Error=true`: `self` && `status="default"`에서만 유효(Figma 조합 규칙).
+ * - `Style=impact` → `variant="guide"`, `Style=empty` → `variant="empty"`,
+ *   나머지(페르소나 예시들) → `variant="self"`(고정 enum 대신 임의 유저 이미지를
+ *   받는 범용 구조 — 실제 다이얼의 셀프는 유저가 만든 사람이라 enum이 안 맞음).
+ * - `Size`는 `guide`에서만 의미 있다(100~300px, 리터럴 고정).
+ * - `Status=default/active`는 `self`/`empty`에서만 유효.
+ * - `Error=true`는 `self` && `status="default"`에서만 유효(Figma 조합 규칙).
  *
- * 인터랙션: `status="active"`는 외부 강제 제어용으로 계속 동작하는 것과 별개로,
- * 마우스 hover 시에도 동일한 active 모습이 자동으로 나타난다(내부 hover state,
- * `isActive = status==="active" || hover`). 키보드 focus 반응은 범위 밖(사용자
- * 확인, 2026-09-28). 전환 움직임은 `transition-colors`/`transition-opacity`/
- * `transition-[filter]`를 함께 쓰는데, arbitrary-property 트랜지션
- * (`transition-[filter]`)은 Tailwind 프리셋과 달리 duration이 자동으로 붙지
- * 않아 border/overlay는 150ms로 부드럽게 바뀌는데 블러만 순간 전환되는 어긋남이
- * 있었다(뚝뚝 끊겨 보인다는 사용자 피드백, 2026-09-28) — 전부 `duration-150`을
- * 명시해 동기화했다.
- * 외부에서 넘긴 `onMouseEnter`/`onMouseLeave`는 내부 hover state 갱신과 함께
- * 그대로 호출된다(상위 `CompassSelfCluster`가 "어떤 셀프가 hover 중인지" 별도로
- * 추적할 수 있도록, 2026-09-28).
+ * `status="active"`와 별개로 마우스 hover 시에도 동일한 active 모습이 나타난다
+ * (`isActive = status==="active" || hover`). border/overlay/blur 전환 모두에
+ * `duration-150`을 명시해 속도를 동기화했다 — `transition-[filter]`처럼
+ * arbitrary-property 트랜지션은 Tailwind 프리셋과 달리 duration이 자동으로
+ * 붙지 않는다.
  */
 
 export type CompassSelfAvatarVariant = "self" | "empty" | "guide";

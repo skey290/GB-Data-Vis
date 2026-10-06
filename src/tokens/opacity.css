@@ -1,32 +1,13 @@
 /**
  * Design Tokens - Opacity
  *
- * ✅ 2026-09-26 새 기준 파일로 전환: Figma (G9YNa2vjdqDjnML9y5hXJ4,
- * ❄️ GB_Design-System — Atom), "Token Documentation — Spacing & Layout" 프레임
- * (node-id 7370:594)에서 6단계(50/70/80/85/90/100%)를 재확인 — 값 전부 기존과 동일.
- * 이름도 이미 동일한 퍼센트 기반 표기(`--opacity-50` 등)라 변경 불필요.
- *
- * 🗑️ 폐기 후보(새 문서에 없음, 값 변경 없이 보류 — 실사용 여부 미확인이라 삭제는
- * 하지 않음): 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 55, 60, 65, 75, 95(%).
- *
- * --- 이전 파일(PrsHuyyra9LzqqrDwmrB5P) 기준 검증 기록 (참고용, 값 변경 없어 유지) ---
- * Source: Figma (PrsHuyyra9LzqqrDwmrB5P, 📌 GB_Design-System-v2.3)
- *
- * ✅ 2026-09-17 재검증: 2026-08-01 당시 "Design Token" 문서 페이지(현재 삭제됨)의
- * 목업 스와치에서 `get_variable_defs`가 빈 값(`{}`)만 반환해 "Figma Variable
- * 아님"이라 판단했으나, 이는 문서 페이지 자체가 어떤 Variable에도 바인딩되지
- * 않은 손그림이었기 때문이었습니다. 실제 컴포넌트(Chip "Type=primary,
- * State=disabled" 리프 노드)에서 `opacity-70:70`이 이름 붙은 진짜 Variable
- * 값으로 반환됨을 확인했습니다. 단, 21개 중 이 1개만 직접 재현했고 나머지
- * 20개는 후속 검증이 필요합니다(가짜라는 뜻은 아님 — 다른 disabled 상태들은
- * opacity 대신 색상 변경으로 표현되어 있어 재현 대상 리프를 아직 못 찾음).
- * 값은 기존과 동일해 변경 없음.
+ * Source: Figma (G9YNa2vjdqDjnML9y5hXJ4, ❄️ GB_Design-System — Atom),
+ * "Token Documentation — Spacing & Layout" 프레임(node-id 7370:594).
  *
  * 구조: Tailwind opacity 스케일과 동일하게 0~100을 5 단위로 증가 (0, 5, 10, ...,
  * 100 = 21스텝). Figma 라벨은 단위 없는 정수(0~100, 예: "opacity-50 → 50")로만
  * 표기되어 있어, CSS `opacity` 속성(0~1 소수)에 바로 대입 가능하도록 100으로 나눈
  * 소수값으로 변환했습니다 (예: 50 → 0.5).
- *
  */
 
 :root {

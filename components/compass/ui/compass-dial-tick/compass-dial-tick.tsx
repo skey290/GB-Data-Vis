@@ -16,24 +16,21 @@ import { Tooltip } from "@/components/ui/tooltip";
  * - `direction`: outward(눈금 아래쪽 정렬, 라벨은 눈금 위) /
  *   inward(눈금 위쪽 정렬, 라벨은 박스 밖 위로 절대 배치)
  * - `muted`: 라벨/Badge 스타일만 다운그레이드(눈금선 색상엔 영향 없음 — 항상
- *   `--border-static-white` 고정, 기존 조사로 확정된 사실)
+ *   `--border-static-white` 고정)
  * - `textArrangement`: 라벨 회전 방향. 아래 ROTATION 테이블 참고
  * - `size`: 눈금선 길이(1~5). 라벨에는 영향 없음
  *
- * ⚠️ textArrangement × direction 회전각은 "cross-reverse가 inward일 때 0°로
- * 뒤집힌다"처럼 단순 공식으로 일반화되지 않아, 8개(text) + 8개(circle) 조합을
- * get_design_context로 전부 개별 조회해 실측했다(2026-09-28). text와 circle은
- * 서로 다른 회전 규칙을 가지며, 특히 `circle`의 `inward`+`cross-reverse` 조합만
- * 유일하게 실제 좌우 반전(스케일 상쇄가 안 되는 잔여 `scaleY(-1)`)이 남는다 —
- * Figma 원본을 그대로 재현한 것이며 별도 보정 없이 반영함.
+ * ⚠️ textArrangement × direction 회전각은 단순 공식으로 일반화되지 않아 text/
+ * circle 각 8개 조합을 실측해 테이블로 고정했다(아래 TEXT_ROTATION/
+ * CIRCLE_TRANSFORM 참고). 둘은 서로 다른 회전 규칙을 가지며, `circle`의
+ * `inward`+`cross-reverse` 조합만 유일하게 실제 좌우 반전이 남는다 — Figma
+ * 원본을 그대로 재현한 것이며 별도 보정 없이 반영함.
  *
- * `coachmark`(신규, 2026-09-29): Figma "캔버스 이동"/"셀프N개에서 포스팅 분석
- * 조건 충족시" 시나리오 스크린샷(node 8052:33418 등)을 실측한 결과, Reach/
- * Engagement 온보딩 코치마크("Most Reached: 8,340"/"Most Engaged: 14.3%")는
- * 항상 북쪽 눈금(슬롯0)의 라벨 칩에 바로 붙어 있었다. `buildRingPlan`의
- * `isNorth` 규칙(순위가 아니라 슬롯 위치로 결정)이 이미 이 칩을 `type="circle"`로
- * 고정해 렌더링하므로, 이 prop이 있으면 그 라벨(text/circle 공통)을
- * `Tooltip`(`variant="inversed"`, 항상 열림)으로 감싸기만 하면 된다.
+ * `coachmark`: Reach/Engagement 온보딩 코치마크("Most Reached: 8,340"/
+ * "Most Engaged: 14.3%")는 항상 북쪽 눈금(슬롯0)의 라벨 칩에 붙는다.
+ * `buildRingPlan`의 `isNorth` 규칙이 이미 이 칩을 `type="circle"`로 고정해
+ * 렌더링하므로, 이 prop이 있으면 그 라벨(text/circle 공통)을 `Tooltip`
+ * (`variant="inversed"`, 항상 열림)으로 감싸기만 하면 된다.
  */
 
 export type CompassDialTickType = "default" | "text" | "circle";
@@ -75,7 +72,7 @@ export interface CompassDialTickProps extends Omit<
 /**
  * 눈금선 실측값(px) — Figma "Part/Dial" 눈금 벡터를 size별로 직접 다운로드해
  * path 좌표를 역산했다. SVG 내부 기하 좌표라 spacing 토큰과 매칭되지 않아
- * 토큰화하지 않고 컴포넌트 내부 상수로 고정(사용자 승인, 2026-09-28).
+ * 토큰화하지 않고 컴포넌트 내부 상수로 고정.
  * upper: 바깥쪽(끝) segment, gap: 중간 공백, lower: 안쪽(중심) segment.
  */
 const TICK_GEOMETRY: Record<
@@ -96,10 +93,10 @@ const TICK_GEOMETRY: Record<
 const ROOT_WIDTH = 4;
 
 /**
- * type="text" 라벨 회전각(deg). get_design_context로 outward/inward ×
- * cross/cross-reverse/parallel/parallel-reverse 8개 조합 전부 실측 확인
- * (2026-09-28). direction이 cross 계열의 회전만 뒤집고(0↔180),
- * parallel 계열은 방향과 무관하게 동일하다 — 단순 공식이 아니라 실측 그대로 반영.
+ * type="text" 라벨 회전각(deg). outward/inward × cross/cross-reverse/
+ * parallel/parallel-reverse 8개 조합을 실측해 고정했다. direction이 cross
+ * 계열의 회전만 뒤집고(0↔180), parallel 계열은 방향과 무관하게 동일하다 —
+ * 단순 공식이 아니라 실측 그대로 반영.
  */
 const TEXT_ROTATION: Record<
   CompassDialTickDirection,
@@ -124,9 +121,9 @@ const TEXT_ROTATION: Record<
  *
  * inward + cross-reverse(북쪽 사분면)는 Figma 실측값을 그대로 옮기면
  * `rotate(180deg) scaleY(-1)`이 합성되어 배지 안 텍스트가 좌우로 뒤집혀
- * 보이는 문제가 있었다(2026-09-28 실사용 확인). 같은 위치의 `type="text"`
- * 라벨(`TEXT_ROTATION.inward["cross-reverse"]`)은 회전 0으로 정상 표시되므로,
- * circle도 동일하게 `{ rotate: 0, flipY: false }`로 맞춰 반전을 제거함.
+ * 보인다. 같은 위치의 `type="text"` 라벨(`TEXT_ROTATION.inward["cross-reverse"]`)
+ * 은 회전 0으로 정상 표시되므로, circle도 동일하게
+ * `{ rotate: 0, flipY: false }`로 맞춰 반전을 제거함.
  */
 const CIRCLE_TRANSFORM: Record<
   CompassDialTickDirection,
@@ -148,8 +145,8 @@ const CIRCLE_TRANSFORM: Record<
 
 /**
  * inward 라벨의 절대 배치 top 오프셋(px). cross 계열(text/circle 공통)은
- * -48px, circle의 parallel 계열만 Badge의 회전된 히트박스가 더 커서 -62.5px
- * (실측, 2026-09-28). text의 parallel 계열은 -48.5px로 사실상 동일해 -48px로 통일.
+ * -48px, circle의 parallel 계열만 Badge의 회전된 히트박스가 더 커서 -62.5px.
+ * text의 parallel 계열은 -48.5px로 사실상 동일해 -48px로 통일.
  */
 function getInwardLabelOffset(
   type: CompassDialTickType,

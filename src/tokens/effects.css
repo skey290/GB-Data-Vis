@@ -1,30 +1,20 @@
 /**
  * Design Tokens - Effects (Shadow / Blur)
  *
- * ✅ 2026-09-26 새 기준 파일로 전환: Figma (G9YNa2vjdqDjnML9y5hXJ4,
- * ❄️ GB_Design-System — Atom), "Token Documentation — Effects" 프레임
- * (node-id 7372:457)에서 27개 전부 재확인 — 기존 값과 완전히 동일, 변경 없음.
- *
- * --- 이전 파일(PrsHuyyra9LzqqrDwmrB5P) 기준 조사 기록 (참고용, 값 변경 없어 유지) ---
- * Source: Figma (PrsHuyyra9LzqqrDwmrB5P)
- *   - Box Shadow 7개(shadow-2xs~2xl): node-id 4111-3488 (⭐️Component 하위, 기존 조사)
- *   - 나머지 20개(Box Shadow 4개 + Backdrop Blur 8개 + Blur 8개):
- *     "DS — Effect Styles" 프레임, node-id 4122-8696 (2026-08-01 추가 조사,
- *     Figma Effect Styles 컬렉션 전체 27개 중 나머지)
+ * Source: Figma (G9YNa2vjdqDjnML9y5hXJ4, ❄️ GB_Design-System — Atom),
+ * "Token Documentation — Effects" 프레임(node-id 7372:457). 27개 전체.
  *
  * Figma effect group "Box Shadow/shadow-*" → CSS custom property `--shadow-*`
- * (그룹명 "Box Shadow"는 "shadow" 접두사와 중복되어 CSS 변수명에서는 생략)
+ * (그룹명 "Box Shadow"는 "shadow" 접두사와 중복되어 CSS 변수명에서는 생략).
  *
  * 값 형식(shadow): offset-x offset-y blur spread color (box-shadow 문법),
  * 다중 DROP_SHADOW effect는 쉼표로 연결. INNER_SHADOW는 `inset` 키워드 추가.
  * 값 형식(blur): filter/backdrop-filter에 그대로 대입 가능한 `blur(Npx)` 함수값.
  *
- * ℹ️ 2026-09-17 명시: 이 값들은 Figma "Variable"이 아니라 "Effect Style"이라는
- * 별도 기능입니다(`get_variable_defs`로 실제 컴포넌트를 조회하면
- * `"Box Shadow/shadow-xs":"Effect(type:DROP_SHADOW, color:#0000001A, ...)"`
- * 처럼 복합 문자열로 반환되어 flat Variable과 구분됨). 실제 프로덕션
- * 컴포넌트(Tooltip, Toggle, Input 등)에서 사용 중임을 라이브 조회로
- * 확인했습니다.
+ * 이 값들은 Figma "Variable"이 아니라 "Effect Style"이라는 별도 기능입니다
+ * (`get_variable_defs`로 조회하면 `"Box Shadow/shadow-xs":"Effect(type:
+ * DROP_SHADOW, color:#0000001A, ...)"`처럼 복합 문자열로 반환되어 flat
+ * Variable과 구분됨).
  */
 
 :root {

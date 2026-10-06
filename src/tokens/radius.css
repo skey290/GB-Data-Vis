@@ -1,37 +1,16 @@
 /**
  * Design Tokens - Border Radius
  *
- * ✅ 2026-09-26 새 기준 파일로 전환: Figma (G9YNa2vjdqDjnML9y5hXJ4,
- * ❄️ GB_Design-System — Atom), "Token Documentation — Spacing & Layout" 프레임
- * (node-id 7370:594)에서 10개(none/xs/sm/md/lg/xl/2xl/3xl/4xl/full) 전부
- * 재확인 — 기존 값과 완전히 동일, 변경 없음.
+ * Source: Figma (G9YNa2vjdqDjnML9y5hXJ4, ❄️ GB_Design-System — Atom),
+ * "Token Documentation — Spacing & Layout" 프레임(node-id 7370:594).
+ * 10개: none/xs/sm/md/lg/xl/2xl/3xl/4xl/full.
  *
- * ⚠️ 이름은 새 파일의 `--radius-*`(접두사 없음) 표기를 따르지 않고 기존
- * `--radius-scale-*`를 유지했습니다. 이유: `app/globals.css`에 이미 Shadcn
- * 기본 `--radius-sm/md/lg/xl`(전부 `calc(var(--radius) - Npx)` 계산식 기반)이
- * 선언되어 있어, 그대로 `-scale-`을 떼면 완전히 다른 두 값 체계가 같은 변수명을
- * 다시 선언하게 됩니다. 지금은 우연히 최종 px 값이 같아 안 보이지만, Shadcn
- * `--radius` 기준값이 바뀌면 조용히 깨질 수 있어 접두사를 유지했습니다.
- *
- * --- 이전 파일(PrsHuyyra9LzqqrDwmrB5P) 기준 검증 기록 (참고용, 값 변경 없어 유지) ---
- * Source: Figma (PrsHuyyra9LzqqrDwmrB5P, 📌 GB_Design-System-v2.3)
- *
- * ✅ 2026-09-17 재검증: 2026-08-01 당시 "Design Token" 문서 페이지(현재 삭제됨)의
- * 목업 스와치에 `get_variable_defs`를 호출해 빈 값(`{}`)만 받았던 것을 근거로
- * "Figma Variable 아님"이라 판단했으나, 그건 문서 페이지 자체가 어떤 Variable에도
- * 바인딩되지 않은 손그림이었기 때문이었습니다. 실제 프로덕션 컴포넌트(Button,
- * Chip, Input, Tooltip, Select, Toggle, GNB 등) 리프 노드에 동일하게
- * `get_variable_defs`를 호출하자 `rounded-lg:10`, `rounded-md:8`, `rounded-sm:6`,
- * `rounded-full:9999`, `rounded-xs:2`, `rounded-2xl:18` 등이 이름 붙은 진짜
- * Variable 값으로 반환됨을 확인했습니다. 값은 기존과 동일해 변경 없음.
- *
- * ⚠️ 이름 충돌 처리: `app/globals.css`에 이미 Shadcn 기본 `--radius`, `--radius-sm`,
- * `--radius-md`, `--radius-lg`, `--radius-xl`(전부 `--radius: 0.625rem` 기준 calc() 값)이
- * 정의되어 있어, 동일한 이름(rounded-sm/md/lg/xl)을 그대로 쓰면 충돌합니다.
- * 그래서 이 파일의 모든 변수는 `--radius-scale-*` 접두사로 분리했습니다.
- * (참고: 우연히 Figma의 rounded-sm/md/lg/xl 값이 현재 Shadcn calc() 결과값과 각각
- * 정확히 6px/8px/10px/14px로 일치합니다 — 아래 "생성된 토큰 파일 재검수" 보고 참고.
- * 그래도 계산 방식(고정 px vs `--radius` 기준 calc)이 다르므로 기존 변수는 덮어쓰지 않았습니다.)
+ * 이름은 `--radius-*`(접두사 없음)가 아니라 `--radius-scale-*`를 씁니다.
+ * `app/globals.css`에 이미 Shadcn 기본 `--radius-sm/md/lg/xl`(전부
+ * `calc(var(--radius) - Npx)` 계산식 기반)이 선언되어 있어, 접두사 없이 쓰면
+ * 계산 방식이 전혀 다른 두 값 체계가 같은 변수명을 다시 선언하게 됩니다. 지금은
+ * 우연히 최종 px 값이 같아(6/8/10/14px) 안 보이지만, Shadcn `--radius` 기준값이
+ * 바뀌면 조용히 깨질 수 있어 접두사로 분리했습니다.
  */
 
 :root {

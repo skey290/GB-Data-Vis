@@ -17,19 +17,17 @@ import {
  * 계열(원형 궤도 기하 구조)과는 완전히 무관한 별개 조립 컴포넌트다. 헤더(탭 1개 +
  * "Create Posts with one click" CTA) 아래 `CompassMetricCard` 3장(Growth
  * Potential / Qualified Reach / Engagement Intensity)을 세로로 쌓는다 — 카드
- * 셸은 `CompassMetricCard`(components/compass/ui/compass-metric-card)로 분리하고,
- * 카드마다 다른 콘텐츠(퍼센트 히어로, 포스트 통계, 빈 상태, 에러 상태)만 이
- * 파일에서 조립한다(사용자 승인, 2026-09-28).
+ * 셸은 `CompassMetricCard`로 분리하고, 카드마다 다른 콘텐츠(퍼센트 히어로,
+ * 포스트 통계, 빈 상태, 에러 상태)만 이 파일에서 조립한다.
  *
- * `type` 6종 → 파생 규칙(get_design_context 6개 variant 전부 실측, 2026-09-28):
+ * `type` 6종 → 파생 규칙:
  * - `error`: 3장 모두 반투명 blur 박스(circle-x + 안내문 + Retry)로 대체. CTA
  *   버튼도 `Button`의 `disabled` prop을 쓰지 않고(토큰이 다름:
  *   `--background-disabled`/`--text-static-gray`가 아니라
  *   `--background-selected`/`--text-subtler`/`--border-overlay`) className으로
  *   직접 오버라이드.
  * - `niche-data`/`no-experience`: **Growth Potential 카드에만** `--border-warning`
- *   보더가 붙는다(실측 결과 Reach/Qualified·Engagement 카드는 두 타입에서도 보더
- *   없음 — 직관과 달리 "경고 보더 = 전체 카드 공통"이 아니었음).
+ *   보더가 붙는다(Reach/Engagement 카드는 두 타입에서도 보더 없음).
  * - `bls`/`trend-data`: Qualified Reach/Engagement Intensity 카드가 빈 상태
  *   대신 실제 포스트 통계(대표 포스트 + 최근 포스트, 델타 배지·Breakdown 리스트는
  *   있을 때만) 2컬럼을 보여준다. 그 외(`default`/`niche-data`/`no-experience`)는
@@ -38,17 +36,11 @@ import {
  *   히어로 + Industry Growth/Experience 2행을 보여주고(카피만 타입별로 다름),
  *   `error`에서만 blur 박스로 전환된다.
  *
- * 아이콘: `circle-x-icon`은 Figma `data-name="lucide/circle-x"`와 실제 SVG
- * 둘 다 확인 후 사용. 카드 우측 상단의 "화살표" 아이콘은 Figma layer 이름이
- * `lucide/circle-dashed`로 되어 있지만 실제 인스턴스 스왑으로 렌더링되는 SVG는
- * arrow-up-right 모양이라(다운로드해 직접 확인, 2026-09-28) `arrow-up-right-icon`을
- * 사용했다 — layer 이름을 그대로 믿으면 안 되는 사례.
- * 빈 상태 아이콘은 `no-file-pen-icon` 사용(2026-09-28 교체, 아래 참고). 처음엔
- * "파일-펜 + 금지 슬래시" 합성 아이콘(`lucide/no file-pen`)의 정확한 스프라이트
- * 심볼이 없어 슬래시 없는 `file-pen-icon`으로 근사 처리했었으나, 사용자가 공유한
- * ❄️ GB_Design System (Atom) 아이콘 라이브러리 프레임(node-id 1086:1066)에서
- * 정확한 원본(`lucide/no file-pen`, node 4976:8231)을 발견해 `public/icons.svg`에
- * `no-file-pen-icon`으로 추가하고 이 근사치를 교체함.
+ * 아이콘: 카드 우측 상단의 "화살표" 아이콘은 Figma layer 이름이
+ * `lucide/circle-dashed`로 되어 있지만 실제 렌더링되는 SVG는 arrow-up-right
+ * 모양이라 `arrow-up-right-icon`을 사용했다 — layer 이름을 그대로 믿으면 안
+ * 되는 사례. 빈 상태 아이콘은 `no-file-pen-icon`(`public/icons.svg`,
+ * ❄️ GB_Design System Atom 아이콘 라이브러리 node-id 4976:8231) 사용.
  */
 
 export type CompassDetailViewType =
@@ -218,15 +210,9 @@ const DEFAULT_ENGAGEMENT_STATS: CompassDetailViewPostStat[] = [
  * 카드 콘텐츠 영역이 "반투명 blur 박스"로 바뀌는 두 경우(빈 상태 아이콘, 에러
  * 안내) 공통 셸. Figma 실측: `aspect-[510/246]`.
  *
- * `backdrop-blur` 값 재검증(2026-09-28): 처음엔 `get_design_context`가 생성한
- * 코드의 raw `backdrop-blur-[6px]` 클래스만 보고 토큰 중 가장 가까운 8px로
- * 근사했었으나, `get_variable_defs`로 실제 바인딩된 Effect 스타일을 직접
- * 조회한 결과 이 노드가 참조하는 스타일은 **"Backdrop Blur/backdrop-blur-md"
- * (radius: 12)** 였다 — Figma 코드젠이 named effect style을 arbitrary px
- * 클래스로 변환하는 과정에서 값이 어긋난 것으로 보임(스타일 이름 자체가
- * "-md"인데 6px로 나온 것부터 모순). `src/tokens/effects.css`의
- * `--backdrop-blur-md: blur(12px)`와 스타일 이름까지 정확히 일치해 근사 없이
- * 그대로 사용 — 신규 토큰 불필요.
+ * `backdrop-blur`는 Figma에서 바인딩된 Effect 스타일 이름("Backdrop Blur/
+ * backdrop-blur-md", radius: 12) 기준으로 적용한다 — `src/tokens/effects.css`의
+ * `--backdrop-blur-md: blur(12px)`와 정확히 일치.
  */
 function FrostedBox({ children }: { children: React.ReactNode }) {
   return (

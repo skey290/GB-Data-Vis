@@ -12,40 +12,38 @@ import {
  * Figma "Part/impact" (❄️ GB_Compass, C34HOpbSASmThFA1iYFm8D) node-id 8003:10382.
  *
  * Growth Potential 다이얼에 배치될 "셀프 1명" 조립 컴포넌트. 아바타 자체는
- * `CompassSelfAvatar`(node 8003:10251)를 그대로 재사용하고, 그 위에 성장 가이드
- * 링 + 커넥터(화살표 선) + 퍼센트 배지를 얹는다.
+ * `CompassSelfAvatar`를 그대로 재사용하고, 그 위에 성장 가이드 링 +
+ * 커넥터(화살표 선) + 퍼센트 배지를 얹는다.
  *
- * 배치는 8방향 실측(2026-09-28)으로 확정된 규칙을 따른다:
- * - 배치 각도(bearing) = `-position`도(북쪽=0, 시계방향+) — 8방향 전부 좌표 검증
+ * 배치 규칙:
+ * - 배치 각도(bearing) = `-position`도(북쪽=0, 시계방향+)
  * - 가이드 링 반지름 = `50 + growth × 1.25`px (growth=0이면 링/커넥터/배지 전부 숨김)
- * - 커넥터 바깥쪽 끝은 정확히 링 반지름 원 위(오차 1px 이내, 4개 growth 단계 검증)
- * - 배지 중심은 링 반지름 + 약 31px 지점에 업라이트로 배치(근사치 — Figma가 배지를
- *   회전 없이 코너 기준으로 앵커링해 정확한 상수는 아님, 4개 단계 실측 평균
- *   31px·오차 ±1.5px, 2026-09-28)
+ * - 커넥터 바깥쪽 끝은 정확히 링 반지름 원 위
+ * - 배지 중심은 링 반지름 + 약 31px 지점에 업라이트로 배치(근사치 — Figma가
+ *   배지를 회전 없이 코너 기준으로 앵커링해 정확한 상수는 아님, 실측 평균
+ *   31px·오차 ±1.5px)
  *
  * 가이드 링은 `CompassSelfAvatar`의 `guide` variant(100~300px 5단계 고정 enum)를
- * 재사용하지 않고 자체 구현한다 — growth가 연속값(사용자 승인, 2026-09-28)이라
- * 5단계 enum으로는 표현할 수 없기 때문.
+ * 재사용하지 않고 자체 구현한다 — growth가 연속값이라 5단계 enum으로는
+ * 표현할 수 없기 때문.
  *
  * `decorated`(기본 true): 링/커넥터/배지를 지금 보여줄지 여부를 `growth>0`(데이터
  * 존재 여부)과 분리했다 — 상위 `CompassSelfCluster`가 여러 셀프 중 하나만 장식을
  * 보여줄 때, 매번 `CompassSelfAvatar`↔`CompassGrowthAvatar`로 컴포넌트 자체를
- * 바꿔 리마운트시키면(React가 서브트리를 통째로 갈아엎어) 전환이 뚝뚝 끊긴다.
- * 대신 링/커넥터/배지 DOM은 항상 유지한 채 `decorated`로 opacity만 트랜지션시켜
- * 부드럽게 전환한다(사용자 확인, 2026-09-28).
+ * 바꿔 리마운트시키면 전환이 뚝뚝 끊긴다. 대신 링/커넥터/배지 DOM은 항상
+ * 유지한 채 `decorated`로 opacity만 트랜지션시켜 부드럽게 전환한다.
  *
  * 배지 색(alarm/reverse)은 `estimate`(이 셀프 자신의 데이터 충분 여부)에만
  * 좌우되고 `status`(active/hover)와는 무관하다 — hover로 다른 셀프를 미리보기
- * 해도 그 셀프 자신의 데이터 상태를 그대로 보여줘야 한다(사용자 확인,
- * 2026-09-28). 반면 아바타 안쪽 "Estimate" 안내 문구는 `status="active"`에서는
- * 계속 숨겨진다(hover 시 "Go to Content Studio"로 대체, 기존 Figma 검증 규칙).
+ * 해도 그 셀프 자신의 데이터 상태를 그대로 보여줘야 한다. 반면 아바타 안쪽
+ * "Estimate" 안내 문구는 `status="active"`에서는 계속 숨겨진다(hover 시
+ * "Go to Content Studio"로 대체).
  *
- * `coachmark`(신규, 2026-09-29): Growth Potential 온보딩 코치마크("Growth
- * Potential: 80%" + "Start posting...")의 앵커. Figma 실측(node
- * `I8052:33420;...;8003:11120;8003:10867`, "Badge")으로 이 배지 자체가 앵커임을
- * 확인 — 별도 칩을 새로 만들지 않고 기존 퍼센트 배지를 `Tooltip`으로 감싸기만
- * 한다. 호출부(`CompassSelfCluster`)가 "지금 장식 중인 포커스 셀프"에만 골라
- * 전달할 책임을 진다.
+ * `coachmark`: Growth Potential 온보딩 코치마크("Growth Potential: 80%" +
+ * "Start posting...")의 앵커. 퍼센트 배지 자체가 앵커라, 별도 칩을 새로
+ * 만들지 않고 기존 배지를 `Tooltip`으로 감싸기만 한다. 호출부
+ * (`CompassSelfCluster`)가 "지금 장식 중인 포커스 셀프"에만 골라 전달할
+ * 책임을 진다.
  */
 
 export type CompassGrowthAvatarVariant = "self" | "empty";

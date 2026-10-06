@@ -1,58 +1,19 @@
 /**
  * Design Tokens - Colors
  *
- * ✅ 2026-09-26 새 기준 파일로 전면 전환: Figma (G9YNa2vjdqDjnML9y5hXJ4,
- * ❄️ GB_Design-System — Atom), "Token Documentation — Color Primitives"
- * (node-id 7370:3) + "Token Documentation — Semantic Colors" (node-id 7370:210).
+ * Source: Figma (G9YNa2vjdqDjnML9y5hXJ4, ❄️ GB_Design-System — Atom),
+ * "Token Documentation — Color Primitives"(node-id 7370:3) +
+ * "Token Documentation — Semantic Colors"(node-id 7370:210, Light/Dark
+ * 전체 node-id 7378:3500에서 확정).
  *
- * === 무엇이 바뀌었나 ===
- * - Primitive: 기존 tw/colors 22팔레트(244개) + rdx/colors 33팔레트(396개) →
- *   새 파일은 7팔레트(neutral/red/orange/yellow/green/blue/violet, 11단계) +
- *   white/black + neutral/450(raw 예외) = 79개로 대폭 축소. slate/gray(구)/amber/
- *   indigo/purple/pink/zinc/stone/emerald/teal/cyan/sky/fuchsia/rose/lime와
- *   rdx-* 전체는 새 파일에 없어 삭제했습니다. neutral/red/orange/yellow/green/
- *   blue/violet 11단계는 값이 기존과 완전히 동일합니다(재확인 완료).
- * - Semantic: 기존 sidebar-*(8개)/warning/success/semantic-background/
- *   semantic-border는 실제 컴포넌트에서 전혀 쓰이지 않는 죽은 토큰이었고 새
- *   파일에도 이 이름들이 없어 삭제했습니다. 대신 새 파일의 역할 기반 semantic
- *   체계(background/text/icon/border × default/subtle/bold/error/... 약 80개,
- *   Light 모드 전량 확인)를 추가했습니다. 이름 규칙은 Figma와 동일하게 `--color-`
- *   접두사 없이 씁니다(예: `--background-default`, `--text-default`).
- * - Dark 모드: 처음엔 "Token Documentation — Semantic Colors" 원본 문서
- *   (node-id 7370:210)에 Light만 있어 일부만 컴포넌트 샘플링으로 확인했으나,
- *   2026-09-26 사용자가 이 문서를 Light/Dark 나란히 복제한 프레임(node-id
- *   7378:3500)을 만들어 **79개 전체 Dark 값이 확정**되었습니다. Light와 값이
- *   같은 토큰(static-* 계열, 일부 error/warning/success "default", raw
- *   mute/subtler 계열 등)은 `.dark`에서 다시 선언하지 않고 자연 상속시킵니다.
+ * Primitive: neutral/red/orange/yellow/green/blue/violet 7팔레트(11단계) +
+ * white/black + neutral/450(11단계 밖 raw 예외) = 79개.
  *
- * === Legacy 정리 완결 (2026-09-27) ===
- * 삭제된 rdx/colors 알파 스케일 중 실제 컴포넌트가 참조하던 값 5개
- * (`overlay-black-20`/`white-20`/`black-50`/`white-95`, `shimmer-gray`)를
- * 전부 재조사했습니다. 최종적으로 legacy 토큰은 `--color-shimmer-gray` 하나만
- * 남았고, 나머지 4개는 모두 삭제되었습니다:
- * - `overlay-black-20`/`overlay-white-20`(persona-radial-chart 값 밴드·빈 슬롯
- *   강조)은 한때 "테마 고정"이 필요하다고 판단해 primitive 기반 `color-mix()`로
- *   구현했으나, 2026-09-27 사용자가 "다크면 흰색, 라이트면 검정이 맞고 고정이면
- *   안 된다"고 정정해 앱 테마 반응형으로 전환했습니다. 강조 밴드는
- *   `color-mix(in srgb, var(--icon-default) 20%, transparent)`(라이트→흑20%/
- *   다크→백20%), 딤 밴드는 정확히 반대 극성인 `var(--background-sheer)`(라이트→
- *   백20%/다크→흑20%)를 그대로 참조합니다(`persona-radial-chart.tsx`의
- *   `HIGHLIGHT_BAND_FILL`/`DIMMED_BAND_FILL` 참고). 빈 슬롯 강조 배경도
- *   `get_design_context`로 실제 바인딩이 정확히 `background-sheer`임을 확인해
- *   그 토큰을 직접 참조합니다. 컴포넌트 루트에 걸어두었던 `dark` 강제도 함께
- *   제거해, 배지(`--background-bold`/`--text-invert`)·그리드 선(`--color-muted`)도
- *   전부 자연스럽게 앱 테마를 따르게 됐습니다.
- * - `overlay-black-50`(아바타 활성 하이라이트 딤)은 사용자가 Figma에서 직접
- *   확인해 실제로는 `background/backdrop`(`--background-backdrop`)에 바인딩되어
- *   있음을 알려줘서 해당 토큰을 그대로 참조하도록 교체했습니다.
- * - `overlay-white-95`는 대응 토큰도 없고 실사용처도 전혀 없는 죽은 토큰으로
- *   확인되어 삭제했습니다.
- * `--color-shimmer-gray`(구 rdx-gray-6, #d9d9d9)만 primitive와 정확히 일치하는
- * 값이 없어 근사치 hex를 유지합니다(skeleton.tsx 주석 참고, 사용자와 이미 확정).
- * (구 rdx-white-4/#ffffff33, rdx-black-5/#0000004d는 새 파일의 `--background-sheer`,
- * `--background-backdrop`와 정확히 값이 일치해 그대로 대체했습니다 — 별도 legacy
- * 불필요. `--color-accent-non-changeable`(#828282)도 새 `neutral/450`과 값이
- * 정확히 일치해 그 primitive를 참조하도록 변경했습니다.)
+ * Semantic: background/text/icon/border × default/subtle/bold/error/...
+ * 역할 기반 체계(약 80개). 이름 규칙은 Figma와 동일하게 `--color-` 접두사 없이
+ * 씁니다(예: `--background-default`, `--text-default`). Dark 모드에서 Light와
+ * 값이 같은 토큰(static-* 계열, 일부 error/warning/success "default", raw
+ * mute/subtler 계열 등)은 `.dark`에서 다시 선언하지 않고 자연 상속시킵니다.
  */
 
 :root {
@@ -226,18 +187,15 @@
   --gb-color-black: #000000;
 
   /*
-   * shimmer-gray(구 rdx-gray-6)만 primitive와 값이 정확히 일치하지 않는 근사치라
-   * legacy로 남아 있습니다 — skeleton.tsx 주석 참고, 사용자와 이미 근사치 사용을
-   * 확정한 값이라 유지합니다. (overlay-black-20/white-20/black-50/white-95는
-   * 2026-09-27 전량 재조사 후 시맨틱 토큰 참조로 전환되거나 삭제되어 더 이상
-   * 존재하지 않습니다 — 위 "Legacy 정리 완결" 참고.)
+   * primitive와 값이 정확히 일치하지 않는 근사치 legacy 토큰 — skeleton.tsx
+   * 주석 참고.
    */
   --gb-color-shimmer-gray: #d9d9d9;
 
   /*
    * compass-sphere 전용 raw 색. Figma Make 프로토타입(get_variable_defs 미지원
    * 파일 타입)에서 이식한 값이라 Figma 변수와 대조하지 못했다 — 원본 Design
-   * 파일이 확인되면 실제 바인딩 변수로 교체할 것(사용자 승인, 2026-09-29).
+   * 파일이 확인되면 실제 바인딩 변수로 교체할 것.
    */
   --gb-color-sphere-particle: #dd77ee;
 
@@ -425,18 +383,15 @@
   --gb-border-subtle-raw: #e5e5e5;
 
   /*
-   * raw 토큰(Figma 원본 라벨 "border/mute-subtle", "--" 미부여). 2026-09-27 사용자가
-   * Figma에서 신규 추가 — Button `link` variant의 `state=active` 밑줄(underline
-   * decoration) 전용 색상. 라이트/다크 스와치(node 7413:3 / 7413:6) 양쪽 모두
-   * #a3a3a3으로 확인되어 라이트/다크 무관 고정값입니다(다른 raw 토큰과 동일 패턴).
+   * raw 토큰(Figma 원본 라벨 "border/mute-subtle", "--" 미부여). Button `link`
+   * variant의 `state=active` 밑줄(underline decoration) 전용 색상. 라이트/다크
+   * 스와치 양쪽 모두 #a3a3a3이라 라이트/다크 무관 고정값입니다.
    */
   --gb-border-mute-subtle: #a3a3a3;
 }
 
 /*
- * Semantic — 다크모드. 2026-09-26 사용자가 Figma에서 Semantic Colors 문서를
- * Light/Dark 나란히 복제한 프레임(node-id 7378:3500)을 만들어 79개 전체
- * Dark 값을 확정했습니다. Light와 값이 동일한 토큰(static-* 계열, error/
+ * Semantic — 다크모드. Light와 값이 동일한 토큰(static-* 계열, error/
  * warning/success/info의 "default"류 일부, raw mute/subtler 등 — 아래
  * :root 선언 참고)은 다시 선언하지 않고 자연 상속시킵니다.
  */
@@ -456,7 +411,7 @@
 
   --gb-background-overlay: #262626;
 
-  --gb-background-sheer: #00000033; /* "background/sheer-invert" 데모 스와치로 이전에 확인, 이번에 재확인 */
+  --gb-background-sheer: #00000033; /* Figma "background/sheer-invert" 데모 스와치 */
 
   --gb-background-error-subtle: #450a0a;
 
