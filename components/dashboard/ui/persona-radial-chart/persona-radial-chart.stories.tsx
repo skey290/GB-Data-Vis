@@ -47,7 +47,6 @@ const meta = {
   args: {
     selfCount: 8,
     posting: true,
-    hover: "default",
     onPersonaSelect: fn(),
     onCenterClick: fn(),
   },
