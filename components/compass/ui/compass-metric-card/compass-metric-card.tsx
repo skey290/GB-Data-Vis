@@ -91,7 +91,7 @@ export function CompassMetricCard({
       {children}
 
       {!isError && (
-        // Figma 좌표 실측(2026-09-28 버그 수정, node 8003:12465 vs 부모 8003:12449):
+        // Figma 좌표 실측(버그 수정, node 8003:12465 vs 부모 8003:12449):
         // 버튼 인스턴스 x=404·width=156 → 우측 끝 560px == 카드 콘텐츠 영역
         // 우측 끝(padding 28px 제외 시 28+532=560)과 정확히 일치 — 가운데 정렬이
         // 아니라 우측 정렬이었다. `items-center`를 `items-end`로 수정.
@@ -104,9 +104,8 @@ export function CompassMetricCard({
             컴포넌트(node 73:3681, G9YNa2vjdqDjnML9y5hXJ4)에도 link 타입엔
             default/active(hover)/disabled 3개 상태만 있고 "옅은 기본값" 변형은
             없어 이 인스턴스는 컴포넌트 스펙을 벗어난 수동 오버라이드로 보인다.
-            2026-09-28 버그 수정: 기본색만 오버라이드하고 hover는 그대로 둬서
-            기본=호버=text-subtle로 같아져 버튼이 안 눌리는 것처럼 보이는
-            버그가 있었다 — hover는 Figma에 근거가 없어 이 프로젝트의 기존
+            기본색만 오버라이드하고 hover를 그대로 두면 기본=호버=text-subtle이
+            되어 버튼이 안 눌리는 것처럼 보인다 — hover는 Figma에 근거가 없어 이 프로젝트의 기존
             컨벤션(Tabs 비선택 탭: subtle → hover 시 emphasis, tabs.tsx 참고)을
             그대로 따라 `hover:text-[var(--text-emphasis)]`로 보강함.
           */}

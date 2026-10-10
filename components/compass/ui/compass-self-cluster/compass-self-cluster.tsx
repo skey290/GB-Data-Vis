@@ -13,7 +13,7 @@ import {
  *
  * 최대 8명의 "셀프"를 다이얼과 무관한 독립 8방향 위성으로 배치하는 조립 컴포넌트
  * (반지름 ~157px 고정. `compass-dial`의 outward/inward 반지름과는 전혀 다른
- * 스케일이라 다이얼 위에 얹히는 레이어가 아님을 실측 확인, 2026-09-28).
+ * 스케일이라 다이얼 위에 얹히는 레이어가 아님을 실측 확인).
  *
  * 두 세트로 나뉜다(Figma `Style` 축 → React의 `style`(인라인 스타일) prop과
  * 이름이 겹쳐 `variant`로 바꿈, `components/ui/avatar`의 선례와 동일):
@@ -23,24 +23,23 @@ import {
  *   값이 가장 큰 셀프(1명이면 그 1명) 하나만 `CompassGrowthAvatar`로 성장 장식
  *   (링/커넥터/배지)을 보여주고, 나머지는 장식 없는 `CompassSelfAvatar` self/empty로
  *   표시한다. **채워진 다른 셀프를 hover하면 장식이 그 셀프로 즉시 옮겨가 자신의
- *   `growth` 값을 보여주고, 빈 슬롯을 hover하면 장식이 전부 사라진다**(사용자 지정
- *   인터랙션, 2026-09-28 — Figma 정적 프레임에는 없는 동적 동작). hover 중인
+ *   `growth` 값을 보여주고, 빈 슬롯을 hover하면 장식이 전부 사라진다**(Figma 정적 프레임에는 없는 동적 동작). hover 중인
  *   셀프는 항상 `status="active"`로도 강제되어 "Go to Content Studio" + 포텐셜
  *   배지가 지연 없이 함께 뜬다. `-estimate`의 Estimate(빨강 배지 + 안내 문구)는
  *   **아무것도 hover하지 않은 디폴트 포커스 셀프의 평상시(=hover 아님) 모습에만**
  *   나타나며, 그 여부는 그 셀프의 `CompassSelfClusterSelf.estimate`(기본 `true`)로
  *   결정한다 — hover 중인 다른 셀프는 자신의 estimate 값과 무관하게 항상
  *   Content Studio + 흰 배지로 보인다(status=active면 Estimate가 무시되는 Figma
- *   검증 규칙과 일치, 사용자 확인 2026-09-28).
+ *   검증 규칙과 일치).
  * - `growth-potential-error`: 전역 API 실패 상태. 셀프는 전부 장식 없이 표시하고
  *   중앙 라벨이 "We couldn't fetch your data" + Retry 버튼(기존 `Button
  *   variant="link"` 재사용)으로 바뀐다.
  *
- * 채움 순서: `selves` 배열 순서 = 북쪽부터 시계방향(사용자 지정, 2026-09-28).
+ * 채움 순서: `selves` 배열 순서 = 북쪽부터 시계방향.
  * Figma 실측(1명=북쪽만, 2명=북+남 정반대)과는 다르지만, 실제 서비스에서 원하는
  * 채움 규칙(시계방향)을 그대로 구현했다.
  *
- * `coachmark`(신규, 2026-09-29): Growth Potential 온보딩 코치마크는 "지금
+ * `coachmark`(신규): Growth Potential 온보딩 코치마크는 "지금
  * 장식(decorated) 중인 포커스 셀프"의 퍼센트 배지에만 붙는다(`CompassGrowthAvatar`
  * 참고). 사용자가 다른 셀프를 hover하거나 빈 슬롯을 hover해 장식이 옮겨가거나
  * 사라지면 코치마크도 함께 숨긴다 — 정적 온보딩 힌트가 hover 인터랙션 중에
@@ -105,7 +104,7 @@ const FILL_ORDER: CompassSelfClusterPosition[] = [
   0, -45, -90, -135, -180, 135, 90, 45,
 ];
 
-/** 위성 중심까지의 거리(px). 8방향 전부 실측 평균(156.5~158px), 2026-09-28 */
+/** 위성 중심까지의 거리(px). 8방향 전부 실측 평균(156.5~158px) */
 const SATELLITE_RADIUS = 157;
 /** 컨테이너 크기(px). Figma 프레임 413×415 실측을 정사각형으로 단순화 */
 const CLUSTER_SIZE = 414;
@@ -126,7 +125,7 @@ function getFocusIndex(selves: CompassSelfClusterSelf[]): number | undefined {
  * ↔ `CompassSelfAvatar` 사이를 오가는 자식 대신) — 장식 여부에 따라 자식 컴포넌트
  * 타입이 바뀌면 React가 그 서브트리를 통째로 unmount/remount하므로, 자식에 직접
  * hover 핸들러를 달면 hover 도중 DOM 노드가 사라져 hover state가 끊기는 버그가
- * 생긴다(실측, 2026-09-28). 이 wrapper 자체는 자식 타입과 무관하게 항상 유지된다.
+ * 생긴다(실측). 이 wrapper 자체는 자식 타입과 무관하게 항상 유지된다.
  */
 function PositionedSatellite({
   position,
@@ -245,14 +244,14 @@ export function CompassSelfCluster({
         // growth-potential류는 항상 CompassGrowthAvatar로 렌더링한다(장식 없는
         // 셀프도 마찬가지) — 장식 여부에 따라 CompassSelfAvatar↔CompassGrowthAvatar로
         // 컴포넌트 타입 자체를 바꾸면 hover마다 서브트리가 리마운트되어 전환이
-        // 뚝뚝 끊긴다(실측, 2026-09-28). 대신 `decorated` prop으로 opacity만
+        // 뚝뚝 끊긴다(실측). 대신 `decorated` prop으로 opacity만
         // 부드럽게 트랜지션한다(compass-growth-avatar.tsx 참고).
         //
         // hover는 decoratedIndex뿐 아니라 status도 즉시 "active"로 강제해
         // "Go to Content Studio" + 포텐셜 배지가 지연 없이 함께 나타난다. 이 규칙
         // 덕분에 Estimate 안내 문구는 hover 중인 셀프에는 절대 뜨지 않고, 아무것도
         // hover하지 않은 디폴트 포커스 셀프의 평상시 모습에만 나타난다(Figma
-        // 검증된 status=active 규칙과 일치, 사용자 확인 2026-09-28). 배지 색은
+        // 검증된 status=active 규칙과 일치). 배지 색은
         // status와 무관하게 각 셀프 자신의 estimate 값을 그대로 따른다.
         const isHoveredSelf = isGrowthSet && hoveredSelfIndex === i;
         const isActive = activeSelfIndex === i || isHoveredSelf;

@@ -24,7 +24,7 @@ const selfB = { image: "/b.jpg", imageAlt: "B" };
 
 /**
  * 장식 없는 셀프도 항상 CompassGrowthAvatar로 렌더링되고 opacity로만 숨겨지므로
- * (뚝뚝 끊기지 않는 트랜지션을 위해, 2026-09-28), 배지 텍스트는 항상 DOM에 존재한다.
+ * (뚝뚝 끊기지 않는 트랜지션을 위해), 배지 텍스트는 항상 DOM에 존재한다.
  * "안 보인다"는 opacity-0 클래스 여부로 확인한다.
  */
 function isBadgeVisible(percentText: string): boolean {
@@ -196,7 +196,7 @@ describe("CompassSelfCluster", () => {
     );
 
     expect(screen.getByText("60%").className).toContain(
-      "text-[var(--text-warning)]",
+      "text-[var(--gb-text-warning)]",
     );
     expect(screen.getByText("Estimate")).toBeInTheDocument();
     expect(screen.queryByText("Go to")).toBeNull();
@@ -215,7 +215,7 @@ describe("CompassSelfCluster", () => {
 
     // selfB(estimate=true)를 hover하면 안내 문구는 즉시 Estimate 대신 Content
     // Studio로 바뀌지만, 배지 색은 hover와 무관하게 selfB 자신의 데이터 상태를
-    // 그대로 따라 빨강(alarm)이다(사용자 확인, 2026-09-28 — 칩 색깔은 hover로
+    // 그대로 따라 빨강(alarm)이다(칩 색깔은 hover로
     // 바뀌면 안 됨).
     const selfBWrapper = container.querySelector(`img[alt="${selfB.imageAlt}"]`)
       ?.parentElement?.parentElement?.parentElement as HTMLElement;
@@ -223,7 +223,7 @@ describe("CompassSelfCluster", () => {
 
     expect(isBadgeVisible("20%")).toBe(true);
     expect(screen.getByText("20%").className).toContain(
-      "text-[var(--text-warning)]",
+      "text-[var(--gb-text-warning)]",
     );
     expect(screen.queryByText("Estimate")).toBeNull();
     expect(screen.getByText("Go to")).toBeInTheDocument();
@@ -239,7 +239,7 @@ describe("CompassSelfCluster", () => {
     );
 
     expect(screen.getByText("25%").className).toContain(
-      "text-[var(--text-warning)]",
+      "text-[var(--gb-text-warning)]",
     );
     expect(screen.getByText("Estimate")).toBeInTheDocument();
   });

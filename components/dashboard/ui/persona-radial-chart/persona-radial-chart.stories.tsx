@@ -4,7 +4,7 @@ import { fn } from "storybook/test";
 import { PersonaRadialChart } from "./persona-radial-chart";
 
 const FIGMA_URL =
-  "https://www.figma.com/design/PrsHuyyra9LzqqrDwmrB5P/%F0%9F%93%8C-GB_Design-System-v2.2?node-id=5526-7658";
+  "https://www.figma.com/design/V5xLVr9FyArMjzaNpTn1Zo/GB_Dashboard?node-id=8004-6542";
 
 const meta = {
   title: "Dashboard/UI/PersonaRadialChart",

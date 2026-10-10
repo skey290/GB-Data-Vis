@@ -363,7 +363,7 @@ function StatBlock({ stat }: { stat: CompassDetailViewPostStat }) {
         </div>
       )}
       <Button
-        variant="ghost"
+        variant="icon-ghost"
         icon="arrow-up-right-icon"
         aria-label={`${stat.label} 자세히 보기`}
         onClick={stat.onRefreshClick}

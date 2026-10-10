@@ -41,14 +41,14 @@ describe("CompassDialTick", () => {
     render(<CompassDialTick type="circle" label="Badge" />);
 
     const badge = screen.getByText("Badge");
-    expect(badge.className).toContain("bg-[var(--background-bold)]");
+    expect(badge.className).toContain("bg-[var(--gb-background-bold)]");
   });
 
   it("switches the Badge to outline variant when muted", () => {
     render(<CompassDialTick type="circle" muted label="Badge" />);
 
     const badge = screen.getByText("Badge");
-    expect(badge.className).toContain("text-[var(--text-subtle)]");
+    expect(badge.className).toContain("text-[var(--gb-text-subtle)]");
   });
 
   it("downgrades text typography when muted", () => {

@@ -64,9 +64,8 @@ export function createSpriteIcon(symbolId: string): LucideIcon {
 }
 
 /**
- * 스프라이트 심볼 id → `lucide-react` 컴포넌트 매핑. 2026-10-02 픽셀 단위
- * 래스터 대조(공식 Figma 원본과 0% 또는 육안 무차이)로 검증된 범용 아이콘만
- * 포함합니다. 소셜 로고(google/linkedin 등)와 Gabrielle 전용 컨셉 아이콘
+ * 스프라이트 심볼 id → `lucide-react` 컴포넌트 매핑. 픽셀 단위 래스터 대조로
+ * 공식 Figma 원본과 일치함이 검증된 범용 아이콘만 포함합니다. 소셜 로고(google/linkedin 등)와 Gabrielle 전용 컨셉 아이콘
  * (asset/compass/reach/engagement/goal 등 일부)은 lucide에 대응 디자인이
  * 없거나 달라 여기 포함하지 않고 `/public/icons.svg` 스프라이트를 그대로
  * 유지합니다 — `Button`처럼 `icon: string` prop으로 임의 심볼 id를 받는

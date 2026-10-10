@@ -57,7 +57,7 @@ describe("CompassGrowthAvatar", () => {
     );
 
     expect(screen.getByText("20%").className).toContain(
-      "bg-[var(--background-default)]",
+      "bg-[var(--gb-background-default)]",
     );
 
     rerender(
@@ -70,7 +70,7 @@ describe("CompassGrowthAvatar", () => {
     );
 
     expect(screen.getByText("20%").className).toContain(
-      "text-[var(--text-warning)]",
+      "text-[var(--gb-text-warning)]",
     );
   });
 
@@ -110,7 +110,7 @@ describe("CompassGrowthAvatar", () => {
 
     expect(screen.queryByText("Estimate")).toBeNull();
     expect(screen.getByText("20%").className).toContain(
-      "text-[var(--text-warning)]",
+      "text-[var(--gb-text-warning)]",
     );
   });
 
@@ -128,7 +128,7 @@ describe("CompassGrowthAvatar", () => {
     // 배지는 여전히 DOM에 있고(부드러운 트랜지션을 위해) 색상도 estimate를 그대로
     // 따르지만, 감싸는 wrapper가 opacity-0이라 화면에는 보이지 않는다.
     expect(screen.getByText("20%").className).toContain(
-      "text-[var(--text-warning)]",
+      "text-[var(--gb-text-warning)]",
     );
     const ring = container.querySelector(".border-dashed") as HTMLElement;
     expect(ring).toBeInTheDocument();

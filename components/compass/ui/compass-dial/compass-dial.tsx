@@ -30,7 +30,7 @@ export type { CompassDialSelf, CompassDialTickCoachmark, CompassDialType };
  * 항상 다이얼 중심을 기준으로 일어납니다.
  *
  * 12개 실제 Figma variant(`Type` × `Self number` × `Data Collected`)를 전부
- * `get_screenshot`/`get_design_context`로 대조해 검증했습니다(2026-09-28):
+ * `get_screenshot`/`get_design_context`로 대조해 검증했습니다:
  * - `Self number=1, Data Collected=true`는 "No Data Collected"가 아니라 그
  *   1명의 실제 값을 size5로 표시합니다(최초 조사 문서의 추정과 달리 확인됨).
  * - `Type="reach and engagement"`의 `Self number=1`만 `Data Collected` 값과

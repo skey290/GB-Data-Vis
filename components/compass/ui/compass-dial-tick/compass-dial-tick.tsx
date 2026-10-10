@@ -30,7 +30,7 @@ import { Tooltip } from "@/components/ui/tooltip";
  * "Most Engaged: 14.3%")는 항상 북쪽 눈금(슬롯0)의 라벨 칩에 붙는다.
  * `buildRingPlan`의 `isNorth` 규칙이 이미 이 칩을 `type="circle"`로 고정해
  * 렌더링하므로, 이 prop이 있으면 그 라벨(text/circle 공통)을 `Tooltip`
- * (`variant="inversed"`, 항상 열림)으로 감싸기만 하면 된다.
+ * (`variant="reversed"`, 항상 열림)으로 감싸기만 하면 된다.
  */
 
 export type CompassDialTickType = "default" | "text" | "circle";
@@ -59,7 +59,7 @@ export interface CompassDialTickProps extends Omit<
    */
   label?: string;
   /**
-   * 라벨(있는 경우)에 붙는 온보딩 코치마크. 전달되면 `Tooltip`(`variant="inversed"`)을
+   * 라벨(있는 경우)에 붙는 온보딩 코치마크. 전달되면 `Tooltip`(`variant="reversed"`)을
    * 항상 열린 상태로 씌운다. `onDismiss`가 있으면 닫기(X) 버튼이 함께 렌더링됨.
    */
   coachmark?: {
@@ -199,7 +199,7 @@ export function CompassDialTick({
   const wrapWithCoachmark = (node: React.ReactNode) =>
     coachmark ? (
       <Tooltip
-        variant="inversed"
+        variant="reversed"
         open
         side="right"
         align="start"

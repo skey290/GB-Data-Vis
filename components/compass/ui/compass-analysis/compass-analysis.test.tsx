@@ -65,7 +65,7 @@ describe("CompassAnalysis", () => {
     );
 
     // 장식 없는 셀프도 opacity-0로만 숨겨질 뿐 DOM에는 계속 있다(부드러운
-    // 트랜지션을 위해, 2026-09-28) — 배지 텍스트 자체는 둘 다 존재한다.
+    // 트랜지션을 위해) — 배지 텍스트 자체는 둘 다 존재한다.
     expect(screen.getByText("60%")).toBeInTheDocument();
     expect(screen.getByText("20%")).toBeInTheDocument();
   });

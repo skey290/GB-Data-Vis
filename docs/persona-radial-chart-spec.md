@@ -2,7 +2,7 @@
 
 > **v1 → v2 변경 요약**
 > v1은 D3.js 프로토타입(`persona-wheel.html`) 기준으로 작성된 문서였습니다.
-> 이후 Figma 원본(GB_Design-System-v2.2, node `5526:7658`)을 기준으로 React 컴포넌트를
+> 이후 Figma 원본(GB_Design-System-v2.2, node `8004:6542`)을 기준으로 React 컴포넌트를
 > 새로 구현하면서 **값 표현 방식·상태 축·인터랙션이 모두 바뀌었습니다.**
 > 아래 본문은 **현재 구현된 코드 기준**이며, v1과 달라진 항목에는 `🔄 v1 대비 변경`을 붙였습니다.
 
@@ -10,7 +10,7 @@
 
 사용자의 "셀프(self)"와 8가지 페르소나(Data Scientist, Yoga Meditator, Novelist, Entrepreneur, Fashionista, Fashion Editor, Team Leader, Vegan Chef)를 하나의 원형 차트로 비교하는 데이터 시각화. 3가지 지표(Growth Potential, Qualified Reach, Engagement Intensity)를 동심원 링으로, 8명의 페르소나를 각도 섹터로 표현한다.
 
-- **Figma**: `GB_Design-System-v2.2` (`PrsHuyyra9LzqqrDwmrB5P`) node `5526:7658`
+- **Figma**: `GB_Design-System-v2.2` (`V5xLVr9FyArMjzaNpTn1Zo`) node `8004:6542`
 - **원본 variant 구성**: `Self(1|8) × Posting(true|false) × Hover(5종)` = **15개**
 - **구현 위치**: `components/dashboard/ui/persona-radial-chart/`
 

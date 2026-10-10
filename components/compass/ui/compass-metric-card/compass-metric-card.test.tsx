@@ -166,7 +166,7 @@ describe("CompassMetricCard", () => {
     expect(screen.queryByText("설명 문단")).not.toBeInTheDocument();
   });
 
-  it("right-aligns the footer link wrapper (2026-09-28 bug fix — was center-aligned, Figma coords prove right-aligned)", () => {
+  it("right-aligns the footer link wrapper (bug fix — was center-aligned, Figma coords prove right-aligned)", () => {
     render(
       <CompassMetricCard
         title="Growth Potential"
@@ -183,7 +183,7 @@ describe("CompassMetricCard", () => {
     expect(wrapper?.className).not.toContain("items-center");
   });
 
-  it("gives the footer link a different hover color than its default color (2026-09-28 bug fix — both used to resolve to --text-subtle, so hover looked broken)", () => {
+  it("gives the footer link a different hover color than its default color (bug fix — both used to resolve to --text-subtle, so hover looked broken)", () => {
     render(
       <CompassMetricCard
         title="Growth Potential"

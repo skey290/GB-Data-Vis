@@ -19,13 +19,13 @@ import { cn } from "@/lib/utils";
  *
  * 배경/배지는 앱 테마와 무관하게 항상 어두운 배경 위 시각화라(Figma Make 원본도
  * 배경 고정 검정), 테마에 반응하는 semantic 토큰 대신 primitive
- * (`--color-neutral-950`/`--color-neutral-50`)를 그대로 참조한다(사용자 승인,
- * 2026-09-29). 파티클 색(`--color-sphere-particle*`)은 Figma Make 파일이
+ * (`--color-neutral-950`/`--color-neutral-50`)를 그대로 참조한다.
+ * 파티클 색(`--color-sphere-particle*`)은 Figma Make 파일이
  * `get_variable_defs`를 지원하지 않는 파일 타입이라 원본 변수와 대조하지 못해
  * 신규 raw 토큰으로 등록했다(`src/tokens/colors.css` 참고).
  *
  * 점무늬("dotted background") 배경은 이 컴포넌트가 아니라 `app/compass/page.tsx`의
- * 공통 부모 컨테이너가 그린다 — Figma에서 실측한 결과(2026-09-29) 그 배경은
+ * 공통 부모 컨테이너가 그린다 — Figma에서 실측한 결과 그 배경은
  * `CompassSphere` 전용이 아니라 Home/Analysis 5개 상태 전부에 공통으로 깔리는
  * 페이지 레벨 레이어였다. WebGL 캔버스 자체가 `alpha:true`+투명 clearColor라
  * 이 컴포넌트는 배경 없이도 부모의 점무늬가 그대로 비쳐 보인다.

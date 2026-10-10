@@ -33,7 +33,7 @@ export const TICK_BOX_HEIGHT = 117;
 /**
  * 두 링의 "고정 기준 반지름"(px, 800×800 캔버스·중심 (400,400) 기준).
  *
- * outward(Reach) = 328, inward(Engagement) = 311. 둘 다 2026-09-28 Figma
+ * outward(Reach) = 328, inward(Engagement) = 311. Figma
  * 스크린샷을 800×800(또는 오버플로 포함 1063×1063 — get_screenshot의
  * `original_width`로 스케일 보정) 픽셀 단위로 직접 실측해 확정했습니다.
  *
@@ -101,7 +101,7 @@ export function slotToTickIndex(slot: number): number {
  * 통째로 회전시키므로 라벨이 최종적으로 똑바로 보이려면 "각도 + 원자의 내부
  * 회전값 ≡ 0(mod 360)"이 되는 arrangement를 90° 구간별로 골라야 합니다(대각선
  * 앵커에서는 완전한 상쇄가 불가능해 최대 45° 기울어짐 — Figma 원본도 동일하게
- * 기울어져 있음, 2026-09-28 스크린샷 확대 대조로 확인).
+ * 기울어져 있음, 스크린샷 확대 대조로 확인).
  *
  * outward/inward는 `cross`↔`cross-reverse`의 내부 회전값이 서로 뒤바뀌어 있어
  * (outward: cross=0/cross-reverse=180, inward: cross=180/cross-reverse=0),
@@ -131,7 +131,7 @@ export function getTextArrangement(
  *
  * `size = round(5 - (rankIndex / (n-1)) * 4)`. n<=1(비교 대상 없음)이면
  * 5(가장 큰 크기, 유일한 값이므로 최대로 표시 — Figma "Self number=1,
- * Data Collected=true" 실측: 북쪽 눈금이 size5로 렌더링됨, 2026-09-28 확인).
+ * Data Collected=true" 실측: 북쪽 눈금이 size5로 렌더링됨, 확인).
  */
 export function getBucketSize(
   rankIndex: number,
@@ -339,7 +339,7 @@ export function buildRingPlan({
  *   size1 장식용 눈금입니다.
  * - `size`는 호출부가 결정합니다: `!dataCollected` → 1,
  *   Ranking인데 Self 2명 미만(데이터는 있으나 순위를 매길 수 없음) → 5
- *   (둘 다 2026-09-28 Figma `get_design_context` 실측으로 확정).
+ *   (Figma `get_design_context` 실측으로 확정).
  */
 export function buildSuppressedRingPlan(
   direction: CompassDialTickDirection,
@@ -377,7 +377,7 @@ export interface CompassDialPlan {
  * `CompassDial`의 최상위 계획 함수. `type`·`selves`·`dataCollected`로부터 두 링
  * (outward=Reach, inward=Engagement)의 렌더 계획을 계산합니다.
  *
- * 우선순위(2026-09-28 Figma 실측으로 확정 — 아래 3가지 모두 최초 조사 요청에는
+ * 우선순위(Figma 실측으로 확정 — 아래 3가지 모두 최초 조사 요청에는
  * 없었던, `get_design_context`로 직접 검증한 보정 사항):
  * 1) Self 0명 → 두 링 모두 라벨 없이 전부 장식용(size1)
  * 2) `dataCollected=false` → primary 링 북쪽에 size1 "No Data Collected" 배지
@@ -387,7 +387,7 @@ export interface CompassDialPlan {
  *    실측으로 확인, 문서에 없던 발견)
  * 4) 그 외 → `buildRingPlan`으로 정상 버킷팅
  *
- * `coachmark`(신규, 2026-09-29)는 `type="reach"`/`"engagement"`에서만 북쪽 칩에
+ * `coachmark`(신규)는 `type="reach"`/`"engagement"`에서만 북쪽 칩에
  * 붙는다. `"reach-and-engagement"`(Ranking)에는 Figma에 정상 데이터 상태의
  * 코치마크가 없어(Self 2명 미만일 때의 "No Ranking Data Yet" 예외 상태만 있음,
  * 이번 범위 밖) 의도적으로 전달하지 않는다.
@@ -499,7 +499,7 @@ export function getTickBoxTopOffset(
 
 /**
  * outward(Reach/Ranking) 링의 북쪽(슬롯0) 라벨이 `CompassDial` 캔버스 상단
- * (로컬 y=0)보다 최대 몇 px 더 위로 튀어나올 수 있는지(2026-09-29, 실사용 겹침
+ * (로컬 y=0)보다 최대 몇 px 더 위로 튀어나올 수 있는지(실사용 겹침
  * 버그 수정 — `app/compass/page.tsx`가 상단 `CompassFloatingNav`와의 여백을
  * 계산할 때 이 값만큼 추가로 확보해야 한다).
  *

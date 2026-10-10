@@ -13,7 +13,7 @@ import {
  * Persona Radial Analytics — 셀프 + 8개 페르소나를 3개 지표(동심원 링) × 8개 섹터(각도)로
  * 비교하는 원형 차트.
  *
- * Figma: GB_Design-System-v2.2 (PrsHuyyra9LzqqrDwmrB5P) node 5526:7658이 원본 정의,
+ * Figma: GB_Design-System-v2.2 (V5xLVr9FyArMjzaNpTn1Zo) node 8004:6542이 원본 정의,
  * ❄️ GB_Dashboard(V5xLVr9FyArMjzaNpTn1Zo) node 8004:6542에 실데이터 목업으로
  * 재배치되어 있다(값은 두 파일 동일). props 축은 원본의
  * `Self(1|8) × Posting(true|false) × Hover(5종)` 15개 variant를 그대로 따른다.

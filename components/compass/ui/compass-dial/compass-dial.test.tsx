@@ -312,7 +312,7 @@ describe("OUTWARD_NORTH_LABEL_MAX_BLEED", () => {
     // Tailwind's JIT scanner needs a static literal, not a JS-interpolated one.
     // If dial geometry changes and this constant drifts from 44, that page-level
     // class must be updated to match or the Reach/Ranking floating-nav overlap
-    // fix (2026-09-29) silently regresses.
+    // fix silently regresses.
     expect(OUTWARD_NORTH_LABEL_MAX_BLEED).toBe(44);
   });
 });

@@ -22,9 +22,8 @@
 
 :root {
   /* Font Family */
-  /* 2026-09-27: 실제로 어디서도 Inter 폰트가 로드되지 않아 브라우저가 시스템
-     기본 sans-serif로 대체 렌더링하던 문제 발견 — app/layout.tsx(+ Storybook
-     preview)의 next/font(Inter)가 생성한 --font-inter를 참조하도록 교체 */
+  /* app/layout.tsx(+ Storybook preview)의 next/font(Inter)가 생성한
+     --font-inter를 참조한다 — 이 변수가 없으면 시스템 sans-serif로 대체된다. */
   --gb-font-sans: var(--font-inter), sans-serif;
 
   /* Font Size (14) — xxs 포함, 새 Foundation 문서와 완전 일치 */
@@ -34,7 +33,6 @@
    * 빈 아바타 슬롯의 "No Self" 라벨이 쓰는 Text Style `Text-xxs/Medium`
    * (Inter 500 / 8px / line-height 12px / tracking 0)을 그대로 옮긴 것입니다.
    * line-height 12px는 기존 --leading-3와 값이 정확히 일치해 재사용합니다.
-   * (2026-09-10 사용자 승인 — 12px로 대체하면 40px 아바타 원을 넘칩니다.)
    */
   --gb-text-xxs: 8px;
 

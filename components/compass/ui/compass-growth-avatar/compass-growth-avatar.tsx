@@ -79,7 +79,7 @@ export interface CompassGrowthAvatarProps extends Omit<
   /** estimate 상태 설명(CompassSelfAvatar로 그대로 전달). 기본값 "(Lack of Data)" */
   description?: string;
   /**
-   * 퍼센트 배지에 붙는 온보딩 코치마크. 전달되면 `Tooltip`(`variant="inversed"`)을
+   * 퍼센트 배지에 붙는 온보딩 코치마크. 전달되면 `Tooltip`(`variant="reversed"`)을
    * 항상 열린 상태로 씌운다. `growth>0`(배지 자체가 보일 때)에만 의미가 있다.
    */
   coachmark?: {
@@ -204,7 +204,7 @@ export function CompassGrowthAvatar({
               >
                 {coachmark ? (
                   <Tooltip
-                    variant="inversed"
+                    variant="reversed"
                     open
                     side="right"
                     align="start"

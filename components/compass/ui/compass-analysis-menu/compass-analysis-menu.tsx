@@ -8,7 +8,7 @@ import { Toggle, type ToggleItem } from "@/components/ui/toggle";
 /**
  * Figma "Toggle"(❄️ GB_Compass, C34HOpbSASmThFA1iYFm8D) — GNB 근처에 항상 떠 있는
  * Analysis 서브메뉴(node `I8052:33420;8045:20717;5133:9483`, GNB 인스턴스 안에
- * 오버레이로 겹쳐진 `orientation="vertical"` 4버튼 `Toggle`, 2026-09-29 실측).
+ * 오버레이로 겹쳐진 `orientation="vertical"` 4버튼 `Toggle`, 실측).
  *
  * 새 UI가 아니라 기존 `components/ui/toggle`(`orientation="vertical"`)을 감싸는
  * 얇은 어댑터입니다 — `toggle.stories.tsx`의 `VerticalWithLabels` 플레이스홀더가

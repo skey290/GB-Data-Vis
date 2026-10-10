@@ -27,6 +27,11 @@
 # ── Next.js 앱 (globals.css가 토큰 11개를 import 함) ──
 !/app/
 
+# ── 세 공개 레포로 배포하는 스크립트 ──
+!/scripts/
+/scripts/*
+!/scripts/publish.mjs
+
 # ── cn() 유틸 (tailwind-merge 커스텀 설정 포함) + 스프라이트 아이콘 헬퍼 ──
 !/lib/
 /lib/*

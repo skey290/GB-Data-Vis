@@ -9,7 +9,7 @@ import {
 } from "./compass-floating-nav";
 
 const FIGMA_URL =
-  "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%E2%9D%84%EF%B8%8F-GB_Design-System--Atom-?node-id=601-467";
+  "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%F0%9F%93%8C-GB_Design-System--Atom-?node-id=601-467";
 
 function ControlledCompassFloatingNav(props: CompassFloatingNavProps) {
   const [activeId, setActiveId] = React.useState<CompassFloatingNavItemId>(
