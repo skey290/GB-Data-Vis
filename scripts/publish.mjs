@@ -40,6 +40,7 @@ const SHARED = [
   "lib/sprite-icon.tsx",
   "src/tokens",
   "public/icons.svg",
+  "public/favicon.svg",
 ];
 
 const TARGETS = {
@@ -47,10 +48,24 @@ const TARGETS = {
     repo: "GB-Design-System",
     dir: resolve(ROOT, "../gabrielle-design-system"),
     // 토큰과 아토믹의 뿌리. 레퍼런스 문서도 여기에 둔다.
-    paths: [...SHARED, "components/ui", "docs/components"],
+    paths: [
+      ...SHARED,
+      "components/ui",
+      "docs/components",
+      "docs/design-tokens.md",
+      // Avatar 스토리가 참조하는 샘플 이미지
+      "public/images/personas",
+    ],
     // 아래 디렉터리는 스크립트가 전적으로 소유한다 — 원본에서 사라진 파일은
-    // 대상에서도 지워야 하므로 복사 전에 비운다.
-    owned: ["components", "docs", "src/tokens", ".storybook"],
+    // 대상에서도 지워야 하므로 복사 전에 비운다. paths에 싣지 않는 경로를
+    // owned에 넣으면 대상에서 삭제되므로 범위를 좁게 유지한다.
+    owned: [
+      "components",
+      "docs/components",
+      "src/tokens",
+      ".storybook",
+      "public/images",
+    ],
   },
   app: {
     repo: "GB-Component-App",
@@ -69,6 +84,14 @@ function run(cmd, args, cwd) {
 function publish(key, { repo, dir, paths, owned }, message) {
   if (!existsSync(dir)) {
     throw new Error(`${repo} 레포가 ${dir} 에 없습니다. 먼저 clone하세요.`);
+  }
+
+  // 다른 경로로 올라간 커밋이 있으면 푸시가 거절되므로 먼저 따라잡는다.
+  run("git", ["fetch", "origin"], dir);
+  const behind = run("git", ["rev-list", "--count", "HEAD..origin/main"], dir);
+  if (behind !== "0") {
+    run("git", ["merge", "--ff-only", "origin/main"], dir);
+    console.log(`  ${repo}: 원격 커밋 ${behind}개 따라잡음`);
   }
 
   for (const path of owned) {
