@@ -106,10 +106,18 @@ function publish(key, { repo, dir, paths, owned }, message) {
   }
 
   // 레포 이름은 각자 유지한다 — package.json은 공유하지만 name만 덮어쓴다.
+  // lockfile도 같이 고쳐야 `npm install`이 되돌려 diff를 남기지 않는다.
+  const name = repo.toLowerCase();
   const pkgPath = join(dir, "package.json");
   const pkg = JSON.parse(readFileSync(pkgPath, "utf8"));
-  pkg.name = repo.toLowerCase();
+  pkg.name = name;
   writeFileSync(pkgPath, `${JSON.stringify(pkg, null, 2)}\n`);
+
+  const lockPath = join(dir, "package-lock.json");
+  const lock = JSON.parse(readFileSync(lockPath, "utf8"));
+  lock.name = name;
+  if (lock.packages?.[""]) lock.packages[""].name = name;
+  writeFileSync(lockPath, `${JSON.stringify(lock, null, 2)}\n`);
 
   run("git", ["add", "-A"], dir);
   const staged = run("git", ["status", "--porcelain"], dir);
