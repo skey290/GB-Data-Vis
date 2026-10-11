@@ -71,6 +71,7 @@ export function PersonaSlot({
       >
         <Avatar
           variant="image"
+          shape="circle"
           src={persona.imageSrc}
           initials={persona.initials}
           alt={persona.name}

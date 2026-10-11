@@ -335,14 +335,10 @@
 
   --gb-icon-faint: #e5e5e5;
 
-  /*
-   * Semantic — Border (Light). 문서 라벨은 "border/subtler"지만 실제 바인딩은
-   * border-subtle 값. "border/subtle"(raw, 값 #e5e5e5)은 별도 raw 토큰인데
-   * border-default와 값이 동일해 별도 변수 대신 alias로만 남김.
-   */
+  /* Semantic — Border (Light) */
   --gb-border-default: #e5e5e5;
 
-  --gb-border-subtle: #f5f5f5;
+  --gb-border-subtler: #f5f5f5;
 
   --gb-border-bold: #737373;
 
@@ -381,7 +377,7 @@
 
   /* raw 토큰(Figma에 "--" 미부여). Light 값은 border-default와 같지만 Dark 값이
      달라(#171717) 별도 리터럴로 둡니다 — alias 불가 */
-  --gb-border-subtle-raw: #e5e5e5;
+  --gb-border-subtle: #e5e5e5;
 
   /*
    * raw 토큰(Figma 원본 라벨 "border/mute-subtle", "--" 미부여). Button `link`
@@ -489,7 +485,7 @@
   /* Border */
   --gb-border-default: #404040;
 
-  --gb-border-subtle: #262626;
+  --gb-border-subtler: #262626;
 
   --gb-border-invert: #e5e5e5;
 
@@ -513,7 +509,7 @@
 
   --gb-border-contrast: #000000; /* raw */
 
-  --gb-border-subtle-raw: #171717; /* raw, :root의 리터럴(#e5e5e5)을 dark에서 재정의 */
+  --gb-border-subtle: #171717;
 }
 
 /*
@@ -649,7 +645,7 @@
   /* Border */
   --gb-border-default: #e5e5e5;
 
-  --gb-border-subtle: #f5f5f5;
+  --gb-border-subtler: #f5f5f5;
 
   --gb-border-bold: #737373;
 
@@ -685,7 +681,7 @@
 
   --gb-border-contrast: #ffffff;
 
-  --gb-border-subtle-raw: #e5e5e5;
+  --gb-border-subtle: #e5e5e5;
 
   --gb-border-mute-subtle: #a3a3a3;
 }
@@ -836,7 +832,7 @@
   --icon-pressed: var(--gb-icon-pressed);
   --icon-faint: var(--gb-icon-faint);
   --border-default: var(--gb-border-default);
-  --border-subtle: var(--gb-border-subtle);
+  --border-subtler: var(--gb-border-subtler);
   --border-bold: var(--gb-border-bold);
   --border-bolder: var(--gb-border-bolder);
   --border-invert: var(--gb-border-invert);
@@ -854,6 +850,6 @@
   --border-invert-strong: var(--gb-border-invert-strong);
   --border-default-strong: var(--gb-border-default-strong);
   --border-contrast: var(--gb-border-contrast);
-  --border-subtle-raw: var(--gb-border-subtle-raw);
+  --border-subtle: var(--gb-border-subtle);
   --border-mute-subtle: var(--gb-border-mute-subtle);
 }
