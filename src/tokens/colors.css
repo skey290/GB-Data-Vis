@@ -181,10 +181,50 @@
 
   --gb-color-violet-950: #2e1065;
 
-  /* Primitive - Base (단일 값, 스텝 없음) */
+  /* Primitive - Base + 알파 스텝 (Figma `black/aNN`, `white/aNN`) */
   --gb-color-white: #ffffff;
 
+  --gb-color-white-a5: #ffffff0d;
+
+  --gb-color-white-a10: #ffffff1a;
+
+  --gb-color-white-a20: #ffffff33;
+
+  --gb-color-white-a30: #ffffff4d;
+
+  --gb-color-white-a40: #ffffff66;
+
+  --gb-color-white-a50: #ffffff80;
+
+  --gb-color-white-a60: #ffffff99;
+
+  --gb-color-white-a70: #ffffffb3;
+
+  --gb-color-white-a80: #ffffffcc;
+
+  --gb-color-white-a90: #ffffffe6;
+
   --gb-color-black: #000000;
+
+  --gb-color-black-a5: #0000000d;
+
+  --gb-color-black-a10: #0000001a;
+
+  --gb-color-black-a20: #00000033;
+
+  --gb-color-black-a30: #0000004d;
+
+  --gb-color-black-a40: #00000066;
+
+  --gb-color-black-a50: #00000080;
+
+  --gb-color-black-a60: #00000099;
+
+  --gb-color-black-a70: #000000b3;
+
+  --gb-color-black-a80: #000000cc;
+
+  --gb-color-black-a90: #000000e6;
 
   /*
    * primitive와 값이 정확히 일치하지 않는 근사치 legacy 토큰 — skeleton.tsx
@@ -202,12 +242,8 @@
   --gb-color-sphere-particle-hover: #c561d4;
 
   /* Non-changeable — 라이트/다크 무관 고정 색 */
-  --gb-color-accent-non-changeable: var(
-    --color-neutral-450
-  ); /* #828282, 새 neutral/450과 값 일치 */
-  --gb-color-semantic-non-changeable: var(
-    --color-white
-  ); /* #ffffff, 변경 없음 */
+  --gb-color-accent-non-changeable: var(--gb-color-neutral-450); /* #828282 */
+  --gb-color-semantic-non-changeable: var(--gb-color-white); /* #ffffff */
 
   /*
    * Semantic — Background (26, Light). Figma 이름 그대로 `--color-` 접두사 없이 사용.
@@ -266,10 +302,7 @@
 
   --gb-background-mute-subtler: var(--color-neutral-200); /* #e5e5e5 */
 
-  /*
-   * Semantic — Text (15, Light). `text/popover`는 Figma 문서 오배선으로 판단되어
-   * (실제로는 border-overlay 값을 보여줌) 이 파일에 추가하지 않았습니다.
-   */
+  /* Semantic — Text (16, Light) */
   --gb-text-default: #0a0a0a;
 
   --gb-text-subtle: #737373;
@@ -297,6 +330,8 @@
   --gb-text-selected: #f5f5f5;
 
   --gb-text-emphasis: #171717;
+
+  --gb-text-popover: #ffffff;
 
   --gb-text-subtler: var(--color-neutral-450); /* raw 토큰, #828282 */
 
@@ -455,6 +490,8 @@
 
   --gb-text-emphasis: #fafafa;
 
+  --gb-text-popover: #262626;
+
   /* Icon */
   --gb-icon-default: #fafafa;
 
@@ -604,6 +641,8 @@
   --gb-text-selected: #f5f5f5;
 
   --gb-text-emphasis: #171717;
+
+  --gb-text-popover: #ffffff;
 
   --gb-text-subtler: #828282;
 

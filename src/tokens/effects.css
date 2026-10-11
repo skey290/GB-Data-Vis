@@ -48,8 +48,7 @@
 
   --gb-backdrop-blur-sm: blur(4px);
 
-  /* Figma effect 이름이 접미사 없는 "backdrop-blur"(기본값) → 값(8px)을 이름에 사용 */
-  --gb-backdrop-blur-8: blur(8px);
+  --gb-backdrop-blur: blur(8px);
 
   --gb-backdrop-blur-md: blur(12px);
 
@@ -66,8 +65,7 @@
 
   --gb-blur-sm: blur(4px);
 
-  /* Figma effect 이름이 접미사 없는 "blur"(기본값) → 값(8px)을 이름에 사용 */
-  --gb-blur-8: blur(8px);
+  --gb-blur: blur(8px);
 
   --gb-blur-md: blur(12px);
 
@@ -95,7 +93,7 @@
   --shadow-destructive: var(--gb-shadow-destructive);
   --backdrop-blur-none: var(--gb-backdrop-blur-none);
   --backdrop-blur-sm: var(--gb-backdrop-blur-sm);
-  --backdrop-blur-8: var(--gb-backdrop-blur-8);
+  --backdrop-blur-8: var(--gb-backdrop-blur);
   --backdrop-blur-md: var(--gb-backdrop-blur-md);
   --backdrop-blur-lg: var(--gb-backdrop-blur-lg);
   --backdrop-blur-xl: var(--gb-backdrop-blur-xl);
@@ -103,7 +101,7 @@
   --backdrop-blur-3xl: var(--gb-backdrop-blur-3xl);
   --blur-none: var(--gb-blur-none);
   --blur-sm: var(--gb-blur-sm);
-  --blur-8: var(--gb-blur-8);
+  --blur-8: var(--gb-blur);
   --blur-md: var(--gb-blur-md);
   --blur-lg: var(--gb-blur-lg);
   --blur-xl: var(--gb-blur-xl);
