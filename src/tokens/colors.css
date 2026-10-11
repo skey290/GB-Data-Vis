@@ -1,23 +1,20 @@
 /**
  * Design Tokens - Colors
  *
- * Source: Figma (G9YNa2vjdqDjnML9y5hXJ4, ❄️ GB_Design-System — Atom),
- * "Token Documentation — Color Primitives"(node-id 7370:3) +
- * "Token Documentation — Semantic Colors"(node-id 7370:210, Light/Dark
- * 전체 node-id 7378:3500에서 확정).
+ * Source: Figma (G9YNa2vjdqDjnML9y5hXJ4) 변수 컬렉션
+ * `color-primitives`(100개, 단일 모드)와 `color`(80개, Light/Dark 2모드).
  *
- * Primitive: neutral/red/orange/yellow/green/blue/violet 7팔레트(11단계) +
- * white/black + neutral/450(11단계 밖 raw 예외) = 79개.
+ * Primitive 105 = Figma 100(neutral 12단계 + red/orange/yellow/green/blue/violet
+ * 11단계 + white/black + 각각의 알파 10스텝) + Figma에 대응 변수가 없는 코드 전용
+ * raw 색 5개.
  *
- * Semantic: background/text/icon/border × default/subtle/bold/error/...
- * 역할 기반 체계(약 80개). 이름 규칙은 Figma와 동일하게 `--color-` 접두사 없이
- * 씁니다(예: `--background-default`, `--text-default`). Dark 모드에서 Light와
- * 값이 같은 토큰(static-* 계열, 일부 error/warning/success "default", raw
- * mute/subtler 계열 등)은 `.dark`에서 다시 선언하지 않고 자연 상속시킵니다.
+ * Semantic 80 = background 26 / border 21 / icon 17 / text 16. 이름은 Figma와
+ * 동일하게 `--color-` 접두사 없이 씁니다(예: `--gb-background-default`). Dark에서
+ * Light와 값이 같은 토큰은 `.dark`에서 다시 선언하지 않고 자연 상속시킵니다.
  */
 
 :root {
-  /* Primitive - Neutral (11) + 450 예외 */
+  /* Primitive - Neutral (12) */
   --gb-color-neutral-50: #fafafa;
 
   --gb-color-neutral-100: #f5f5f5;
@@ -28,7 +25,6 @@
 
   --gb-color-neutral-400: #a3a3a3;
 
-  /* ⚠️ Figma 문서 라벨: "neutral/450" — 11단계 스케일 밖의 예외 값(raw, `--` 미부여) */
   --gb-color-neutral-450: #828282;
 
   --gb-color-neutral-500: #737373;
@@ -297,10 +293,10 @@
 
   --gb-background-success-subtle: #f0fdf4;
 
-  /* raw 토큰(Figma에 "--" 미부여), 값이 기존 primitive와 일치해 alias로 등록 */
-  --gb-background-mute-subtle: var(--color-neutral-450); /* #828282 */
+  /* primitive와 값이 같아 alias로 등록 */
+  --gb-background-mute-subtle: var(--gb-color-neutral-450); /* #828282 */
 
-  --gb-background-mute-subtler: var(--color-neutral-200); /* #e5e5e5 */
+  --gb-background-mute-subtler: var(--gb-color-neutral-200); /* #e5e5e5 */
 
   /* Semantic — Text (16, Light) */
   --gb-text-default: #0a0a0a;
@@ -333,7 +329,7 @@
 
   --gb-text-popover: #ffffff;
 
-  --gb-text-subtler: var(--color-neutral-450); /* raw 토큰, #828282 */
+  --gb-text-subtler: var(--gb-color-neutral-450); /* raw 토큰, #828282 */
 
   /* Semantic — Icon (17, Light) */
   --gb-icon-default: #0a0a0a;
@@ -402,13 +398,13 @@
   --gb-border-selected: #f5f5f5;
 
   /* raw 토큰들(Figma에 "--" 미부여), 값이 기존 primitive/토큰과 일치해 alias로 등록 */
-  --gb-border-mute: var(--color-neutral-450); /* #828282 */
+  --gb-border-mute: var(--gb-color-neutral-450); /* #828282 */
 
-  --gb-border-invert-strong: var(--color-neutral-900); /* #171717 */
+  --gb-border-invert-strong: var(--gb-color-neutral-900); /* #171717 */
 
-  --gb-border-default-strong: var(--color-neutral-50); /* #fafafa */
+  --gb-border-default-strong: var(--gb-color-neutral-50); /* #fafafa */
 
-  --gb-border-contrast: var(--color-white); /* #ffffff */
+  --gb-border-contrast: var(--gb-color-white); /* #ffffff */
 
   /* raw 토큰(Figma에 "--" 미부여). Light 값은 border-default와 같지만 Dark 값이
      달라(#171717) 별도 리터럴로 둡니다 — alias 불가 */
@@ -807,6 +803,26 @@
   --color-violet-950: var(--gb-color-violet-950);
   --color-white: var(--gb-color-white);
   --color-black: var(--gb-color-black);
+  --color-white-a5: var(--gb-color-white-a5);
+  --color-white-a10: var(--gb-color-white-a10);
+  --color-white-a20: var(--gb-color-white-a20);
+  --color-white-a30: var(--gb-color-white-a30);
+  --color-white-a40: var(--gb-color-white-a40);
+  --color-white-a50: var(--gb-color-white-a50);
+  --color-white-a60: var(--gb-color-white-a60);
+  --color-white-a70: var(--gb-color-white-a70);
+  --color-white-a80: var(--gb-color-white-a80);
+  --color-white-a90: var(--gb-color-white-a90);
+  --color-black-a5: var(--gb-color-black-a5);
+  --color-black-a10: var(--gb-color-black-a10);
+  --color-black-a20: var(--gb-color-black-a20);
+  --color-black-a30: var(--gb-color-black-a30);
+  --color-black-a40: var(--gb-color-black-a40);
+  --color-black-a50: var(--gb-color-black-a50);
+  --color-black-a60: var(--gb-color-black-a60);
+  --color-black-a70: var(--gb-color-black-a70);
+  --color-black-a80: var(--gb-color-black-a80);
+  --color-black-a90: var(--gb-color-black-a90);
   --color-shimmer-gray: var(--gb-color-shimmer-gray);
   --color-sphere-particle: var(--gb-color-sphere-particle);
   --color-sphere-particle-hover: var(--gb-color-sphere-particle-hover);
@@ -850,6 +866,7 @@
   --text-info: var(--gb-text-info);
   --text-success: var(--gb-text-success);
   --text-bold: var(--gb-text-bold);
+  --text-popover: var(--gb-text-popover);
   --text-selected: var(--gb-text-selected);
   --text-emphasis: var(--gb-text-emphasis);
   --text-subtler: var(--gb-text-subtler);

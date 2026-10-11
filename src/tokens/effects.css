@@ -93,6 +93,7 @@
   --shadow-destructive: var(--gb-shadow-destructive);
   --backdrop-blur-none: var(--gb-backdrop-blur-none);
   --backdrop-blur-sm: var(--gb-backdrop-blur-sm);
+  --backdrop-blur: var(--gb-backdrop-blur);
   --backdrop-blur-8: var(--gb-backdrop-blur);
   --backdrop-blur-md: var(--gb-backdrop-blur-md);
   --backdrop-blur-lg: var(--gb-backdrop-blur-lg);
@@ -101,6 +102,7 @@
   --backdrop-blur-3xl: var(--gb-backdrop-blur-3xl);
   --blur-none: var(--gb-blur-none);
   --blur-sm: var(--gb-blur-sm);
+  --blur: var(--gb-blur);
   --blur-8: var(--gb-blur);
   --blur-md: var(--gb-blur-md);
   --blur-lg: var(--gb-blur-lg);
