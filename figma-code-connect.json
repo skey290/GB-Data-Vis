@@ -1,0 +1,233 @@
+{
+  "_설명": "Figma Code Connect 매핑. 기준 파일은 G9YNa2vjdqDjnML9y5hXJ4 (📌 GB_Design-System — Atom).",
+  "mappings": {
+    "ProfilePrint": {
+      "figmaNodeId": "7256:22281",
+      "figmaUrl": "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%F0%9F%93%8C-GB_Design-System--Atom-?node-id=7256-22281",
+      "component": "components/app/profile-print/profile-print.tsx",
+      "export": "ProfilePrint"
+    },
+    "Chips": {
+      "figmaNodeId": "3021:1615",
+      "figmaUrl": "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%F0%9F%93%8C-GB_Design-System--Atom-?node-id=3021-1615",
+      "component": "components/ui/chips/chips.tsx",
+      "export": "Chips"
+    },
+    "Badge": {
+      "figmaNodeId": "665:2024",
+      "figmaUrl": "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%F0%9F%93%8C-GB_Design-System--Atom-?node-id=665-2024",
+      "component": "components/ui/badge/badge.tsx",
+      "export": "Badge"
+    },
+    "Spinner": {
+      "figmaNodeId": "1202:731",
+      "figmaUrl": "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%F0%9F%93%8C-GB_Design-System--Atom-?node-id=1202-731",
+      "component": "components/ui/spinner/spinner.tsx",
+      "export": "Spinner"
+    },
+    "Tabs": {
+      "figmaNodeId": "3282:324",
+      "figmaUrl": "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%F0%9F%93%8C-GB_Design-System--Atom-?node-id=3282-324",
+      "component": "components/ui/tabs/tabs.tsx",
+      "export": "Tabs"
+    },
+    "Button": {
+      "figmaNodeId": "73:3681",
+      "figmaUrl": "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%F0%9F%93%8C-GB_Design-System--Atom-?node-id=73-3681",
+      "component": "components/ui/button/button.tsx",
+      "export": "Button"
+    },
+    "Toggle": {
+      "figmaNodeId": "7214:444",
+      "figmaUrl": "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%F0%9F%93%8C-GB_Design-System--Atom-?node-id=7214-444",
+      "component": "components/ui/toggle/toggle.tsx",
+      "export": "Toggle"
+    },
+    "Textarea": {
+      "figmaNodeId": "623:3651",
+      "figmaUrl": "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%F0%9F%93%8C-GB_Design-System--Atom-?node-id=623-3651",
+      "component": "components/ui/textarea/textarea.tsx",
+      "export": "Textarea"
+    },
+    "Select": {
+      "figmaNodeId": "614:2466",
+      "figmaUrl": "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%F0%9F%93%8C-GB_Design-System--Atom-?node-id=614-2466",
+      "component": "components/ui/select/select.tsx",
+      "export": "Select"
+    },
+    "Skeleton": {
+      "figmaNodeId": "3017:2922",
+      "figmaUrl": "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%F0%9F%93%8C-GB_Design-System--Atom-?node-id=3017-2922",
+      "component": "components/ui/skeleton/skeleton.tsx",
+      "export": "Skeleton"
+    },
+    "Avatar": {
+      "figmaNodeId": "3073:4051",
+      "figmaUrl": "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%F0%9F%93%8C-GB_Design-System--Atom-?node-id=3073-4051",
+      "component": "components/ui/avatar/avatar.tsx",
+      "export": "Avatar"
+    },
+    "PartInput": {
+      "figmaNodeId": "520:3062",
+      "figmaUrl": "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%F0%9F%93%8C-GB_Design-System--Atom-?node-id=520-3062",
+      "component": "components/ui/part-input/part-input.tsx",
+      "export": "PartInput"
+    },
+    "Input": {
+      "figmaNodeId": "5084:3716",
+      "figmaUrl": "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%F0%9F%93%8C-GB_Design-System--Atom-?node-id=5084-3716",
+      "component": "components/ui/input/input.tsx",
+      "export": "Input"
+    },
+    "Chatbox": {
+      "figmaNodeId": "7219:5418",
+      "figmaUrl": "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%F0%9F%93%8C-GB_Design-System--Atom-?node-id=7219-5418",
+      "component": "components/ui/chatbox/chatbox.tsx",
+      "export": "Chatbox"
+    },
+    "InputSearch": {
+      "figmaNodeId": "3981:19811",
+      "figmaUrl": "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%F0%9F%93%8C-GB_Design-System--Atom-?node-id=3981-19811",
+      "component": "components/ui/input-search/input-search.tsx",
+      "export": "InputSearch"
+    },
+    "InputTime": {
+      "figmaNodeId": "588:108",
+      "figmaUrl": "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%F0%9F%93%8C-GB_Design-System--Atom-?node-id=588-108",
+      "component": "components/ui/input-time/input-time.tsx",
+      "export": "InputTime"
+    },
+    "InputPhone": {
+      "figmaNodeId": "3525:8236",
+      "figmaUrl": "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%F0%9F%93%8C-GB_Design-System--Atom-?node-id=3525-8236",
+      "component": "components/ui/input-phone/input-phone.tsx",
+      "export": "InputPhone"
+    },
+    "Checkbox": {
+      "figmaNodeId": "76:8617",
+      "figmaUrl": "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%F0%9F%93%8C-GB_Design-System--Atom-?node-id=76-8617",
+      "component": "components/ui/checkbox/checkbox.tsx",
+      "export": "Checkbox"
+    },
+    "Slider": {
+      "figmaNodeId": "76:10520",
+      "figmaUrl": "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%F0%9F%93%8C-GB_Design-System--Atom-?node-id=76-10520",
+      "component": "components/ui/slider/slider.tsx",
+      "export": "Slider"
+    },
+    "Pagination": {
+      "figmaNodeId": "3331:2811",
+      "figmaUrl": "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%F0%9F%93%8C-GB_Design-System--Atom-?node-id=3331-2811",
+      "component": "components/ui/pagination/pagination.tsx",
+      "export": "Pagination"
+    },
+    "ProgressBar": {
+      "figmaNodeId": "3311:1341",
+      "figmaUrl": "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%F0%9F%93%8C-GB_Design-System--Atom-?node-id=3311-1341",
+      "component": "components/ui/progress-bar/progress-bar.tsx",
+      "export": "ProgressBar"
+    },
+    "Progress": {
+      "figmaNodeId": "3539:7160",
+      "figmaUrl": "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%F0%9F%93%8C-GB_Design-System--Atom-?node-id=3539-7160",
+      "component": "components/ui/progress/progress.tsx",
+      "export": "Progress"
+    },
+    "Switch": {
+      "figmaNodeId": "76:10618",
+      "figmaUrl": "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%F0%9F%93%8C-GB_Design-System--Atom-?node-id=76-10618",
+      "component": "components/ui/switch/switch.tsx",
+      "export": "Switch"
+    },
+    "Tooltip": {
+      "figmaNodeId": "3042:539",
+      "figmaUrl": "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%F0%9F%93%8C-GB_Design-System--Atom-?node-id=3042-539",
+      "component": "components/ui/tooltip/tooltip.tsx",
+      "export": "Tooltip"
+    },
+    "Popover": {
+      "figmaNodeId": "7269:451",
+      "figmaUrl": "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%F0%9F%93%8C-GB_Design-System--Atom-?node-id=7269-451",
+      "component": "components/ui/popover/popover.tsx",
+      "export": "Popover"
+    },
+    "Calendar": {
+      "figmaNodeId": "7219:10699",
+      "_참고": "\"Calendar\" 페이지 전체(Part/Month Year, Part/Date, Part/Calendar, Part/Range Calendar 하위 프레임 포함). 그리드 프리미티브 — mode=\"single\"|\"range\", 월/연 서브뷰 전환은 Figma 정적 스냅샷 기반 자유 설계.",
+      "figmaUrl": "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%F0%9F%93%8C-GB_Design-System--Atom-?node-id=7219-10699",
+      "component": "components/ui/calendar/calendar.tsx",
+      "export": "Calendar"
+    },
+    "DateSelect": {
+      "figmaNodeId": "7219:10905",
+      "figmaUrl": "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%F0%9F%93%8C-GB_Design-System--Atom-?node-id=7219-10905",
+      "component": "components/ui/date-select/date-select.tsx",
+      "export": "DateSelect"
+    },
+    "RangeSelect": {
+      "figmaNodeId": "7219:10932",
+      "figmaUrl": "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%F0%9F%93%8C-GB_Design-System--Atom-?node-id=7219-10932",
+      "component": "components/ui/range-select/range-select.tsx",
+      "export": "RangeSelect"
+    },
+    "FloatingProfile": {
+      "figmaNodeId": "7244:22163",
+      "_참고": "avatarSrc 없으면 \"no profile\" 상태(node 7425:4495)로 Avatar의 아이콘 폴백을 재사용(2026-09-27).",
+      "figmaUrl": "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%F0%9F%93%8C-GB_Design-System--Atom-?node-id=7244-22163",
+      "component": "components/app/floating-profile/floating-profile.tsx",
+      "export": "FloatingProfile"
+    },
+    "MenuButton": {
+      "figmaNodeId": "3436:812",
+      "figmaUrl": "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%F0%9F%93%8C-GB_Design-System--Atom-?node-id=3436-812",
+      "component": "components/app/menu-button/menu-button.tsx",
+      "export": "MenuButton"
+    },
+    "MenuNotification": {
+      "figmaNodeId": "3555:8113",
+      "figmaUrl": "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%F0%9F%93%8C-GB_Design-System--Atom-?node-id=3555-8113",
+      "component": "components/app/menu-notification/menu-notification.tsx",
+      "export": "MenuNotification"
+    },
+    "NotiDropdown": {
+      "figmaNodeId": "4979:11016",
+      "_참고": "리스트 행(node 4978:9853 'Part/noti dropdown')은 별도 컴포넌트로 분리하지 않고 NotiDropdown 내부에 인라인으로 구현. Tabs/Badge를 그대로 재사용.",
+      "figmaUrl": "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%F0%9F%93%8C-GB_Design-System--Atom-?node-id=4979-11016",
+      "component": "components/app/noti-dropdown/noti-dropdown.tsx",
+      "export": "NotiDropdown"
+    },
+    "Gnb": {
+      "figmaNodeId": "616:3399",
+      "_참고": "Expand/Type/Style 3축을 items+activeId+disabledIds로 축약(ButtonGroup type=menu와 동일 패턴). GNB 계열은 always-dark(.dark 클래스 스코프). Settings 플라이아웃은 후속 작업(onSettingsClick 콜백만 노출).",
+      "figmaUrl": "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%F0%9F%93%8C-GB_Design-System--Atom-?node-id=616-3399",
+      "component": "components/app/gnb/gnb.tsx",
+      "export": "Gnb"
+    },
+    "AssetHistoryDrawer": {
+      "figmaNodeId": "3365:461",
+      "_참고": "Work History(node 3365:461, 배지+라벨+타임스탬프+되돌리기)와 Self Archive(node 3419:1099, 라벨+되돌리기+삭제) 두 행 레이아웃을 badge/timestamp 존재 여부로 자동 판별해 하나의 컴포넌트로 통합.",
+      "figmaUrl": "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%F0%9F%93%8C-GB_Design-System--Atom-?node-id=3365-461",
+      "component": "components/app/asset-history-drawer/asset-history-drawer.tsx",
+      "export": "AssetHistoryDrawer"
+    },
+    "CompassToolbar": {
+      "figmaNodeId": "5266:11096",
+      "_참고": "Compass/Contents Studio 사이드바 예시의 'toggle select'(node 5274:11821, Home/Analysis 또는 Analysis/Content 라벨) + 'select'(node 5274:12001, 기존 Select type=self style=mute 그대로 재사용) 조합. 세그먼트 토글은 기존 toggle-select(AM/PM 전용, 다른 토큰 세트)와 재사용 불가해 이 wrapper 내부에 새로 최소 구현.",
+      "figmaUrl": "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%F0%9F%93%8C-GB_Design-System--Atom-?node-id=5266-11096",
+      "component": "components/compass/ui/compass-toolbar/compass-toolbar.tsx",
+      "export": "CompassToolbar"
+    },
+    "ButtonGroup": {
+      "figmaNodeId": "3466:29935",
+      "figmaUrl": "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%F0%9F%93%8C-GB_Design-System--Atom-?node-id=3466-29935",
+      "component": "components/ui/button-group/button-group.tsx",
+      "export": "ButtonGroup"
+    },
+    "Scrollbar": {
+      "figmaNodeId": "7792:522",
+      "figmaUrl": "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%F0%9F%93%8C-GB_Design-System--Atom-?node-id=7792-522",
+      "component": "components/ui/scrollbar/scrollbar.tsx",
+      "export": "Scrollbar"
+    }
+  }
+}

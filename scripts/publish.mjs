@@ -51,6 +51,8 @@ const TARGETS = {
     paths: [
       ...SHARED,
       "components/ui",
+      // src/tokens를 렌더해 보여주는 토큰 문서 스토리
+      "components/foundation",
       "docs/components",
       "docs/design-tokens.md",
       // Avatar 스토리가 참조하는 샘플 이미지
