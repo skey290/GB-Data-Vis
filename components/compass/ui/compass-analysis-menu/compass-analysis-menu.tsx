@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { CircleArrowOutUpRight } from "lucide-react";
 
 import { createSpriteIcon } from "@/lib/sprite-icon";
 import { Toggle, type ToggleItem } from "@/components/ui/toggle";
@@ -13,8 +14,8 @@ import { Toggle, type ToggleItem } from "@/components/ui/toggle";
  * 새 UI가 아니라 기존 `components/ui/toggle`(`orientation="vertical"`)을 감싸는
  * 얇은 어댑터입니다 — `toggle.stories.tsx`의 `VerticalWithLabels` 플레이스홀더가
  * 이미 이 4개 라벨(Growth Potential/Reach/Engagement/Ranking)로 구성돼 있었습니다.
- * 아이콘은 전부 기존 `public/icons.svg` 스프라이트에 있어 신규 추가가 필요 없었습니다
- * (circle-arrow-out-up-right-icon/reach-icon/engagement-icon/crown-icon).
+ * Growth Potential은 lucide `CircleArrowOutUpRight`, 나머지 셋은 Gabrielle 전용
+ * 아이콘이라 `public/icons.svg` 스프라이트를 씁니다.
  *
  * `Toggle`은 항목별 `pressed` 불리언 배열이라 단일 선택(라디오) 규칙이 없으므로,
  * 이 어댑터가 `value`/`onValueChange`로 감싸 라디오처럼 동작하게 한다.
@@ -31,7 +32,7 @@ export interface CompassAnalysisMenuProps extends Omit<
   disabled?: boolean;
 }
 
-const GrowthPotentialIcon = createSpriteIcon("circle-arrow-out-up-right-icon");
+const GrowthPotentialIcon = CircleArrowOutUpRight;
 const ReachIcon = createSpriteIcon("reach-icon");
 const EngagementIcon = createSpriteIcon("engagement-icon");
 const RankingIcon = createSpriteIcon("crown-icon");
