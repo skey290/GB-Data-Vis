@@ -100,11 +100,9 @@ export function createSpriteIcon(symbolId: string): LucideIcon {
  */
 export const SPRITE_ONLY_ICON_IDS = [
   "asset-icon",
-  "bookmark-active-icon",
-  "circle-arrow-in-down-left-icon",
   "compass-icon",
   "crown-icon",
-  "dashboard-icon",
+  "dot-bell-icon",
   "engagement-icon",
   "expand-close-icon",
   "facebook-icon",
@@ -115,7 +113,6 @@ export const SPRITE_ONLY_ICON_IDS = [
   "instagram-icon",
   "linkedin-icon",
   "no-file-pen-icon",
-  "pinterest-icon",
   "reach-and-engagement-icon",
   "reach-icon",
   "socialx-icon",
