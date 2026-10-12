@@ -1,11 +1,11 @@
 /**
- * Design Tokens - Border (통합 스케일)
- * Source: Figma (G9YNa2vjdqDjnML9y5hXJ4, ❄️ GB_Design-System — Atom, node 7370:716 "Stroke Width")
+ * Design Tokens - Border
  *
- * 기존에 별도였던 border-width(방향별 25개)와 stroke-width(아이콘/벡터용
- * 0.25 간격 분수 스텝 11개)는 새 Figma 파일에도 대응 항목이 없어 폐기 상태를
- * 유지합니다. 스케일 자체는 0~3px 4단계이며, 3px는 아직 실사용처가 없어도
- * 스케일 완전성을 위해 정의해둡니다(다른 토큰 파일과 동일한 패턴).
+ * Source: Figma (G9YNa2vjdqDjnML9y5hXJ4) `stroke` 변수 컬렉션 4개(0~3px).
+ *
+ * 보더와 아이콘·벡터 스트로크가 같은 정수 스케일을 씁니다. 방향별 변수는 두지
+ * 않고 필요한 속성에 개별 적용합니다. 3px는 실사용처가 없어도 스케일
+ * 완전성을 위해 정의해둡니다.
  */
 
 :root {

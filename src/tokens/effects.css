@@ -1,8 +1,8 @@
 /**
  * Design Tokens - Effects (Shadow / Blur)
  *
- * Source: Figma (G9YNa2vjdqDjnML9y5hXJ4, ❄️ GB_Design-System — Atom),
- * "Token Documentation — Effects" 프레임(node-id 7372:457). 27개 전체.
+ * Source: Figma (G9YNa2vjdqDjnML9y5hXJ4) Effect Styles 27개
+ * (Box Shadow 11 + Backdrop Blur 8 + Blur 8).
  *
  * Figma effect group "Box Shadow/shadow-*" → CSS custom property `--shadow-*`
  * (그룹명 "Box Shadow"는 "shadow" 접두사와 중복되어 CSS 변수명에서는 생략).

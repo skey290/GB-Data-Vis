@@ -1,9 +1,8 @@
 /**
  * Design Tokens - Border Radius
  *
- * Source: Figma (G9YNa2vjdqDjnML9y5hXJ4, ❄️ GB_Design-System — Atom),
- * "Token Documentation — Spacing & Layout" 프레임(node-id 7370:594).
- * 10개: none/xs/sm/md/lg/xl/2xl/3xl/4xl/full.
+ * Source: Figma (G9YNa2vjdqDjnML9y5hXJ4) `radius` 변수 컬렉션 10개:
+ * none/xs/sm/md/lg/xl/2xl/3xl/4xl/full.
  *
  * 이름은 `--radius-*`(접두사 없음)가 아니라 `--radius-scale-*`를 씁니다.
  * `app/globals.css`에 이미 Shadcn 기본 `--radius-sm/md/lg/xl`(전부

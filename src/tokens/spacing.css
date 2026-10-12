@@ -1,11 +1,10 @@
 /**
  * Design Tokens - Spacing (통합 스케일)
  *
- * Source: Figma (G9YNa2vjdqDjnML9y5hXJ4, ❄️ GB_Design-System — Atom),
- * "Token Documentation — Spacing & Layout" 프레임(node-id 7370:594). 22단계
- * (0~256px). padding과 gap을 하나의 숫자 스케일로 통합해 표현합니다.
+ * Source: Figma (G9YNa2vjdqDjnML9y5hXJ4) `space` 변수 컬렉션 22개(0~256px).
+ * padding·gap·margin이 하나의 숫자 스케일을 공유합니다.
  *
- * 이름은 새 문서의 px값 기반 표기(예: 16px를 "sp-16")가 아니라 기존 Tailwind
+ * 이름은 Figma의 px값 기반 표기(16px → `sp-16`)가 아니라 Tailwind
  * 인덱스 기반 이름(`--spacing-4` = 16px)을 유지했습니다 — 그대로 옮기면 기존
  * `--spacing-16`(64px, 인덱스 16)과 새 이름 체계의 `--spacing-16`(16px, px값
  * 16 표기)이 같은 이름·다른 값으로 충돌해 코드 전체에 조용히 잘못된 spacing이
