@@ -52,12 +52,9 @@ function BorderFoundation() {
       <div className="flex flex-col gap-[var(--spacing-1)]">
         <h2 className="text-xl-semi-bold text-foreground">Border</h2>
         <p className="text-sm-regular text-muted-foreground">
-          src/tokens/border.css 전체 {BORDER_STEPS.length}개 토큰. 기존에
-          별도였던 border-width(방향별 25개)와 stroke-width(아이콘/벡터용
-          분수 스텝 11개)가 하나의 border 정수 스케일로 통합되었습니다
-          . 실사용처가 없던 방향별 변수, 0.25 간격 분수 스텝,
-          4px/8px 스텝은 폐기했습니다. 값은 getComputedStyle로 런타임에 읽은
-          결과입니다.
+          Figma `stroke` 변수 컬렉션 {BORDER_STEPS.length}개. 보더와 아이콘·벡터
+          스트로크가 같은 정수 스케일을 쓰고, 방향별 변수는 두지 않고 속성별로
+          개별 적용합니다. 값은 getComputedStyle로 런타임에 읽은 결과입니다.
         </p>
       </div>
 

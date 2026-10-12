@@ -32,113 +32,112 @@ const PRIMITIVE_PALETTES = [
 ];
 
 /** 새 Figma 파일 기준 semantic 색상 — background/text/icon/border × 역할 */
-const SEMANTIC_GROUPS: { title: string; prefix: string; tokens: string[] }[] =
-  [
-    {
-      title: "Background",
-      prefix: "background",
-      tokens: [
-        "default",
-        "subtlest",
-        "subtler",
-        "subtle",
-        "bold",
-        "bolder",
-        "surface",
-        "surface-secondary",
-        "overlay",
-        "backdrop",
-        "sheer",
-        "sheer-invert",
-        "mute",
-        "mute-subtle",
-        "mute-subtler",
-        "static-white",
-        "selected",
-        "disabled",
-        "disabled-bold",
-        "error-default",
-        "error-subtle",
-        "warning-default",
-        "info-default",
-        "info-subtle",
-        "success-default",
-        "success-subtle",
-      ],
-    },
-    {
-      title: "Text",
-      prefix: "text",
-      tokens: [
-        "default",
-        "subtle",
-        "subtler",
-        "subtlest",
-        "invert",
-        "popover",
-        "static-white",
-        "static-gray",
-        "error",
-        "error-static",
-        "warning",
-        "info",
-        "success",
-        "bold",
-        "selected",
-        "emphasis",
-      ],
-    },
-    {
-      title: "Icon",
-      prefix: "icon",
-      tokens: [
-        "default",
-        "subtle",
-        "subtlest",
-        "invert",
-        "static-white",
-        "static-gray",
-        "error",
-        "error-static",
-        "warning",
-        "info",
-        "success",
-        "bold",
-        "faint",
-        "fainter",
-        "selected",
-        "emphasis",
-        "pressed",
-      ],
-    },
-    {
-      title: "Border",
-      prefix: "border",
-      tokens: [
-        "default",
-        "default-strong",
-        "subtle",
-        "subtler",
-        "bold",
-        "bolder",
-        "contrast",
-        "invert",
-        "invert-strong",
-        "mute",
-        "mute-subtle",
-        "muted",
-        "overlay",
-        "error",
-        "error-static",
-        "warning",
-        "info",
-        "success",
-        "static-white",
-        "static-gray",
-        "selected",
-      ],
-    },
-  ];
+const SEMANTIC_GROUPS: { title: string; prefix: string; tokens: string[] }[] = [
+  {
+    title: "Background",
+    prefix: "background",
+    tokens: [
+      "default",
+      "subtlest",
+      "subtler",
+      "subtle",
+      "bold",
+      "bolder",
+      "surface",
+      "surface-secondary",
+      "overlay",
+      "backdrop",
+      "sheer",
+      "sheer-invert",
+      "mute",
+      "mute-subtle",
+      "mute-subtler",
+      "static-white",
+      "selected",
+      "disabled",
+      "disabled-bold",
+      "error-default",
+      "error-subtle",
+      "warning-default",
+      "info-default",
+      "info-subtle",
+      "success-default",
+      "success-subtle",
+    ],
+  },
+  {
+    title: "Text",
+    prefix: "text",
+    tokens: [
+      "default",
+      "subtle",
+      "subtler",
+      "subtlest",
+      "invert",
+      "popover",
+      "static-white",
+      "static-gray",
+      "error",
+      "error-static",
+      "warning",
+      "info",
+      "success",
+      "bold",
+      "selected",
+      "emphasis",
+    ],
+  },
+  {
+    title: "Icon",
+    prefix: "icon",
+    tokens: [
+      "default",
+      "subtle",
+      "subtlest",
+      "invert",
+      "static-white",
+      "static-gray",
+      "error",
+      "error-static",
+      "warning",
+      "info",
+      "success",
+      "bold",
+      "faint",
+      "fainter",
+      "selected",
+      "emphasis",
+      "pressed",
+    ],
+  },
+  {
+    title: "Border",
+    prefix: "border",
+    tokens: [
+      "default",
+      "default-strong",
+      "subtle",
+      "subtler",
+      "bold",
+      "bolder",
+      "contrast",
+      "invert",
+      "invert-strong",
+      "mute",
+      "mute-subtle",
+      "muted",
+      "overlay",
+      "error",
+      "error-static",
+      "warning",
+      "info",
+      "success",
+      "static-white",
+      "static-gray",
+      "selected",
+    ],
+  },
+];
 
 /** Figma에 이름은 있지만 새 파일에 없는 primitive와 값이 같아 alias로만 존재하는 것들 */
 const NON_CHANGEABLE_TOKENS = [
@@ -278,17 +277,14 @@ function ColorFoundation() {
         <p className="text-sm-regular text-muted-foreground">
           Light/Dark 79개 시맨틱 토큰 전체가 Figma 기준으로 확정되어 있습니다.
           각 스와치는 조상 요소의 다크모드 상태와 무관하게 `.light`/`.dark`
-          클래스로 자기 자신에 값을 강제 재선언해 항상 올바른 모드로
-          표시됩니다.
+          클래스로 자기 자신에 값을 강제 재선언해 항상 올바른 모드로 표시됩니다.
         </p>
         {SEMANTIC_GROUPS.map((group) => (
           <section
             key={group.title}
             className="flex flex-col gap-[var(--spacing-3)]"
           >
-            <h3 className="text-sm-semi-bold text-foreground">
-              {group.title}
-            </h3>
+            <h3 className="text-sm-semi-bold text-foreground">{group.title}</h3>
             <div className="flex flex-col">
               {group.tokens.map((token) => (
                 <SemanticRow

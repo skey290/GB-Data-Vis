@@ -17,8 +17,7 @@ const CHECKERBOARD_STYLE: React.CSSProperties = {
     linear-gradient(-45deg, transparent 75%, var(--color-border) 75%)
   `,
   backgroundSize: "16px 16px",
-  backgroundPosition:
-    "0 0, 0 8px, 8px calc(8px * -1px), calc(8px * -1px) 0",
+  backgroundPosition: "0 0, 0 8px, 8px calc(8px * -1px), calc(8px * -1px) 0",
 };
 
 function useResolvedOpacity(ref: React.RefObject<HTMLDivElement | null>) {
@@ -65,9 +64,9 @@ function OpacityFoundation() {
       <div className="flex flex-col gap-[var(--spacing-1)]">
         <h2 className="text-xl-semi-bold text-foreground">Opacity</h2>
         <p className="text-sm-regular text-muted-foreground">
-          Figma `opacity` 변수 컬렉션 6개. 체커보드 배경 위에 opacity를
-          적용한 색상 박스로 투명도를 시각화했으며, 값은 getComputedStyle로
-          런타임에 읽은 결과입니다.
+          Figma `opacity` 변수 컬렉션 6개. 체커보드 배경 위에 opacity를 적용한
+          색상 박스로 투명도를 시각화했으며, 값은 getComputedStyle로 런타임에
+          읽은 결과입니다.
         </p>
       </div>
 
