@@ -52,12 +52,7 @@ components/compass/ui/
   compass-metric-card/                        지표 요약 카드
   compass-floating-nav/                       플로팅 내비게이션
   compass-toolbar/                            사이드바 옆 세그먼트 토글 + Select 툴바
-components/ui/
-  avatar/, badge/, button/, button-group/,    데이터 시각화 컴포넌트와 Compass 데모 페이지가
-  tabs/, toggle/, tooltip/, select/,          공통으로 재사용하는 디자인 시스템 컴포넌트
-  gnb/, floating-profile/,
-  menu-button/, menu-notification/,
-  noti-dropdown/
+components/foundation/                         디자인 토큰 Storybook 문서 7개
 lib/
   utils.ts                                    cn() — clsx + tailwind-merge 커스텀 설정
   sprite-icon.tsx                             /public/icons.svg 스프라이트 아이콘 헬퍼
@@ -67,7 +62,9 @@ public/icons.svg, public/images/personas/     컴포넌트가 참조하는 아�
 docs/                                         스펙 문서
 ```
 
-이 저장소는 **공개하기로 정한 것만** 담고 있습니다. `components/ui/`에는 위 목록 외에도 Input, Chips 등 더 많은 컴포넌트가 원본 프로젝트에 있지만, 여기에는 데이터 시각화 컴포넌트가 실제로 의존하는 것만 포함했습니다.
+이 저장소는 **공개하기로 정한 것만** 담고 있습니다. 위 컴포넌트들이 의존하는 범용 아토믹
+컴포넌트(`Button`, `Select`, `Tabs` 등)는 여기 없고 [GB-Design-System](https://github.com/skey290/GB-Design-System)
+에 있습니다 — 그대로 실행하려면 그쪽을 함께 받아야 합니다.
 
 ## 먼저 읽어주세요
 
