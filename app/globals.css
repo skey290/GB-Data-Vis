@@ -9,6 +9,9 @@
 @import "../src/tokens/text-styles.css";
 @import "tw-animate-css";
 
+/* 에이전트 작업 기록은 클래스 소스가 아니다 — 스캔에서 제외한다. */
+@source not "../.claude";
+
 @custom-variant dark (&:is(.dark *));
 
 /* Skeleton 컴포넌트의 대각선 shimmer 스윕 애니메이션. Figma의 Progress=0/33/66
