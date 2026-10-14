@@ -13,10 +13,12 @@ import {
  * Persona Radial Analytics — 셀프 + 8개 페르소나를 3개 지표(동심원 링) × 8개 섹터(각도)로
  * 비교하는 원형 차트.
  *
- * Figma: GB_Design-System-v2.2 (V5xLVr9FyArMjzaNpTn1Zo) node 8004:6542이 원본 정의,
- * ❄️ GB_Dashboard(V5xLVr9FyArMjzaNpTn1Zo) node 8004:6542에 실데이터 목업으로
- * 재배치되어 있다(값은 두 파일 동일). props 축은 원본의
- * `Self(1|8) × Posting(true|false) × Hover(5종)` 15개 variant를 그대로 따른다.
+ * Figma: 📌 GB_UXUI (261002) (Wp6AZNGqC4qf2Sz5zQ2PzQ) node 8133:122594
+ * "Dashboard Data Vis"가 원본 정의. props 축은 원본의
+ * `Self(1|8) × Data collected(true|false) × Status(default|hover-reach|
+ * hover-engagement|hover-growth potential)` 12개 variant를 그대로 따른다.
+ * `hover="self"`는 Figma의 이 컴포넌트 자체 variant가 아니라 `PersonaOrbit`/
+ * `PersonaSlot` 아바타를 직접 hover하는 별도 상호작용이다.
  *
  * ⚠️ 좌표계 주의: 아래 반지름/각도 상수는 CSS 길이가 아니라 SVG `viewBox` 내부의
  * 기하 좌표값이다. 그래서 `--spacing-*` 토큰을 쓰지 않고 순수 숫자 상수로 둔다.
@@ -226,18 +228,20 @@ export const DEFAULT_PERSONAS: PersonaDatum[] = [
 ];
 
 /**
- * Figma `Hover` variant.
+ * Figma `Status` variant.
  * - `default` — 배지에 페르소나 이름, 3개 링 모두 흰 밴드
- * - 지표 3종 — 해당 링만 흰 밴드, 나머지 2링은 검은 밴드로 가라앉고,
- *   배지 8개가 그 지표의 **값**으로 전환됩니다
- * - `self` — 셀프 아바타가 blur + 링으로 강조됩니다
+ * - 지표 3종(`hover-reach`/`hover-engagement`/`hover-growth potential`) —
+ *   해당 링만 흰 밴드, 나머지 2링은 검은 밴드로 가라앉고, 배지 8개가 그
+ *   지표의 **값**으로 전환됩니다
+ * - `self`는 Figma 최상위 variant가 아니다 — 셀프 아바타를 직접 hover했을 때
+ *   코드에서만 다루는 값이며, 아바타가 blur + 링으로 강조됩니다
  */
 export type PersonaRadialChartHover = "default" | PersonaMetricKey | "self";
 
-/** Hover × Posting 조합별 중앙 1줄 문구 (Figma 원본 그대로) */
+/** Hover × Data collected 조합별 중앙 1줄 문구 (Figma 원본 그대로) */
 function getCenterMessage(
   hover: PersonaRadialChartHover,
-  posting: boolean,
+  isDataCollected: boolean,
   isEmptySlotActive: boolean,
 ) {
   if (hover === "self") {
@@ -261,7 +265,7 @@ function getCenterMessage(
     return "Growth Potential";
   }
   // reach / engagement 는 게시물이 있어야 산출됩니다
-  if (!posting) {
+  if (!isDataCollected) {
     return "Create Posts to analyze";
   }
   return hover === "reach" ? "Qualified Reach" : "Engagement Intensity";
@@ -403,8 +407,8 @@ export interface PersonaRadialChartProps extends Omit<
    * "최대"라서 정수에는 소수점이 붙지 않습니다 (80 → `80%`).
    */
   valueFractionDigits?: number;
-  /** Figma `Posting` variant — 게시물이 있어야 Reach/Engagement가 산출됩니다 */
-  posting?: boolean;
+  /** Figma `Data collected` variant — 게시물이 있어야 Reach/Engagement가 산출됩니다 */
+  isDataCollected?: boolean;
   /**
    * Figma `Hover` variant. 값을 주면 제어 컴포넌트로 동작해 마우스와 무관하게 고정됩니다
    * (Storybook에서 variant를 재현할 때 사용). 주지 않으면 실제 마우스 hover를 따릅니다.
@@ -434,7 +438,7 @@ export function PersonaRadialChart({
   personas = DEFAULT_PERSONAS,
   selfCount,
   valueFractionDigits = DEFAULT_VALUE_FRACTION_DIGITS,
-  posting = true,
+  isDataCollected = true,
   hover: controlledHover,
   onHoverChange,
   selfId,
@@ -506,7 +510,7 @@ export function PersonaRadialChart({
 
   /** 게시물이 없으면 Growth만 산출됩니다 */
   const hasMetricData = (metricKey: PersonaMetricKey) =>
-    posting || metricKey === "growth";
+    isDataCollected || metricKey === "growth";
 
   /**
    * 링별 밴드 칸 수(페르소나 순서 그대로). 표시 대상(`selfCount`)과 무관하게 전체
@@ -522,7 +526,11 @@ export function PersonaRadialChart({
     return counts;
   }, [personas]);
 
-  const centerMessage = getCenterMessage(hover, posting, isEmptySlotActive);
+  const centerMessage = getCenterMessage(
+    hover,
+    isDataCollected,
+    isEmptySlotActive,
+  );
   const isMetricHover = PERSONA_METRICS.some((metric) => metric.key === hover);
   /** 데이터가 없는 지표를 보려는 상태 — 링을 균일하게 채우고 안내 배지를 띄웁니다 */
   const isAwaitingData =
@@ -665,8 +673,8 @@ export function PersonaRadialChart({
       </svg>
 
       {/*
-        아바타 원형 배치 + 중앙 문구 — Figma `Part/persona`(8004:5477)·
-        `Self curation`(8004:6285)에 대응하는 별도 컴포넌트로 분리되어 있습니다.
+        아바타 원형 배치 + 중앙 문구 — Figma `Part/self`(8133:122512)·
+        `Self curation`(8133:122553)에 대응하는 별도 컴포넌트로 분리되어 있습니다.
         이 파일은 지표 hover 상태를 그대로 소유하고, PersonaOrbit에는 결과값
         (강조 대상/중앙 문구)만 내려줍니다.
       */}

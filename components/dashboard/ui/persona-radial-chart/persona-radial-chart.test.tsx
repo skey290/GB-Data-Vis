@@ -77,7 +77,7 @@ describe("PersonaRadialChart", () => {
     it("gives the ring's top performer all eight bands", () => {
       const { container } = render(
         <PersonaRadialChart
-          posting={false}
+          isDataCollected={false}
           personas={[
             { id: "top", name: "Top", growth: 80, reach: 0, engagement: 0 },
             { id: "half", name: "Half", growth: 40, reach: 0, engagement: 0 },
@@ -85,14 +85,14 @@ describe("PersonaRadialChart", () => {
         />,
       );
 
-      // posting=false 이므로 growth 링만: 1등 8칸 + 꼴등 1칸 = 9개 path
+      // isDataCollected=false 이므로 growth 링만: 1등 8칸 + 꼴등 1칸 = 9개 path
       expect(getBandPaths(container, WHITE_BAND)).toHaveLength(9);
     });
 
     it("ranks by order, so near-identical values still differ by one band", () => {
       const { container } = render(
         <PersonaRadialChart
-          posting={false}
+          isDataCollected={false}
           personas={[
             { id: "a", name: "A", growth: 8340, reach: 0, engagement: 0 },
             { id: "b", name: "B", growth: 8006, reach: 0, engagement: 0 },
@@ -107,7 +107,9 @@ describe("PersonaRadialChart", () => {
     });
 
     it("spreads eight personas across all eight band counts", () => {
-      const { container } = render(<PersonaRadialChart posting={false} />);
+      const { container } = render(
+        <PersonaRadialChart isDataCollected={false} />,
+      );
 
       // 기본 데이터의 growth는 80/70/60/50/40/30/20/10 — 동점이 없어
       // 8,7,6,5,4,3,2,1 = 36개, 8명이 8단계에 정확히 하나씩 배정됩니다
@@ -117,7 +119,7 @@ describe("PersonaRadialChart", () => {
     it("gives tied values the same band count", () => {
       const { container } = render(
         <PersonaRadialChart
-          posting={false}
+          isDataCollected={false}
           personas={[
             { id: "a", name: "A", growth: 50, reach: 0, engagement: 0 },
             { id: "b", name: "B", growth: 50, reach: 0, engagement: 0 },
@@ -132,7 +134,7 @@ describe("PersonaRadialChart", () => {
     it("renders no bands for a persona whose value is zero", () => {
       const { container } = render(
         <PersonaRadialChart
-          posting={false}
+          isDataCollected={false}
           personas={[
             { id: "a", name: "A", growth: 80, reach: 0, engagement: 0 },
             { id: "zero", name: "Zero", growth: 0, reach: 0, engagement: 0 },
@@ -172,11 +174,11 @@ describe("PersonaRadialChart", () => {
     });
   });
 
-  describe("posting", () => {
+  describe("isDataCollected", () => {
     it("omits reach and engagement bands when there are no posts", () => {
       const { container } = render(
         <PersonaRadialChart
-          posting={false}
+          isDataCollected={false}
           personas={[
             { id: "solo", name: "Solo", growth: 80, reach: 100, engagement: 4 },
           ]}
@@ -193,23 +195,25 @@ describe("PersonaRadialChart", () => {
        * 배지가 미리 떠 있으면 안 되고, Reach/Engagement를 실제로 hover했을 때만
        * default 상태로 나타나야 합니다.
        */
-      const { rerender } = render(<PersonaRadialChart posting={false} />);
+      const { rerender } = render(
+        <PersonaRadialChart isDataCollected={false} />,
+      );
       expect(screen.queryByText("Not Enough Data Yet")).toBeNull();
 
       // Growth는 게시물 없이도 산출되므로 여전히 안 뜬다
-      rerender(<PersonaRadialChart posting={false} hover="growth" />);
+      rerender(<PersonaRadialChart isDataCollected={false} hover="growth" />);
       expect(screen.queryByText("Not Enough Data Yet")).toBeNull();
 
       // 아바타를 보고 있을 뿐이어도 안 뜬다
-      rerender(<PersonaRadialChart posting={false} hover="self" />);
+      rerender(<PersonaRadialChart isDataCollected={false} hover="self" />);
       expect(screen.queryByText("Not Enough Data Yet")).toBeNull();
 
-      rerender(<PersonaRadialChart posting={false} hover="reach" />);
+      rerender(<PersonaRadialChart isDataCollected={false} hover="reach" />);
       expect(screen.getByText("Not Enough Data Yet")).toBeInTheDocument();
     });
 
     it("renders the placeholder badge in its default, never a dimmed, state", () => {
-      render(<PersonaRadialChart posting={false} hover="engagement" />);
+      render(<PersonaRadialChart isDataCollected={false} hover="engagement" />);
 
       // 하단 배지는 페르소나 배지와 달리 페이드용 span 중첩이 없어 요소 자체가 Badge입니다
       const badge = screen.getByText("Not Enough Data Yet");
@@ -220,7 +224,7 @@ describe("PersonaRadialChart", () => {
 
     it("fills the ring uniformly while awaiting data", () => {
       const { container } = render(
-        <PersonaRadialChart posting={false} hover="reach" />,
+        <PersonaRadialChart isDataCollected={false} hover="reach" />,
       );
 
       // 균일 채움은 섹터별 밴드가 아니라 링 전체 도넛 1개입니다
@@ -232,7 +236,7 @@ describe("PersonaRadialChart", () => {
 
     it("highlights the awaiting ring's boundary circles in white", () => {
       const { container } = render(
-        <PersonaRadialChart posting={false} hover="reach" />,
+        <PersonaRadialChart isDataCollected={false} hover="reach" />,
       );
 
       const highlighted = Array.from(container.querySelectorAll("circle"))
@@ -341,7 +345,7 @@ describe("PersonaRadialChart", () => {
     });
 
     it("hides every badge when the hovered metric has no data", () => {
-      render(<PersonaRadialChart posting={false} hover="reach" />);
+      render(<PersonaRadialChart isDataCollected={false} hover="reach" />);
 
       // 이름으로 되돌아가지 않고 배지 자체가 사라집니다
       for (const persona of DEFAULT_PERSONAS) {
@@ -352,7 +356,7 @@ describe("PersonaRadialChart", () => {
     });
 
     it("still shows badges for growth, which needs no posts", () => {
-      render(<PersonaRadialChart posting={false} hover="growth" />);
+      render(<PersonaRadialChart isDataCollected={false} hover="growth" />);
 
       expect(screen.getByText("80%")).toBeInTheDocument();
     });
@@ -419,7 +423,7 @@ describe("PersonaRadialChart", () => {
 
     it("draws bands for the self persona only", () => {
       const { container } = render(
-        <PersonaRadialChart selfCount={1} posting={false} />,
+        <PersonaRadialChart selfCount={1} isDataCollected={false} />,
       );
 
       // Data Scientist의 growth(80)가 링 최댓값이므로 8칸, 나머지는 미표시
@@ -508,12 +512,12 @@ describe("PersonaRadialChart", () => {
       ["self" as const, true, 1 as const, "Create a Self"],
       ["self" as const, true, 8 as const, "Go to Content Studio"],
     ])(
-      "shows %s / posting=%s / self=%s → %s",
-      (hover, posting, selfCount, expected) => {
+      "shows %s / isDataCollected=%s / self=%s → %s",
+      (hover, isDataCollected, selfCount, expected) => {
         render(
           <PersonaRadialChart
             hover={hover}
-            posting={posting}
+            isDataCollected={isDataCollected}
             selfCount={selfCount}
           />,
         );

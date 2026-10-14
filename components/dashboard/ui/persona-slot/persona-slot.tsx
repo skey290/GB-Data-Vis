@@ -6,12 +6,12 @@ import { cn } from "@/lib/utils";
 import { Avatar } from "@/components/ui/avatar";
 
 /**
- * Figma `Part/persona` (GB_Dashboard, node 8004:5477) — 40×40 원형 페르소나 슬롯.
+ * Figma `Part/self` (📌 GB_UXUI 261002, node 8133:122512) — 40×40 원형 페르소나 슬롯.
  * `PersonaOrbit`이 8개를 원형으로 배치해 사용하는 최소 단위입니다
- * (`components/ui/persona-radial-chart`가 이 두 컴포넌트를 조합해서 씁니다).
+ * (`components/dashboard/ui/persona-radial-chart`가 이 두 컴포넌트를 조합해서 씁니다).
  *
- * Figma variant는 `style`(9개 페르소나 + empty) × `status`(default/active) = 20종인데,
- * `style`은 어떤 페르소나인지에 대한 데이터일 뿐이라 별도 enum prop을 두지 않고
+ * Figma variant는 `style`(empty/data scientist 샘플) × `status`(default/active) = 4종인데,
+ * `style`은 어떤 페르소나인지에 대한 샘플 데이터일 뿐이라 별도 enum prop을 두지 않고
  * `persona`가 있는지 여부로 `style=empty` ↔ 실제 페르소나를 가릅니다.
  */
 

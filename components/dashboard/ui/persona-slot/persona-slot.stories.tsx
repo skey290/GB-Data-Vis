@@ -4,7 +4,7 @@ import { within, expect } from "storybook/test";
 import { PersonaSlot } from "./persona-slot";
 
 const FIGMA_URL =
-  "https://www.figma.com/design/V5xLVr9FyArMjzaNpTn1Zo/%E2%9D%84%EF%B8%8F-GB_Dashboard?node-id=8004-5477";
+  "https://www.figma.com/design/Wp6AZNGqC4qf2Sz5zQ2PzQ/%F0%9F%93%8C-GB_UXUI--261002-?node-id=8133-122512";
 
 const SAMPLE_PERSONA = {
   name: "Data Scientist",

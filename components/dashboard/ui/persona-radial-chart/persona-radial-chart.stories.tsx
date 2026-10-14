@@ -4,7 +4,7 @@ import { fn } from "storybook/test";
 import { PersonaRadialChart } from "./persona-radial-chart";
 
 const FIGMA_URL =
-  "https://www.figma.com/design/V5xLVr9FyArMjzaNpTn1Zo/GB_Dashboard?node-id=8004-6542";
+  "https://www.figma.com/design/Wp6AZNGqC4qf2Sz5zQ2PzQ/%F0%9F%93%8C-GB_UXUI--261002-?node-id=8133-122594";
 
 const meta = {
   title: "Dashboard/UI/PersonaRadialChart",
@@ -36,7 +36,7 @@ const meta = {
       description:
         "배지 값의 최대 소수 자릿수. 정수에는 소수점이 붙지 않습니다",
     },
-    posting: {
+    isDataCollected: {
       control: "boolean",
     },
     hover: {
@@ -46,7 +46,7 @@ const meta = {
   },
   args: {
     selfCount: 8,
-    posting: true,
+    isDataCollected: true,
     onPersonaSelect: fn(),
     onCenterClick: fn(),
   },

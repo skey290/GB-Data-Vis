@@ -9,15 +9,17 @@ import {
 } from "@/components/dashboard/ui/persona-slot";
 
 /**
- * Figma `Self curation` (GB_Dashboard, node 8004:6285) — 8개 `PersonaSlot`을
+ * Figma `Self curation` (📌 GB_UXUI 261002, node 8133:122553) — 8개 `PersonaSlot`을
  * 원형 궤도에 배치하고 중앙에 안내 문구를 띄우는 컴포넌트.
- * `components/ui/persona-radial-chart`가 이 위에 지표 링(SVG)을 씌워 사용합니다.
+ * `components/dashboard/ui/persona-radial-chart`가 이 위에 지표 링(SVG)을 씌워 사용합니다.
  *
- * Figma variant는 `selfNumber`(1/8) × `status`(default/active)인데, 이
- * 컴포넌트는 "몇 칸이 채워졌는가"를 직접 계산하지 않습니다. 호출부가 길이 8인
- * `slots` 배열(빈 칸은 `null`)을 그대로 넘기는 방식으로 selfNumber 1~8 전부를
- * 표현하고, 강조(hover) 상태도 controlled로 받아 상위(PersonaRadialChart)가
- * 지표 링과 같은 hover 축을 공유할 수 있게 합니다.
+ * Figma 컴포넌트셋 자체는 `Self number`(1/8) × `Status=default` 2종뿐이고
+ * `active` 조합은 독립 variant로 없습니다 — 강조 상태는 `Dashboard Data Vis`
+ * 안에 인라인 인스턴스로만 존재합니다. 그래서 이 컴포넌트도 "몇 칸이
+ * 채워졌는가"를 직접 계산하지 않습니다. 호출부가 길이 8인 `slots` 배열(빈
+ * 칸은 `null`)을 그대로 넘기는 방식으로 selfNumber 1~8 전부를 표현하고,
+ * 강조(hover) 상태도 controlled로 받아 상위(PersonaRadialChart)가 지표
+ * 링과 같은 hover 축을 공유할 수 있게 합니다.
  */
 
 export const ORBIT_SLOT_COUNT = 8;

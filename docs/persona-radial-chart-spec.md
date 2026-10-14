@@ -10,8 +10,8 @@
 
 사용자의 "셀프(self)"와 8가지 페르소나(Data Scientist, Yoga Meditator, Novelist, Entrepreneur, Fashionista, Fashion Editor, Team Leader, Vegan Chef)를 하나의 원형 차트로 비교하는 데이터 시각화. 3가지 지표(Growth Potential, Qualified Reach, Engagement Intensity)를 동심원 링으로, 8명의 페르소나를 각도 섹터로 표현한다.
 
-- **Figma**: `GB_Design-System-v2.2` (`V5xLVr9FyArMjzaNpTn1Zo`) node `8004:6542`
-- **원본 variant 구성**: `Self(1|8) × Posting(true|false) × Hover(5종)` = **15개**
+- **Figma**: 📌 `GB_UXUI (261002)` (`Wp6AZNGqC4qf2Sz5zQ2PzQ`) node `8133:122594` ("Dashboard Data Vis")
+- **원본 variant 구성**: `Self(1|8) × Data collected(true|false) × Status(default|hover-reach|hover-engagement|hover-growth potential)` = **12개** (`Self=8 × Data collected=false` 조합 없음). `hover="self"`는 이 Status 축에 없는 값 — 아바타 직접 hover라는 별도 상호작용을 코드가 추가로 다루는 것
 - **구현 위치**: `components/dashboard/ui/persona-radial-chart/`
 
 > ⚠️ **다크 전용**: Figma 원본이 다크 배경에만 그려져 있습니다. 배지·그리드·텍스트는 시맨틱 토큰이라 라이트 테마에서도 자동 대응하지만, **값 밴드만은 흰색 20%를 리터럴로 쓰고 있어 라이트 배경에서는 거의 보이지 않습니다.** Figma에 라이트 variant가 생기기 전까지 원본 값을 그대로 따릅니다.
@@ -120,19 +120,19 @@
 
 🔄 **v1 대비 변경.** v1의 `empty / self / full` 3종 → Figma variant 축을 그대로 따르는 **2개 독립 축**으로 재정의.
 
-| prop                  | 값                                                         | 기본값            | 의미                                                                       |
-| --------------------- | ---------------------------------------------------------- | ----------------- | -------------------------------------------------------------------------- |
-| `personas`            | `PersonaDatum[]`                                           | 샘플 8명          | **존재하는** 페르소나. 배열 순서 = 섹터 순서                               |
-| `selfCount`           | `number` (1~8)                                             | `personas.length` | 노출할 셀프 수. 나머지 칸은 빈 슬롯                                        |
-| `valueFractionDigits` | `number`                                                   | `1`               | 배지 값의 **최대** 소수 자릿수                                             |
-| `posting`             | `boolean`                                                  | `true`            | 게시물 유무. **Growth는 게시물 없이도 산출**되지만 Reach/Engagement는 필요 |
-| `hover`               | `default` \| `growth` \| `reach` \| `engagement` \| `self` | —                 | 주면 제어 컴포넌트(마우스 무시), 안 주면 실제 마우스 hover를 따름          |
-| `selfId`              | `string`                                                   | 첫 번째 페르소나  | 셀프로 취급할 id                                                           |
-| `onHoverChange`       | `(hover) => void`                                          | —                 | hover 상태 변경 콜백                                                       |
-| `onCenterClick`       | `() => void`                                               | —                 | 중앙 문구 클릭 (CTA 성격)                                                  |
-| `onPersonaSelect`     | `(id) => void`                                             | —                 | 바깥 배지 클릭. 안 주면 배지는 표시 전용                                   |
+| prop                  | 값                                                         | 기본값            | 의미                                                                                                |
+| --------------------- | ---------------------------------------------------------- | ----------------- | --------------------------------------------------------------------------------------------------- |
+| `personas`            | `PersonaDatum[]`                                           | 샘플 8명          | **존재하는** 페르소나. 배열 순서 = 섹터 순서                                                        |
+| `selfCount`           | `number` (1~8)                                             | `personas.length` | 노출할 셀프 수. 나머지 칸은 빈 슬롯                                                                 |
+| `valueFractionDigits` | `number`                                                   | `1`               | 배지 값의 **최대** 소수 자릿수                                                                      |
+| `isDataCollected`     | `boolean`                                                  | `true`            | 게시물 유무 (Figma `Data collected`). **Growth는 게시물 없이도 산출**되지만 Reach/Engagement는 필요 |
+| `hover`               | `default` \| `growth` \| `reach` \| `engagement` \| `self` | —                 | 주면 제어 컴포넌트(마우스 무시), 안 주면 실제 마우스 hover를 따름                                   |
+| `selfId`              | `string`                                                   | 첫 번째 페르소나  | 셀프로 취급할 id                                                                                    |
+| `onHoverChange`       | `(hover) => void`                                          | —                 | hover 상태 변경 콜백                                                                                |
+| `onCenterClick`       | `() => void`                                               | —                 | 중앙 문구 클릭 (CTA 성격)                                                                           |
+| `onPersonaSelect`     | `(id) => void`                                             | —                 | 바깥 배지 클릭. 안 주면 배지는 표시 전용                                                            |
 
-> Figma에는 `Self=8 + Posting=false` 조합이 **없습니다.** `Posting=false`는 `Self=1`에만 존재합니다.
+> Figma에는 `Self=8 + Data collected=false` 조합이 **없습니다.** `Data collected=false`는 `Self=1`에만 존재합니다.
 
 ### 4.1 실데이터 연결 (2026-09-10 확장)
 
@@ -178,8 +178,8 @@ Figma 원본 문구 그대로:
 | ---------------------- | -------------------------------- | ------------------------------------------ |
 | `default`              | —                                | `Hover to see analysis` ⚠️ §8 참고         |
 | `growth`               | —                                | `Growth Potential`                         |
-| `reach` / `engagement` | `posting=true`                   | `Qualified Reach` / `Engagement Intensity` |
-| `reach` / `engagement` | `posting=false`                  | `Create Posts to analyze`                  |
+| `reach` / `engagement` | `isDataCollected=true`           | `Qualified Reach` / `Engagement Intensity` |
+| `reach` / `engagement` | `isDataCollected=false`          | `Create Posts to analyze`                  |
 | `self`                 | **이미 있는 아바타**에 올렸을 때 | `Go to Content Studio`                     |
 | `self`                 | **빈 슬롯**에 올렸을 때          | `Create a Self`                            |
 
@@ -205,7 +205,7 @@ Figma에는 Button 인스턴스 없이 **1줄 텍스트**만 있어 버튼으로
    - Reach는 천 단위 구분 (`8,340`), 나머지는 `%` (`80%`)
 3. 중앙 문구가 지표명으로 전환
 
-### 5.2 데이터가 없는 지표를 볼 때 (`posting=false` + reach/engagement)
+### 5.2 데이터가 없는 지표를 볼 때 (`isDataCollected=false` + reach/engagement)
 
 1. 그 링이 **8겹 밴드 대신 균일한 한 겹**으로 채워짐
 2. 그 링의 **경계원 2개만 흰색으로 강조**
@@ -266,18 +266,18 @@ MOTION_DURATION = duration-200 ease-out
 
 ### 6.2 대상별 전환
 
-| 대상                      | 방식                             | 보이는 시점                     |
-| ------------------------- | -------------------------------- | ------------------------------- |
-| 값 밴드 (최대 226개 path) | `fill` 흰↔검정 색 페이드         | 링 hover — 가장 큰 효과         |
-| 그리드 경계원 4개         | `stroke` 색 페이드               | 데이터 없는 링 hover            |
-| 아바타 강조 링            | `outline-color` 투명↔흰색        | 아바타 hover                    |
-| 아바타 블러               | `--blur-none` ↔ `--blur-sm` 보간 | 아바타 hover                    |
-| 검정 50% 딤               | `opacity` 0↔1                    | 아바타 hover                    |
-| 빈 슬롯                   | 링 페이드인 + 배경 색 페이드     | `selfCount=1`에서 빈 슬롯 hover |
-| 배지 텍스트               | 이름↔값 교체 시 페이드인         | 링 hover                        |
-| 배지 등장/퇴장            | 페이드인                         | 데이터 없는 지표 hover          |
-| 중앙 문구                 | 문구 교체 시 페이드인            | 모든 hover                      |
-| 하단 안내 배지            | 배경·글자색·보더 동시 페이드     | `posting=false`에서 지표 hover  |
+| 대상                      | 방식                             | 보이는 시점                            |
+| ------------------------- | -------------------------------- | -------------------------------------- |
+| 값 밴드 (최대 226개 path) | `fill` 흰↔검정 색 페이드         | 링 hover — 가장 큰 효과                |
+| 그리드 경계원 4개         | `stroke` 색 페이드               | 데이터 없는 링 hover                   |
+| 아바타 강조 링            | `outline-color` 투명↔흰색        | 아바타 hover                           |
+| 아바타 블러               | `--blur-none` ↔ `--blur-sm` 보간 | 아바타 hover                           |
+| 검정 50% 딤               | `opacity` 0↔1                    | 아바타 hover                           |
+| 빈 슬롯                   | 링 페이드인 + 배경 색 페이드     | `selfCount=1`에서 빈 슬롯 hover        |
+| 배지 텍스트               | 이름↔값 교체 시 페이드인         | 링 hover                               |
+| 배지 등장/퇴장            | 페이드인                         | 데이터 없는 지표 hover                 |
+| 중앙 문구                 | 문구 교체 시 페이드인            | 모든 hover                             |
+| 하단 안내 배지            | 배경·글자색·보더 동시 페이드     | `isDataCollected=false`에서 지표 hover |
 
 ### 6.3 구현상 주의점 (재작업 시 참고)
 
@@ -344,18 +344,12 @@ Growth는 `10/20/30/40/50/60/70/80`의 **완전한 사다리꼴**입니다. 동�
 
 `components/dashboard/ui/persona-radial-chart/` (프로젝트 규칙대로 컴포넌트 1개 = 4파일)
 
-| 파일                               | 내용                                                                                                                  |
-| ---------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| `persona-radial-chart.tsx`         | 컴포넌트 본체                                                                                                         |
-| `persona-radial-chart.stories.tsx` | Storybook — Figma 15개 variant 재현 + `Interactive`(실제 마우스 hover)                                                |
-| `persona-radial-chart.test.tsx`    | Vitest **54개** (grid / value bands / posting / badges / self count / center message / hover behaviour / transitions) |
-| `index.ts`                         | named export                                                                                                          |
-
-**Storybook 확인 URL**
-
-- 실제 hover 동작: `/?path=/story/ui-personaradialchart--interactive`
-- 빈 슬롯: `--single-self`
-- 경계원 강조 + 하단 배지: `--no-posting-hover-reach`
+| 파일                               | 내용                                                                                                                          |
+| ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `persona-radial-chart.tsx`         | 컴포넌트 본체                                                                                                                 |
+| `persona-radial-chart.stories.tsx` | Storybook — `Playground` 단일 story, Controls로 모든 prop 조작(1 컴포넌트 = 1 Controls story 컨벤션)                          |
+| `persona-radial-chart.test.tsx`    | Vitest **54개** (grid / value bands / isDataCollected / badges / self count / center message / hover behaviour / transitions) |
+| `index.ts`                         | named export                                                                                                                  |
 
 ### 사용하는 토큰
 
