@@ -9,17 +9,9 @@ import {
 } from "@/components/dashboard/ui/self-slot";
 
 /**
- * Figma `Self curation` (📌 GB_UXUI 261002, node 8133:122553) — 8개 `SelfSlot`을
- * 원형 궤도에 배치하고 중앙에 안내 문구를 띄우는 컴포넌트.
- * `components/dashboard/ui/persona-radial-chart`가 이 위에 지표 링(SVG)을 씌워 사용합니다.
- *
- * Figma 컴포넌트셋 자체는 `Self number=1, Status=default` 단일 variant뿐이다 —
- * `Self number=8`도, `active` 조합도 독립 variant로 없다. 8칸 궤도는
- * `Dashboard Data Vis` 안에 인라인 인스턴스로만 존재한다. 그래서 이 컴포넌트도
- * "몇 칸이 채워졌는가"를 직접 계산하지 않는다. 호출부가 길이 8인 `slots`
- * 배열(빈 칸은 `null`)을 그대로 넘기는 방식으로 1~8명 전부를 표현하고,
- * 강조(hover) 상태도 controlled로 받아 상위(PersonaRadialChart)가 지표
- * 링과 같은 hover 축을 공유할 수 있게 한다.
+ * Figma `Self curation` — 8개 `SelfSlot`을 원형 궤도에 배치하고 중앙에 안내
+ * 문구를 띄우는 컴포넌트. `persona-radial-chart`가 이 위에 지표 링을 씌워 사용.
+ * 스펙 상세는 `docs/persona-radial-chart-spec.md` 참고.
  */
 
 export const SELF_CURATION_SLOT_COUNT = 8;
@@ -63,16 +55,9 @@ export interface SelfCurationProps extends Omit<
   React.HTMLAttributes<HTMLDivElement>,
   "onClick"
 > {
-  /**
-   * `SELF_CURATION_SLOT_COUNT`(8)개 슬롯. `null`이면 그 칸은 Figma `style=empty`
-   * 빈 슬롯이 됩니다.
-   */
+  /** `SELF_CURATION_SLOT_COUNT`(8)개 슬롯. `null`이면 빈 슬롯(Figma `style=empty`) */
   slots: (SelfCurationPersona | null)[];
-  /**
-   * 지금 강조된 슬롯의 id. 페르소나가 있으면 그 `id`, 빈 슬롯이면
-   * `selfCurationEmptySlotKey(index)` 값과 비교됩니다. `null`/`undefined`면
-   * 강조되는 슬롯이 없습니다.
-   */
+  /** 지금 강조된 슬롯의 id (`selfCurationEmptySlotKey(index)` 또는 persona id) */
   activeSlotId?: string | null;
   /** 중앙에 표시할 안내 문구 (Figma에는 버튼 없이 텍스트 1줄뿐입니다) */
   centerMessage: string;
@@ -93,11 +78,7 @@ export function SelfCuration({
 }: SelfCurationProps) {
   return (
     <div
-      // pointer-events-none — 이 500×500 wrapper 전체가 PersonaRadialChart의
-      // SVG 지표 링 위에 겹쳐 놓이는데, 배경까지 히트박스를 그대로 두면 아바타가
-      // 없는 링 영역의 마우스 이벤트를 이 div가 가로채 밑 SVG로 못 내려가고,
-      // 결국 아바타(셀프) hover만 동작하는 것처럼 보이게 됩니다. 실제 클릭/hover가
-      // 필요한 자식(슬롯, 중앙 문구)에만 pointer-events-auto로 되살립니다.
+      // SVG 지표 링 위에 겹쳐지므로 배경은 pointer-events-none, 슬롯/문구만 auto로 되살림
       className={cn("relative size-[500px] pointer-events-none", className)}
       {...props}
     >

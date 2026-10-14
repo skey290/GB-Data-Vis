@@ -47,7 +47,6 @@ const meta = {
   args: {
     selfCount: 8,
     isDataCollected: true,
-    onPersonaSelect: fn(),
     onCenterClick: fn(),
   },
 } satisfies Meta<typeof PersonaRadialChart>;

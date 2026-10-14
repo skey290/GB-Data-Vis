@@ -190,11 +190,9 @@ describe("PersonaRadialChart", () => {
     });
 
     it("shows the placeholder badge only while a post-dependent metric is hovered", () => {
-      /*
-       * 비활성(회색) 상태는 Figma에서 삭제되었습니다. 게시물이 없다는 이유만으로
-       * 배지가 미리 떠 있으면 안 되고, Reach/Engagement를 실제로 hover했을 때만
-       * default 상태로 나타나야 합니다.
-       */
+      // 게시물이 없다는 이유만으로 배지가 미리 떠 있으면 안 되고,
+      // Reach/Engagement를 실제로 hover했을 때만 default 상태로 나타나야 한다
+
       const { rerender } = render(
         <PersonaRadialChart isDataCollected={false} />,
       );
@@ -361,15 +359,6 @@ describe("PersonaRadialChart", () => {
       expect(screen.getByText("80%")).toBeInTheDocument();
     });
 
-    it("calls onPersonaSelect with the persona id when a badge is clicked", async () => {
-      const onPersonaSelect = vi.fn();
-      render(<PersonaRadialChart onPersonaSelect={onPersonaSelect} />);
-
-      await userEvent.click(screen.getByText("Yoga Meditator"));
-
-      expect(onPersonaSelect).toHaveBeenCalledWith("yoga-meditator");
-    });
-
     it("fills the self's badge while the badges show names", () => {
       render(<PersonaRadialChart personas={SELF_IS_RUNNER_UP} selfId="self" />);
 
@@ -431,11 +420,9 @@ describe("PersonaRadialChart", () => {
     });
 
     it("keeps the self visible when selfId is an empty string", () => {
-      /*
-       * `selfId=""`는 `??` 폴백을 통과해버려 어떤 페르소나와도 일치하지 않는
-       * 셀프 id가 되고, 8칸 전부 빈 슬롯이 되어 셀프가 통째로 사라졌습니다.
-       * Storybook의 Interactive 스토리가 이 값을 넘기고 있었습니다.
-       */
+      // `selfId=""`가 `??` 폴백을 통과해버리면 어떤 페르소나와도 일치하지
+      // 않는 id가 되어 8칸 전부 빈 슬롯 처리된다 — `||`로 막아야 한다
+
       render(<PersonaRadialChart selfCount={1} selfId="" />);
 
       expect(screen.getAllByText("No Self")).toHaveLength(7);

@@ -116,7 +116,6 @@
 | `selfId`              | `string`                                                   | 첫 번째 페르소나  | 셀프로 취급할 id                                                                                    |
 | `onHoverChange`       | `(hover) => void`                                          | —                 | hover 상태 변경 콜백                                                                                |
 | `onCenterClick`       | `() => void`                                               | —                 | 중앙 문구 클릭 (CTA 성격)                                                                           |
-| `onPersonaSelect`     | `(id) => void`                                             | —                 | 바깥 배지 클릭. 안 주면 배지는 표시 전용                                                            |
 
 > Figma에는 `Self=8 + Data collected=false` 조합이 **없습니다.** `Data collected=false`는 `Self=1`에만 존재합니다.
 

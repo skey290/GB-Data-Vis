@@ -10,98 +10,30 @@ import {
 } from "@/components/dashboard/ui/self-curation";
 
 /**
- * Persona Radial Analytics — 셀프 + 8개 페르소나를 3개 지표(동심원 링) × 8개 섹터(각도)로
- * 비교하는 원형 차트.
+ * 셀프 + 8개 페르소나를 3개 지표(동심원 링) × 8개 섹터(각도)로 비교하는 원형 차트.
+ * 스펙 상세는 `docs/persona-radial-chart-spec.md` 참고.
  *
- * Figma: 📌 GB_UXUI (261002) (Wp6AZNGqC4qf2Sz5zQ2PzQ) node 8133:122594
- * "Dashboard Data Vis"가 원본 정의. props 축은 원본의
- * `Self(1|8) × Data collected(true|false) × Status(default|hover-reach|
- * hover-engagement|hover-growth potential)` 12개 variant를 그대로 따른다.
- * `hover="self"`는 Figma의 이 컴포넌트 자체 variant가 아니라 `SelfCuration`/
- * `SelfSlot` 아바타를 직접 hover하는 별도 상호작용이다.
- *
- * ⚠️ 좌표계 주의: 아래 반지름/각도 상수는 CSS 길이가 아니라 SVG `viewBox` 내부의
- * 기하 좌표값이다. 그래서 `--spacing-*` 토큰을 쓰지 않고 순수 숫자 상수로 둔다.
- * 반면 컴포넌트 바깥 치수(캔버스, 아바타, 배지)는 토큰을 사용한다.
- *
- * 이 컴포넌트는 특정 테마에 고정되지 않고 앱의 라이트/다크 상태를 그대로
- * 따른다 — 배지·그리드 선·값 밴드 전부 시맨틱 토큰을 참조해 자연스럽게
- * 반전된다.
- *
- * 아바타/빈 슬롯 렌더링과 원형 배치+중앙 문구는 Figma의 `Part/self`·
- * `Self curation`에 대응하는 별도 컴포넌트로 분리되어
- * `@/components/dashboard/ui/self-curation`(내부적으로 `self-slot` 사용)에
- * 있다. 이 파일은 그 위에 지표 링(SVG)·그리드·바깥 배지·hover 상태 관리만
- * 담당한다.
+ * ⚠️ 아래 반지름/각도 상수는 CSS 길이가 아니라 SVG `viewBox` 내부 좌표값이다.
  */
 
-/** 캔버스 크기 (Figma 컴포넌트 프레임 500×500) */
 const CANVAS_SIZE = 500;
-/** 링 경계 반지름 — Figma 실측 127.775/159.781/199.539/249.549의 의도값 */
 const RING_BOUNDARY_RADII = [128, 160, 200, 250] as const;
-/** 링 하나를 채우는 밴드 단계 수 (Figma 원본이 링당 정확히 8겹) */
 const RING_BAND_COUNT = 8;
-/** 배지의 원을 향한 모서리가 놓이는 궤도 반지름 (Figma 실측 258.9~272.3의 중앙값) */
 const LABEL_ORBIT_RADIUS = 265;
-/**
- * "Not Enough Data Yet" 배지의 중심 y 오프셋.
- * Figma 실측 top 516 / 높이 20 → 중심 526, 프레임 중심(250) 기준 +276.
- */
 const NOT_ENOUGH_DATA_OFFSET_Y = 276;
-/**
- * 차트를 나누는 칸 수. Figma 원본이 8칸이고 **고정입니다.**
- *
- * 셀프가 3명이어도 8칸 휠은 그대로 유지되고 나머지 5칸이 빈 슬롯이 됩니다
- * ("더 만들라"는 유도를 위해 Figma가 의도한 구성). 즉 "몇 칸인가"와
- * "몇 칸이 채워졌는가"는 별개이고, 후자만 `selfCount`로 달라집니다.
- */
+/** 칸 수는 8개 고정 — 채워진 칸 수(`selfCount`)와는 별개 */
 const SECTOR_COUNT = 8;
-/** 섹터 1개의 각도 */
 const SECTOR_ANGLE = 360 / SECTOR_COUNT;
-/**
- * 첫 섹터의 시작 각도. SVG 좌표계는 3시 방향이 0°, 시계방향이 +이므로
- * -90°(12시)에서 시작해야 맨 위 스포크가 정확히 수직이 됩니다.
- */
+/** SVG는 3시 방향이 0°라, -90°(12시)에서 시작해야 맨 위 스포크가 수직이 된다 */
 const FIRST_SECTOR_START_ANGLE = -90;
-/**
- * 지표 값 표기의 최대 소수 자릿수.
- *
- * "최대"라서 정수에는 소수점이 붙지 않습니다 (80 → "80%", 8340 → "8,340").
- * 실데이터의 계산값만 반올림됩니다 (14.333333 → "14.3%").
- */
 const DEFAULT_VALUE_FRACTION_DIGITS = 1;
 
-/**
- * hover 전환 공통 설정.
- *
- * 이 프로젝트의 다른 컴포넌트는 duration 없는 `transition-colors`(Tailwind 기본 150ms)를
- * 쓰지만, 그건 버튼처럼 작은 요소 기준입니다. 지름 500px 차트는 hover 한 번에 색이
- * 바뀌는 면적이 훨씬 넓어 150ms면 여전히 툭 끊겨 보여, 한 단계 위인 200ms로 잡았습니다.
- * 속도를 조절하려면 아래 `MOTION_DURATION` 하나만 바꾸면 차트 전체에 반영됩니다.
- *
- * 모든 전환에 `motion-reduce:` 변형을 달아, OS에서 "동작 줄이기"를 켠 사용자에게는
- * 전환 없이 즉시 바뀌게 합니다.
- */
+/** 500px 차트는 150ms(기본값)로는 전환이 끊겨 보여 200ms로 잡음 */
 const MOTION_DURATION = "duration-200 ease-out";
-/**
- * 색 전환. Tailwind v4의 `transition-colors`가 다루는 속성 목록에는 `fill`/`stroke`/
- * `outline-color`도 포함되어 있어, SVG 밴드·그리드와 outline 링에 그대로 씁니다.
- */
 const COLOR_TRANSITION = `transition-colors ${MOTION_DURATION} motion-reduce:transition-none`;
-/** Badge는 배경·글자색·보더(inset shadow)가 한꺼번에 바뀌므로 box-shadow까지 포함합니다 */
 const BADGE_TRANSITION = `transition-[color,background-color,box-shadow] ${MOTION_DURATION} motion-reduce:transition-none`;
-/**
- * 요소가 새로 나타나거나 내용이 교체될 때의 페이드인 (tw-animate-css).
- * `animate-in`은 duration을 `--tw-duration`에서 읽으므로 `MOTION_DURATION`이 그대로 먹습니다.
- */
 const FADE_IN = `animate-in fade-in ${MOTION_DURATION} motion-reduce:animate-none`;
-/**
- * 값 밴드 색. "다크면 흰색, 라이트면 검정"이 강조(하이라이트) 밴드의 규칙이라,
- * 라이트/다크에 따라 반전되는 시맨틱 토큰 `--icon-default`(라이트 #0a0a0a/
- * 다크 #fafafa)를 20% 알파로 흘려써서 재현한다. 딤(비강조) 밴드는 정반대
- * 극성이 필요한데, 이는 이미 `--background-sheer`(라이트 흰20%/다크 흑20%)의
- * 정의와 정확히 일치한다.
- */
+/** 다크=흰색/라이트=검정으로 반전되는 시맨틱 토큰으로 강조 밴드를, 반대 극성 토큰으로 딤 밴드를 표현 */
 const HIGHLIGHT_BAND_FILL =
   "color-mix(in srgb, var(--icon-default) 20%, transparent)";
 const DIMMED_BAND_FILL = "var(--background-sheer)";
@@ -147,15 +79,11 @@ export interface PersonaDatum {
   engagement: number;
 }
 
-/**
- * Figma mock에 적혀 있는 샘플 데이터. 배열 순서가 곧 섹터 배치 순서입니다
- * (12시에서 시작해 시계방향).
- */
+/** Figma mock 샘플 데이터 — 배열 순서가 곧 섹터 배치 순서(12시부터 시계방향) */
 export const DEFAULT_PERSONAS: PersonaDatum[] = [
   {
     id: "data-scientist",
     name: "Data Scientist",
-    // 배열 0번째 = 기본 셀프(resolvedSelfId). 온보딩 이후 셀프 기본 프로필 사진.
     imageSrc: "/images/personas/self-default.jpg",
     initials: "DS",
     growth: 80,
@@ -227,35 +155,16 @@ export const DEFAULT_PERSONAS: PersonaDatum[] = [
   },
 ];
 
-/**
- * Figma `Status` variant.
- * - `default` — 배지에 페르소나 이름, 3개 링 모두 흰 밴드
- * - 지표 3종(`hover-reach`/`hover-engagement`/`hover-growth potential`) —
- *   해당 링만 흰 밴드, 나머지 2링은 검은 밴드로 가라앉고, 배지 8개가 그
- *   지표의 **값**으로 전환됩니다
- * - `self`는 Figma 최상위 variant가 아니다 — 셀프 아바타를 직접 hover했을 때
- *   코드에서만 다루는 값이며, 아바타가 blur + 링으로 강조됩니다
- */
+/** `self`는 Figma variant가 아니라 아바타를 직접 hover했을 때 코드에서만 다루는 값 */
 export type PersonaRadialChartHover = "default" | PersonaMetricKey | "self";
 
-/** Hover × Data collected 조합별 중앙 1줄 문구 (Figma 원본 그대로) */
 function getCenterMessage(
   hover: PersonaRadialChartHover,
   isDataCollected: boolean,
   isEmptySlotActive: boolean,
 ) {
   if (hover === "self") {
-    /*
-     * 기준은 `selfCount`가 아니라 **지금 강조된 대상**입니다.
-     * 이미 만들어진 아바타에 올렸으면 그 셀프로 작업하러 가는 것이고("Go to
-     * Content Studio"), 비어 있는 슬롯에 올렸을 때만 새로 만들라는 안내입니다
-     * ("Create a Self").
-     *
-     * selfCount로 판단하면 셀프가 1명 있는 상태에서 **그 셀프에 올려도**
-     * "Create a Self"가 떠서, 이미 있는 걸 또 만들라고 말하게 됩니다.
-     * Figma의 `Self=1 / Hover=self` variant도 셀프가 아니라 빈 슬롯(섹터 2)이
-     * 강조된 스냅샷이라, 이 규칙이 원본과도 일치합니다.
-     */
+    // 기준은 selfCount가 아니라 지금 강조된 대상(빈 슬롯인지)이다
     return isEmptySlotActive ? "Create a Self" : "Go to Content Studio";
   }
   if (hover === "default") {
@@ -264,14 +173,12 @@ function getCenterMessage(
   if (hover === "growth") {
     return "Growth Potential";
   }
-  // reach / engagement 는 게시물이 있어야 산출됩니다
   if (!isDataCollected) {
     return "Create Posts to analyze";
   }
   return hover === "reach" ? "Qualified Reach" : "Engagement Intensity";
 }
 
-/** 각도(도)를 중심 기준 직교 좌표로 변환 */
 function polarToCartesian(radius: number, angleInDegrees: number) {
   const radians = (angleInDegrees * Math.PI) / 180;
   return {
@@ -280,15 +187,11 @@ function polarToCartesian(radius: number, angleInDegrees: number) {
   };
 }
 
-/** SVG path 좌표의 소수점 자릿수를 제한해 마크업이 불필요하게 길어지지 않게 합니다 */
 function round(value: number) {
   return Number(value.toFixed(3));
 }
 
-/**
- * 도넛 조각(annulus sector) path.
- * 섹터 각도가 45°(<180°)로 고정이라 large-arc-flag는 항상 0입니다.
- */
+/** 도넛 조각(annulus sector) path. 섹터 각도가 45°(<180°) 고정이라 large-arc-flag는 항상 0 */
 function annulusSectorPath(
   innerRadius: number,
   outerRadius: number,
@@ -309,20 +212,13 @@ function annulusSectorPath(
   ].join(" ");
 }
 
-/** 링 전체(360°) 도넛 path. `fill-rule="evenodd"`로 안쪽을 뚫습니다 */
+/** 링 전체(360°) 도넛 path. `fill-rule="evenodd"`로 안쪽을 뚫는다 */
 function fullAnnulusPath(innerRadius: number, outerRadius: number) {
   const ring = (r: number) =>
     `M ${r} 0 A ${r} ${r} 0 1 1 ${-r} 0 A ${r} ${r} 0 1 1 ${r} 0 Z`;
   return `${ring(outerRadius)} ${ring(innerRadius)}`;
 }
 
-/**
- * 툴팁이 아니라 배지에 직접 노출되는 값이라, 지표별 표기를 그대로 씁니다.
- *
- * `toLocaleString`이 반올림과 천 단위 구분을 한 번에 처리합니다. `maximum`이라
- * 정수에는 소수점이 붙지 않아, Figma mock의 `80%` / `8,340` 표기가 그대로
- * 유지되면서 실데이터의 `14.333333`만 `14.3`으로 정리됩니다.
- */
 function formatMetricValue(
   metricKey: PersonaMetricKey,
   value: number,
@@ -343,11 +239,7 @@ function getSectorGeometry(index: number) {
   };
 }
 
-/**
- * 배지를 원 바깥에 붙이기 위한 정렬 기준 (Figma 실측 좌표에서 역산).
- * - 좌/우 4개(±22.5°, ±157.5°): 가로만 모서리 정렬하고 **세로는 중앙 정렬**
- * - 모서리 4개(±67.5°, ±112.5°): 가로·세로 모두 모서리 정렬
- */
+/** 배지를 원 바깥에 붙이기 위한 정렬 기준 (Figma 실측 좌표에서 역산) */
 function getLabelAnchor(midAngle: number) {
   const { x, y } = polarToCartesian(1, midAngle);
   const isCornerSector = Math.abs(y) > 0.7;
@@ -359,15 +251,9 @@ function getLabelAnchor(midAngle: number) {
 }
 
 /**
- * 밴드 칸 수 = 그 링 안에서의 **순위**. 1등이 8칸, 꼴등이 1칸이 되도록 균등 배분한다.
- *
- * 값 비율(1등 대비 몇 %)이 아니라 순위로 칠하는 이유: 값이 비슷하면 같은 칸으로
- * 뭉개지고(Reach의 8,340과 8,006이 둘 다 8칸), 한 명이 압도적이면 나머지가 전부
- * 바닥에 깔린다(Engagement의 14.3 vs 0.3~3.7). 순위로 칠하면 분포와 무관하게
- * 8명이 항상 구분된다. 대신 "얼마나 차이나는지"는 표현되지 않으므로, 정확한
- * 값은 링을 hover했을 때 배지에서 확인한다.
- *
- * 동점은 같은 순위 = 같은 칸을 받고, 값이 0 이하면 "데이터 없음"으로 보아 0칸이다.
+ * 밴드 칸 수 = 그 링 안에서의 순위(값 비율 아님). 1등 8칸 / 꼴등 1칸으로 균등 배분해,
+ * 값이 비슷하거나 한 명이 압도적이어도 8명이 항상 구분되게 한다. 동점은 같은 칸,
+ * 값이 0 이하면 0칸.
  */
 function getRankBandCounts(values: number[]) {
   const ranked = values.filter((value) => value > 0).sort((a, b) => b - a);
@@ -386,54 +272,24 @@ export interface PersonaRadialChartProps extends Omit<
   React.HTMLAttributes<HTMLDivElement>,
   "onSelect"
 > {
-  /**
-   * 실제로 존재하는 페르소나 데이터. 배열 순서가 12시부터 시계방향 섹터 순서가 됩니다.
-   *
-   * 8칸보다 적게 넘겨도 됩니다 — 남는 칸은 "No Self" 빈 슬롯이 됩니다.
-   * 즉 서버에서 받은 배열을 그대로 넘기면 그만큼만 채워집니다.
-   */
+  /** 존재하는 페르소나 데이터. 8칸보다 적으면 남는 칸은 "No Self" 빈 슬롯이 됨 */
   personas?: PersonaDatum[];
-  /**
-   * 노출할 셀프 수. 배열 앞에서부터 이 수만큼만 실제 데이터로 그려지고 나머지는
-   * 빈 슬롯이 됩니다. **기본값은 `personas.length`** — 실데이터를 그대로 넘기는
-   * 경우 이 prop을 지정할 필요가 없습니다.
-   *
-   * Figma의 `Self(1|8)` variant를 재현할 때만 명시적으로 넘기면 됩니다.
-   */
+  /** 노출할 셀프 수. 기본값은 `personas.length` */
   selfCount?: number;
-  /**
-   * 배지에 표시되는 값의 최대 소수 자릿수. 기본 1.
-   *
-   * "최대"라서 정수에는 소수점이 붙지 않습니다 (80 → `80%`).
-   */
+  /** 배지 값의 최대 소수 자릿수. 기본 1 */
   valueFractionDigits?: number;
-  /** Figma `Data collected` variant — 게시물이 있어야 Reach/Engagement가 산출됩니다 */
+  /** Figma `Data collected` — 게시물이 있어야 Reach/Engagement가 산출됨 */
   isDataCollected?: boolean;
-  /**
-   * Figma `Hover` variant. 값을 주면 제어 컴포넌트로 동작해 마우스와 무관하게 고정됩니다
-   * (Storybook에서 variant를 재현할 때 사용). 주지 않으면 실제 마우스 hover를 따릅니다.
-   */
+  /** 값을 주면 제어 컴포넌트(마우스 무시), 안 주면 실제 마우스 hover를 따름 */
   hover?: PersonaRadialChartHover;
-  /** hover 상태가 바뀔 때 호출됩니다 */
+  /** hover 상태가 바뀔 때 호출됨 */
   onHoverChange?: (hover: PersonaRadialChartHover) => void;
   /** 셀프로 취급할 페르소나 id. 기본값은 첫 번째 페르소나 */
   selfId?: string;
-  /**
-   * 중앙 문구 클릭 핸들러. Figma에는 Button 인스턴스가 없고 텍스트 1줄뿐이라
-   * 버튼으로 만들지 않았지만, "Create a Self" 같은 CTA 성격의 문구를 위해 열어둡니다.
-   */
+  /** 중앙 문구 클릭 핸들러 (CTA 성격) */
   onCenterClick?: () => void;
-  /** 바깥 배지 클릭 핸들러. 전달하지 않으면 배지는 표시 전용입니다 */
-  onPersonaSelect?: (personaId: string) => void;
 }
 
-/**
- * 셀프와 8개 페르소나를 3개 지표로 비교하는 원형 데이터 시각화.
- *
- * - 각도: 8개 섹터 = 8명의 페르소나 (12시 스포크가 정확히 수직)
- * - 반지름: 3개 링 = Growth Potential / Qualified Reach / Engagement Intensity
- * - 값: 링 안쪽 경계를 공유하는 밴드를 겹쳐 쌓아, 안쪽일수록 밝아지는 8단계로 표현
- */
 export function PersonaRadialChart({
   personas = DEFAULT_PERSONAS,
   selfCount,
@@ -443,7 +299,6 @@ export function PersonaRadialChart({
   onHoverChange,
   selfId,
   onCenterClick,
-  onPersonaSelect,
   className,
   ...props
 }: PersonaRadialChartProps) {
@@ -462,24 +317,10 @@ export function PersonaRadialChart({
     null,
   );
 
-  /*
-   * `??`가 아니라 `||`입니다. `selfId=""`처럼 빈 문자열이 들어오면 `??`는 그대로
-   * 통과시켜 어떤 페르소나와도 일치하지 않는 셀프 id가 되고, `selfCount=1`에서
-   * 8칸 전부 빈 슬롯이 되어 셀프가 통째로 사라집니다.
-   */
+  // `selfId=""`가 `??`를 통과해버리는 걸 막기 위해 `||`를 쓴다
   const resolvedSelfId = selfId || personas[0]?.id;
-
-  /** 노출할 셀프 수. 지정하지 않으면 넘어온 데이터 전부를 노출합니다 */
   const revealedCount = selfCount ?? personas.length;
 
-  /**
-   * 섹터를 채우는 슬롯. 8칸을 만들고 앞에서부터 페르소나를 배치합니다.
-   *
-   * - 데이터가 없는 칸 → `null` (= "No Self" 빈 슬롯)
-   * - `revealedCount`를 넘어선 칸 → 데이터가 있어도 빈 슬롯 (Figma `Self=1` 재현)
-   * - 셀프는 배열 어디에 있든 항상 노출됩니다. `selfId`를 뒤쪽 페르소나로 지정한
-   *   경우에 그 셀프가 사라지지 않게 하기 위함입니다.
-   */
   const slots = React.useMemo(() => {
     return Array.from({ length: SECTOR_COUNT }, (_, index) => {
       const persona = personas[index];
@@ -489,33 +330,18 @@ export function PersonaRadialChart({
     });
   }, [personas, revealedCount, resolvedSelfId]);
 
-  /**
-   * 강조할 아바타. 마우스로 올린 것이 언제나 우선입니다.
-   *
-   * 마우스 정보가 없는 제어 모드(Storybook에서 `hover="self"`만 지정)에서는
-   * Figma variant를 그대로 재현하도록, 빈 슬롯이 있으면 **첫 빈 슬롯**을,
-   * 없으면 셀프를 강조합니다. Figma의 `Self=1 / Hover=self`가 셀프가 아니라
-   * 빈 슬롯이 강조된 스냅샷이기 때문입니다.
-   *
-   * 빈 슬롯에는 페르소나 id가 없으므로 `slot:<index>` 형태의 합성 키를 씁니다.
-   */
+  // 마우스가 우선, 없으면(제어 모드) 빈 슬롯 → 셀프 순으로 강조 대상을 고른다
   const firstEmptySlotKey = slots.findIndex((slot) => slot === null);
   const activeAvatarId =
     hoveredAvatarId ??
     (firstEmptySlotKey >= 0
       ? selfCurationEmptySlotKey(firstEmptySlotKey)
       : resolvedSelfId);
-  /** 지금 강조된 대상이 빈 슬롯인지 — 중앙 문구를 가르는 기준입니다 */
   const isEmptySlotActive = activeAvatarId?.startsWith("slot:") ?? false;
 
-  /** 게시물이 없으면 Growth만 산출됩니다 */
   const hasMetricData = (metricKey: PersonaMetricKey) =>
     isDataCollected || metricKey === "growth";
 
-  /**
-   * 링별 밴드 칸 수(페르소나 순서 그대로). 표시 대상(`selfCount`)과 무관하게 전체
-   * 데이터로 순위를 매겨, 셀프 1명만 보이는 상태에서도 척도가 흔들리지 않게 합니다.
-   */
   const ringBandCounts = React.useMemo(() => {
     const counts = {} as Record<PersonaMetricKey, number[]>;
     for (const metric of PERSONA_METRICS) {
@@ -532,17 +358,12 @@ export function PersonaRadialChart({
     isEmptySlotActive,
   );
   const isMetricHover = PERSONA_METRICS.some((metric) => metric.key === hover);
-  /** 데이터가 없는 지표를 보려는 상태 — 링을 균일하게 채우고 안내 배지를 띄웁니다 */
   const isAwaitingData =
     isMetricHover && !hasMetricData(hover as PersonaMetricKey);
 
   return (
     <div
-      className={cn(
-        // Figma 컴포넌트 프레임 500×500. 배지는 이 밖으로 넘쳐 배치됩니다
-        "relative size-[500px]",
-        className,
-      )}
+      className={cn("relative size-[500px]", className)}
       onMouseLeave={() => {
         setHoveredAvatarId(null);
         changeHover("default");
@@ -555,18 +376,15 @@ export function PersonaRadialChart({
         role="img"
         aria-label="Persona radial analytics"
       >
-        {/* 값 밴드 — 링 안쪽 경계를 공유하는 도넛 조각을 겹쳐 쌓습니다 */}
         {PERSONA_METRICS.map((metric) => {
           const isDimmed = isMetricHover && hover !== metric.key;
           const bandStep =
             (metric.outerRadius - metric.innerRadius) / RING_BAND_COUNT;
 
-          // 데이터가 없는 링을 hover 중이면 링 전체를 균일한 한 겹으로 채웁니다
           if (hover === metric.key && !hasMetricData(metric.key)) {
             return (
               <path
                 key={metric.key}
-                // 8겹 밴드를 대체하며 새로 mount되는 path라 색 전환이 아닌 페이드인입니다
                 className={FADE_IN}
                 d={fullAnnulusPath(metric.innerRadius, metric.outerRadius)}
                 fillRule="evenodd"
@@ -588,8 +406,6 @@ export function PersonaRadialChart({
                 return Array.from({ length: bands }, (_, step) => (
                   <path
                     key={`${persona.id}-${step}`}
-                    // hover가 바뀌어도 이 path들은 그대로 남고 fill만 교체되므로,
-                    // 흰↔검정이 200ms에 걸쳐 이어집니다 (차트에서 가장 넓은 면적)
                     className={COLOR_TRANSITION}
                     d={annulusSectorPath(
                       metric.innerRadius,
@@ -597,8 +413,6 @@ export function PersonaRadialChart({
                       startAngle,
                       endAngle,
                     )}
-                    // 겹칠수록 안쪽이 밝아집니다. 강조되지 않은 링은 배경에
-                    // 가라앉도록 딤 처리합니다 (앱 테마에 따라 흑/백이 반전됨)
                     fill={isDimmed ? DIMMED_BAND_FILL : HIGHLIGHT_BAND_FILL}
                   />
                 ));
@@ -607,10 +421,8 @@ export function PersonaRadialChart({
           );
         })}
 
-        {/* 그리드 — 동심원 4개 + 섹터 경계 스포크, 모두 동일 색상 */}
         <g fill="none" strokeWidth="var(--border-1)" aria-hidden="true">
           {RING_BOUNDARY_RADII.map((radius) => {
-            // 데이터 없는 링을 hover 중이면 그 링의 두 경계원만 흰색으로 강조됩니다
             const isHighlighted =
               isAwaitingData &&
               PERSONA_METRICS.some(
@@ -635,10 +447,7 @@ export function PersonaRadialChart({
               />
             );
           })}
-          {/*
-            Figma 원본은 반직선 8개가 아니라 중심을 관통하는 지름선 4개입니다.
-            8칸 고정이라 지름 4개 = 스포크 8개가 정확히 맞아떨어집니다.
-          */}
+          {/* 8칸 고정이라 지름선 4개 = 스포크 8개 */}
           {Array.from({ length: SECTOR_COUNT / 2 }, (_, index) => {
             const { startAngle } = getSectorGeometry(index);
             const end = polarToCartesian(RING_BOUNDARY_RADII[3], startAngle);
@@ -655,7 +464,6 @@ export function PersonaRadialChart({
           })}
         </g>
 
-        {/* 링별 hover 판정 영역 — 데이터가 없는 링도 hover는 되어야 합니다 */}
         <g fill="transparent">
           {PERSONA_METRICS.map((metric) => (
             <path
@@ -672,12 +480,6 @@ export function PersonaRadialChart({
         </g>
       </svg>
 
-      {/*
-        아바타 원형 배치 + 중앙 문구 — Figma `Part/self`(8133:122512)·
-        `Self curation`(8133:122553)에 대응하는 별도 컴포넌트로 분리되어 있습니다.
-        이 파일은 지표 hover 상태를 그대로 소유하고, SelfCuration에는 결과값
-        (강조 대상/중앙 문구)만 내려줍니다.
-      */}
       <SelfCuration
         className="absolute inset-0"
         slots={slots}
@@ -695,11 +497,6 @@ export function PersonaRadialChart({
         onCenterClick={onCenterClick}
       />
 
-      {/*
-        바깥 배지 — 만들어진 셀프 수만큼만 렌더링됩니다. 빈 슬롯에는 배지가 없고,
-        지표를 hover했는데 그 지표를 산출할 수 없으면(게시물 없음) 배지가 아예
-        사라집니다(이름으로 되돌아가지 않습니다).
-      */}
       {slots.map((persona, index) => {
         if (!persona) return null;
         if (isMetricHover && !hasMetricData(hover as PersonaMetricKey)) {
@@ -711,7 +508,6 @@ export function PersonaRadialChart({
         const anchor = getLabelAnchor(midAngle);
         const isSelf = persona.id === resolvedSelfId;
 
-        /* 지표 hover 중이면 같은 자리에서 텍스트만 값으로 교체됩니다 */
         const content = isMetricHover
           ? formatMetricValue(
               hover as PersonaMetricKey,
@@ -720,16 +516,7 @@ export function PersonaRadialChart({
             )
           : persona.name;
 
-        /*
-         * 채워진(default) 배지가 "지금 기준이 되는 대상"을 가리킵니다.
-         * - 배지가 **이름**을 보여줄 때 → 이 페이지에서 설정된 셀프
-         * - 배지가 **값**을 보여줄 때(지표 hover) → 그 지표의 1등
-         *
-         * 1등 판정에 값을 다시 비교하지 않고 링 채움에 쓴 밴드 칸 수를 그대로
-         * 재사용합니다(8칸 = 1등). 링에서 가장 길게 찬 섹터와 채워진 배지가
-         * 항상 같은 페르소나를 가리키게 되고, 동점이면 둘 다 8칸이라 배지도
-         * 둘 다 채워집니다.
-         */
+        // 1등 판정은 링 밴드 칸 수를 재사용(8칸=1등) — 동점이면 둘 다 채워짐
         const isEmphasized = isMetricHover
           ? ringBandCounts[hover as PersonaMetricKey][index] === RING_BAND_COUNT
           : isSelf;
@@ -737,7 +524,6 @@ export function PersonaRadialChart({
         return (
           <div
             key={persona.id}
-            // 배지가 통째로 사라졌다 나타나는 전환(게시물 없는 지표 hover)에서의 페이드
             className={cn("absolute", FADE_IN)}
             style={{
               left: `calc(50% + ${round(position.x)}px)`,
@@ -747,14 +533,9 @@ export function PersonaRadialChart({
           >
             <Badge
               variant={isEmphasized ? "default" : "outline"}
-              onClick={
-                onPersonaSelect ? () => onPersonaSelect(persona.id) : undefined
-              }
               className={cn(
                 BADGE_TRANSITION,
-                onPersonaSelect && "cursor-pointer",
-                // Figma의 비선택 배지는 Badge outline 기본값(--color-border 보더 /
-                // foreground 텍스트)이 아니라 보더·텍스트 모두 muted-foreground입니다
+                // Figma description: Badge는 표시 전용 — 클릭 가능한 pill은 Chips를 쓴다
                 !isEmphasized &&
                   cn(
                     "text-muted-foreground",
@@ -762,11 +543,6 @@ export function PersonaRadialChart({
                   ),
               )}
             >
-              {/*
-               * 이름 ↔ 값 교체는 텍스트 내용만 바뀌는 거라 transition이 걸리지 않습니다.
-               * key를 내용으로 두면 바뀔 때마다 remount되어 새 텍스트가 페이드인합니다
-               * (shadcn이 쓰는 tw-animate-css의 animate-in 방식).
-               */}
               <span key={content} className={FADE_IN}>
                 {content}
               </span>
@@ -775,10 +551,6 @@ export function PersonaRadialChart({
         );
       })}
 
-      {/*
-        하단 안내 배지 — Reach/Engagement를 hover했는데 게시물이 없어 산출할 수
-        없을 때만, default 상태로 뜬다.
-      */}
       {isAwaitingData && (
         <div
           className={cn(

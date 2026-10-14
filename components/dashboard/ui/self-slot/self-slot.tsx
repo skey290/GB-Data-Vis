@@ -6,13 +6,8 @@ import { cn } from "@/lib/utils";
 import { Avatar } from "@/components/ui/avatar";
 
 /**
- * Figma `Part/self` (📌 GB_UXUI 261002, node 8133:122512) — 40×40 원형 페르소나 슬롯.
- * `SelfCuration`이 8개를 원형으로 배치해 사용하는 최소 단위입니다
- * (`components/dashboard/ui/persona-radial-chart`가 이 두 컴포넌트를 조합해서 씁니다).
- *
- * Figma variant는 `style`(empty/data scientist 샘플) × `status`(default/active) = 4종인데,
- * `style`은 어떤 페르소나인지에 대한 샘플 데이터일 뿐이라 별도 enum prop을 두지 않고
- * `persona`가 있는지 여부로 `style=empty` ↔ 실제 페르소나를 가릅니다.
+ * Figma `Part/self`(40×40 원형 슬롯) — `SelfCuration`이 8개를 원형 배치해 사용.
+ * 스펙 상세는 `docs/persona-radial-chart-spec.md` 참고.
  */
 
 export interface SelfSlotPersona {
@@ -38,15 +33,8 @@ const MOTION_DURATION = "duration-200 ease-out";
 const COLOR_TRANSITION = `transition-colors ${MOTION_DURATION} motion-reduce:transition-none`;
 const EFFECT_TRANSITION = `transition-[filter,opacity] ${MOTION_DURATION} motion-reduce:transition-none`;
 
-/**
- * 강조 링은 outline이 아니라 **별도 span 레이어**로 그립니다.
- *
- * `-outline-offset-2`(음수 오프셋) outline은 40px를 꽉 채우는 자식(아바타
- * 이미지)에 가려 Chrome에서 거의 보이지 않습니다 — outline이 항상 자식
- * 위에 그려진다는 스펙이 음수 오프셋 + 꽉 찬 자식 조합에서는 지켜지지
- * 않습니다. 링을 아바타/딤 오버레이보다 **DOM상 뒤(= 나중에 그려짐)**에
- * 두면, 일반적인 페인트 순서만으로 항상 위에 그려집니다.
- */
+// 강조 링은 outline이 아니라 별도 span(DOM상 가장 뒤)으로 그린다 — 음수
+// outline-offset은 40px를 꽉 채우는 아바타 자식에 가려 Chrome에서 안 보인다
 const RING_BORDER = "border-[length:var(--border-2)] border-solid";
 const RING_ON = "border-[color:var(--border-static-white)]";
 const RING_OFF = "border-transparent";
