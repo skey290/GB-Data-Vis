@@ -46,7 +46,7 @@ describe("SelfSlot", () => {
 
     rerender(<SelfSlot persona={PERSONA} status="active" />);
     expect(screen.getByRole("img", { name: "Data Scientist" })).toHaveClass(
-      "[filter:var(--backdrop-blur)]",
+      "[filter:var(--backdrop-blur-sm)]",
     );
   });
 

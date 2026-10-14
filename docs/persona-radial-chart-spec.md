@@ -198,7 +198,7 @@ Figma에는 Button 인스턴스 없이 **1줄 텍스트**만 있어 버튼으로
 - **마우스를 올린 아바타 하나만** 강조됩니다. 링 강조는 일어나지 않습니다
 - 강조 표현 = **흰 2px 안쪽 링 + 블러 + 검정 오버레이** — 밝아지는 게 아니라 **어두워집니다**
   - 링: `border` 2px `--border-static-white`, 아바타/딤 오버레이 뒤가 아니라 DOM상 가장 마지막 형제 `span`으로 둠(`outline` + 음수 offset은 40px를 꽉 채우는 자식에게 가려지는 것을 Chrome에서 실측 확인해 폐기)
-  - 블러: `--backdrop-blur`(8px) — Figma named style "Backdrop Blur/backdrop-blur" radius 8 그대로(접미사 없는 토큰, `-sm` 아님). 아바타 뒤에 다른 레이어가 없어 `filter`로 적용해도 결과가 같고, 링은 별도 레이어라 영향받지 않음
+  - 블러: `--backdrop-blur-sm`(4px) — Figma Effect 파라미터는 radius 8이지만, Figma가 직접 생성한 코드(get_design_context)의 이 레이어 className이 `backdrop-blur-[4px]` 그대로라 토큰 이름이 아니라 codegen 결과값을 기준으로 삼는다. 아바타 뒤에 다른 레이어가 없어 `filter`로 적용해도 결과가 같고, 링은 별도 레이어라 영향받지 않음
   - 딤: `--background-backdrop`(검정, 알파 0.3 — Figma 쪽도 동일 토큰에 바인딩됨)
 - 빈 슬롯도 hover하면 같은 링 + `--background-sheer` 배경(다크에서 검정 20%)
 - Storybook의 `hover="self"` 제어 모드는 **어떤 아바타에 올렸는지 알 수 없어** 셀프를 강조합니다
@@ -239,25 +239,25 @@ MOTION_DURATION = duration-200 ease-out
 
 ### 6.2 대상별 전환
 
-| 대상                      | 방식                                            | 보이는 시점                            |
-| ------------------------- | ----------------------------------------------- | -------------------------------------- |
-| 값 밴드 (최대 226개 path) | `fill` 흰↔검정 색 페이드                        | 링 hover — 가장 큰 효과                |
-| 그리드 경계원 4개         | `stroke` 색 페이드                              | 데이터 없는 링 hover                   |
-| 아바타 강조 링            | `outline-color` 투명↔흰색                       | 아바타 hover                           |
-| 아바타 블러               | `--backdrop-blur-none` ↔ `--backdrop-blur` 보간 | 아바타 hover                           |
-| 딤 오버레이               | `opacity` 0↔1                                   | 아바타 hover                           |
-| 빈 슬롯                   | 링 페이드인 + 배경 색 페이드                    | `selfCount=1`에서 빈 슬롯 hover        |
-| 배지 텍스트               | 이름↔값 교체 시 페이드인                        | 링 hover                               |
-| 배지 등장/퇴장            | 페이드인                                        | 데이터 없는 지표 hover                 |
-| 중앙 문구                 | 문구 교체 시 페이드인                           | 모든 hover                             |
-| 하단 안내 배지            | 배경·글자색·보더 동시 페이드                    | `isDataCollected=false`에서 지표 hover |
+| 대상                      | 방식                                               | 보이는 시점                            |
+| ------------------------- | -------------------------------------------------- | -------------------------------------- |
+| 값 밴드 (최대 226개 path) | `fill` 흰↔검정 색 페이드                           | 링 hover — 가장 큰 효과                |
+| 그리드 경계원 4개         | `stroke` 색 페이드                                 | 데이터 없는 링 hover                   |
+| 아바타 강조 링            | `outline-color` 투명↔흰색                          | 아바타 hover                           |
+| 아바타 블러               | `--backdrop-blur-none` ↔ `--backdrop-blur-sm` 보간 | 아바타 hover                           |
+| 딤 오버레이               | `opacity` 0↔1                                      | 아바타 hover                           |
+| 빈 슬롯                   | 링 페이드인 + 배경 색 페이드                       | `selfCount=1`에서 빈 슬롯 hover        |
+| 배지 텍스트               | 이름↔값 교체 시 페이드인                           | 링 hover                               |
+| 배지 등장/퇴장            | 페이드인                                           | 데이터 없는 지표 hover                 |
+| 중앙 문구                 | 문구 교체 시 페이드인                              | 모든 hover                             |
+| 하단 안내 배지            | 배경·글자색·보더 동시 페이드                       | `isDataCollected=false`에서 지표 hover |
 
 ### 6.3 구현상 주의점 (재작업 시 참고)
 
 1. **`border` → `outline`**: 강조 링을 border로 주면 `box-sizing` 때문에 아바타가 40px → **36px로 찌그러집니다.** outline은 레이아웃을 차지하지 않고, `outline-color`는 애니메이션 가능하며, border보다 위에 그려집니다
 2. **`border-style: dashed ↔ solid`는 CSS가 보간할 수 없는 값**입니다. 빈 슬롯은 dashed 1px를 **두 상태 모두 유지**하고, 그 위를 2px outline이 덮는 방식으로 우회했습니다
 3. **mount/unmount는 transition이 안 걸립니다.** 딤 오버레이는 항상 렌더하고 `opacity`만 바꿉니다 (`pointer-events-none` 필수)
-4. **`filter: none` ↔ `blur(8px)`는 보간이 모호합니다.** 비활성일 때도 `--backdrop-blur-none`(= `blur(0px)`)을 명시해야 부드럽게 이어집니다
+4. **`filter: none` ↔ `blur(4px)`는 보간이 모호합니다.** 비활성일 때도 `--backdrop-blur-none`(= `blur(0px)`)을 명시해야 부드럽게 이어집니다
 5. **텍스트 내용 교체는 transition 대상이 아닙니다.** `key={content}`로 remount시키고 `animate-in fade-in`을 겁니다 (tw-animate-css)
 6. Tailwind v4의 `transition-colors`는 `fill` / `stroke` / `outline-color`를 **이미 포함**합니다. SVG는 presentation attribute 그대로 두고 className만 추가하면 됩니다
 
@@ -309,20 +309,20 @@ Growth는 `10/20/30/40/50/60/70/80`의 완전한 사다리꼴입니다. 동점�
 
 ### 사용하는 토큰
 
-| 용도               | 토큰                                                   | 값                  |
-| ------------------ | ------------------------------------------------------ | ------------------- |
-| 값 밴드 (활성)     | `color-mix(..., var(--icon-default) 20%, transparent)` | 흰색 20%            |
-| 값 밴드 (침강)     | `var(--background-sheer)`                              | 검정 20%(다크 기준) |
-| 아바타 딤 오버레이 | `var(--background-backdrop)`                           | 검정 알파 0.3       |
-| 그리드             | `var(--color-muted)`                                   | —                   |
-| 그리드 경계원 강조 | `var(--color-semantic-non-changeable)`                 | 흰색                |
-| 아바타 강조 링     | `var(--border-static-white)`                           | 흰색                |
-| 빈 슬롯 보더       | `var(--border-muted)`                                  | —                   |
-| 빈 슬롯 텍스트     | `text-muted-foreground`(유틸리티)                      | —                   |
-| 보더 폭            | `var(--border-1)` / `var(--border-2)`                  | 1px / 2px           |
-| 블러               | `var(--backdrop-blur-none)` / `var(--backdrop-blur)`   | 0px / 8px           |
-| 빈 슬롯 원 radius  | `var(--radius-scale-full)`                             | —                   |
-| 빈 슬롯 라벨       | `text-xxs-medium`                                      | 8px Medium          |
+| 용도               | 토큰                                                    | 값                  |
+| ------------------ | ------------------------------------------------------- | ------------------- |
+| 값 밴드 (활성)     | `color-mix(..., var(--icon-default) 20%, transparent)`  | 흰색 20%            |
+| 값 밴드 (침강)     | `var(--background-sheer)`                               | 검정 20%(다크 기준) |
+| 아바타 딤 오버레이 | `var(--background-backdrop)`                            | 검정 알파 0.3       |
+| 그리드             | `var(--color-muted)`                                    | —                   |
+| 그리드 경계원 강조 | `var(--color-semantic-non-changeable)`                  | 흰색                |
+| 아바타 강조 링     | `var(--border-static-white)`                            | 흰색                |
+| 빈 슬롯 보더       | `var(--border-muted)`                                   | —                   |
+| 빈 슬롯 텍스트     | `text-muted-foreground`(유틸리티)                       | —                   |
+| 보더 폭            | `var(--border-1)` / `var(--border-2)`                   | 1px / 2px           |
+| 블러               | `var(--backdrop-blur-none)` / `var(--backdrop-blur-sm)` | 0px / 4px           |
+| 빈 슬롯 원 radius  | `var(--radius-scale-full)`                              | —                   |
+| 빈 슬롯 라벨       | `text-xxs-medium`                                       | 8px Medium          |
 
 > ⚠️ `text-xxs-medium` 같은 커스텀 타이포 클래스는 **`lib/utils.ts`의 `TYPOGRAPHY_PRESET_CLASSES`에 등록되어 있어야** 합니다. 등록하지 않으면 `cn()`(tailwind-merge)이 텍스트 **색상** 유틸리티로 오인해 조용히 삭제하고, 빌드·타입체크·테스트가 전부 통과해버립니다.
 >

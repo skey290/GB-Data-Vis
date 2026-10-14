@@ -80,11 +80,12 @@ export function SelfSlot({
           className={cn(
             "size-full",
             EFFECT_TRANSITION,
-            // Figma named style "Backdrop Blur/backdrop-blur"(접미사 없음) radius 8
-            // = --backdrop-blur(8px, -sm이 아님). 아바타 뒤에 다른 레이어가 없어
-            // filter로 적용해도 backdrop-filter와 결과가 같다.
+            // Figma 쪽 Effect 파라미터는 radius 8이지만, Figma가 직접 생성한 코드
+            // (get_design_context)의 이 레이어 className이 그대로 `backdrop-blur-[4px]`
+            // — 토큰 이름이 아니라 codegen 결과값을 기준으로 삼는다. 아바타 뒤에 다른
+            // 레이어가 없어 filter로 적용해도 backdrop-filter와 결과가 같다.
             isActive
-              ? "[filter:var(--backdrop-blur)]"
+              ? "[filter:var(--backdrop-blur-sm)]"
               : "[filter:var(--backdrop-blur-none)]",
           )}
         />
