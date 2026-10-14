@@ -41,12 +41,11 @@ const EFFECT_TRANSITION = `transition-[filter,opacity] ${MOTION_DURATION} motion
 /**
  * 강조 링은 outline이 아니라 **별도 span 레이어**로 그립니다.
  *
- * 처음엔 `-outline-offset-2`(음수 오프셋) outline을 썼는데, 브라우저에서
- * 직접 확인해보니 40px를 꽉 채우는 자식(아바타 이미지)이 그 outline을
- * 가려버렸습니다 — outline이 항상 자식 위에 그려진다는 스펙이 이 음수
- * 오프셋 + 꽉 찬 자식 조합에서는 지켜지지 않았습니다(Chrome 기준 실측).
- * 그래서 링을 아바타/딤 오버레이 뒤가 아니라 **DOM상 가장 마지막 형제
- * 요소**로 두어, 일반적인 페인트 순서만으로 항상 위에 그려지도록 합니다.
+ * `-outline-offset-2`(음수 오프셋) outline은 40px를 꽉 채우는 자식(아바타
+ * 이미지)에 가려 Chrome에서 거의 보이지 않습니다 — outline이 항상 자식
+ * 위에 그려진다는 스펙이 음수 오프셋 + 꽉 찬 자식 조합에서는 지켜지지
+ * 않습니다. 링을 아바타/딤 오버레이보다 **DOM상 뒤(= 나중에 그려짐)**에
+ * 두면, 일반적인 페인트 순서만으로 항상 위에 그려집니다.
  */
 const RING_BORDER = "border-[length:var(--border-2)] border-solid";
 const RING_ON = "border-[color:var(--border-static-white)]";
