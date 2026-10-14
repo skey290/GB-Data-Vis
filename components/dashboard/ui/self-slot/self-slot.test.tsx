@@ -46,12 +46,12 @@ describe("SelfSlot", () => {
   it("blurs the avatar only when active", () => {
     const { rerender } = render(<SelfSlot persona={PERSONA} />);
     expect(screen.getByRole("img", { name: "Data Scientist" })).toHaveClass(
-      "[filter:var(--blur-none)]",
+      "[filter:var(--backdrop-blur-none)]",
     );
 
     rerender(<SelfSlot persona={PERSONA} status="active" />);
     expect(screen.getByRole("img", { name: "Data Scientist" })).toHaveClass(
-      "[filter:var(--blur-sm)]",
+      "[filter:var(--backdrop-blur-sm)]",
     );
   });
 

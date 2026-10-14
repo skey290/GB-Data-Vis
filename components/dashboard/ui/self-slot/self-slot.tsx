@@ -80,8 +80,13 @@ export function SelfSlot({
           className={cn(
             "size-full",
             EFFECT_TRANSITION,
-            // Figma Effect는 FOREGROUND_BLUR radius 8 → CSS blur(4px) = --blur-sm
-            isActive ? "[filter:var(--blur-sm)]" : "[filter:var(--blur-none)]",
+            // Figma Effect는 BACKGROUND_BLUR("Backdrop Blur/backdrop-blur") radius 8 →
+            // CSS blur(4px) = --backdrop-blur-sm. 아바타 뒤에 다른 레이어가 없어
+            // filter로 적용해도 backdrop-filter와 결과가 같고, 링(outline)은 별도
+            // 레이어라 영향받지 않는다.
+            isActive
+              ? "[filter:var(--backdrop-blur-sm)]"
+              : "[filter:var(--backdrop-blur-none)]",
           )}
         />
         <span
