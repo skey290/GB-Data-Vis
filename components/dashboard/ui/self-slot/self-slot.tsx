@@ -39,15 +39,18 @@ const COLOR_TRANSITION = `transition-colors ${MOTION_DURATION} motion-reduce:tra
 const EFFECT_TRANSITION = `transition-[filter,opacity] ${MOTION_DURATION} motion-reduce:transition-none`;
 
 /**
- * border가 아니라 outline을 쓰는 이유는 `persona-radial-chart.tsx`의 동일 로직과
- * 같습니다 — outline은 레이아웃을 차지하지 않아 40px 크기가 유지되고, 색만
- * 애니메이션되어 빈 슬롯의 dashed 보더 위를 부드럽게 덮을 수 있습니다.
+ * 강조 링은 outline이 아니라 **별도 span 레이어**로 그립니다.
+ *
+ * 처음엔 `-outline-offset-2`(음수 오프셋) outline을 썼는데, 브라우저에서
+ * 직접 확인해보니 40px를 꽉 채우는 자식(아바타 이미지)이 그 outline을
+ * 가려버렸습니다 — outline이 항상 자식 위에 그려진다는 스펙이 이 음수
+ * 오프셋 + 꽉 찬 자식 조합에서는 지켜지지 않았습니다(Chrome 기준 실측).
+ * 그래서 링을 아바타/딤 오버레이 뒤가 아니라 **DOM상 가장 마지막 형제
+ * 요소**로 두어, 일반적인 페인트 순서만으로 항상 위에 그려지도록 합니다.
  */
-const HIGHLIGHT_RING =
-  "outline-solid outline-[length:var(--border-2)] -outline-offset-2";
-const HIGHLIGHT_RING_ON =
-  "outline-[color:var(--color-semantic-non-changeable)]";
-const HIGHLIGHT_RING_OFF = "outline-transparent";
+const RING_BORDER = "border-[length:var(--border-2)] border-solid";
+const RING_ON = "border-[color:var(--border-static-white)]";
+const RING_OFF = "border-transparent";
 
 export function SelfSlot({
   persona,
@@ -61,12 +64,9 @@ export function SelfSlot({
     return (
       <div
         className={cn(
-          "relative overflow-hidden",
+          "relative",
           "size-[40px]",
           "rounded-[var(--radius-scale-full)]",
-          HIGHLIGHT_RING,
-          COLOR_TRANSITION,
-          isActive ? HIGHLIGHT_RING_ON : HIGHLIGHT_RING_OFF,
           className,
         )}
         {...props}
@@ -80,12 +80,11 @@ export function SelfSlot({
           className={cn(
             "size-full",
             EFFECT_TRANSITION,
-            // Figma Effect는 BACKGROUND_BLUR("Backdrop Blur/backdrop-blur") radius 8 →
-            // CSS blur(4px) = --backdrop-blur-sm. 아바타 뒤에 다른 레이어가 없어
-            // filter로 적용해도 backdrop-filter와 결과가 같고, 링(outline)은 별도
-            // 레이어라 영향받지 않는다.
+            // Figma named style "Backdrop Blur/backdrop-blur"(접미사 없음) radius 8
+            // = --backdrop-blur(8px, -sm이 아님). 아바타 뒤에 다른 레이어가 없어
+            // filter로 적용해도 backdrop-filter와 결과가 같다.
             isActive
-              ? "[filter:var(--backdrop-blur-sm)]"
+              ? "[filter:var(--backdrop-blur)]"
               : "[filter:var(--backdrop-blur-none)]",
           )}
         />
@@ -99,6 +98,16 @@ export function SelfSlot({
             isActive ? "opacity-100" : "opacity-0",
           )}
         />
+        <span
+          aria-hidden="true"
+          className={cn(
+            "pointer-events-none absolute inset-0",
+            "rounded-[var(--radius-scale-full)]",
+            RING_BORDER,
+            COLOR_TRANSITION,
+            isActive ? RING_ON : RING_OFF,
+          )}
+        />
       </div>
     );
   }
@@ -108,22 +117,29 @@ export function SelfSlot({
       role="img"
       aria-label={PLACEHOLDER_LABEL}
       className={cn(
-        "flex items-center justify-center",
+        "relative flex items-center justify-center",
         "size-[40px]",
         "rounded-[var(--radius-scale-full)]",
         "text-xxs-medium text-muted-foreground",
         "border-[length:var(--border-1)] border-dashed",
-        "border-[color:var(--color-muted-foreground)]",
-        HIGHLIGHT_RING,
+        "border-[color:var(--border-muted)]",
         COLOR_TRANSITION,
-        isActive
-          ? cn(HIGHLIGHT_RING_ON, "bg-[var(--background-sheer)]")
-          : cn(HIGHLIGHT_RING_OFF, "bg-transparent"),
+        isActive ? "bg-[var(--background-sheer)]" : "bg-transparent",
         className,
       )}
       {...props}
     >
       <span aria-hidden="true">{PLACEHOLDER_LABEL}</span>
+      <span
+        aria-hidden="true"
+        className={cn(
+          "pointer-events-none absolute inset-0",
+          "rounded-[var(--radius-scale-full)]",
+          RING_BORDER,
+          COLOR_TRANSITION,
+          isActive ? RING_ON : RING_OFF,
+        )}
+      />
     </div>
   );
 }

@@ -476,7 +476,7 @@ describe("PersonaRadialChart", () => {
       await userEvent.hover(slots[2]);
 
       const highlighted = container.querySelectorAll(
-        ".outline-\\[color\\:var\\(--color-semantic-non-changeable\\)\\]",
+        ".border-\\[color\\:var\\(--border-static-white\\)\\]",
       );
       expect(highlighted).toHaveLength(1);
     });
@@ -680,17 +680,17 @@ describe("PersonaRadialChart", () => {
       const { container: active } = render(<PersonaRadialChart hover="self" />);
 
       const ringOf = (container: HTMLElement) =>
-        container.querySelector<HTMLElement>(".overflow-hidden")!;
+        container.querySelector<HTMLElement>(".border-solid")!;
 
-      // 링은 항상 있고 색만 바뀝니다 — 그래야 outline-color가 전환됩니다
+      // 링은 항상 있고 색만 바뀝니다 — 그래야 border-color가 전환됩니다
       for (const el of [ringOf(idle), ringOf(active)]) {
-        expect(el).toHaveClass("outline-solid");
-        expect(el).toHaveClass("outline-[length:var(--border-2)]");
+        expect(el).toHaveClass("border-solid");
+        expect(el).toHaveClass("border-[length:var(--border-2)]");
         expect(el).toHaveClass("transition-colors");
       }
-      expect(ringOf(idle)).toHaveClass("outline-transparent");
+      expect(ringOf(idle)).toHaveClass("border-transparent");
       expect(ringOf(active)).toHaveClass(
-        "outline-[color:var(--color-semantic-non-changeable)]",
+        "border-[color:var(--border-static-white)]",
       );
     });
 
@@ -714,10 +714,9 @@ describe("PersonaRadialChart", () => {
         ).container.querySelectorAll<HTMLElement>('[aria-label="No Self"]')[0];
 
       for (const slot of [slotOf(), slotOf("self")]) {
-        // dashed는 두 상태 모두 유지되고, 활성 링이 그 위를 덮습니다
+        // dashed는 두 상태 모두 유지되고, 활성 링(자식 span)이 그 위를 덮습니다
         expect(slot).toHaveClass("border-dashed");
-        expect(slot).toHaveClass("outline-solid");
-        expect(slot).toHaveClass("transition-colors");
+        expect(slot.querySelector(".border-solid")).toHaveClass("border-solid");
       }
     });
 

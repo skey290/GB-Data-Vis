@@ -23,24 +23,19 @@ describe("SelfSlot", () => {
   });
 
   it("keeps the highlight ring mounted (transparent) when inactive", () => {
-    render(<SelfSlot persona={PERSONA} />);
+    const { container } = render(<SelfSlot persona={PERSONA} />);
 
-    const ring = screen.getByRole("img", {
-      name: "Data Scientist",
-    }).parentElement;
-    expect(ring).toHaveClass("outline-solid");
-    expect(ring).toHaveClass("outline-transparent");
+    const ring = container.querySelector(".border-solid");
+    expect(ring).toHaveClass("border-transparent");
   });
 
   it("turns the highlight ring on when active", () => {
-    render(<SelfSlot persona={PERSONA} status="active" />);
-
-    const ring = screen.getByRole("img", {
-      name: "Data Scientist",
-    }).parentElement;
-    expect(ring).toHaveClass(
-      "outline-[color:var(--color-semantic-non-changeable)]",
+    const { container } = render(
+      <SelfSlot persona={PERSONA} status="active" />,
     );
+
+    const ring = container.querySelector(".border-solid");
+    expect(ring).toHaveClass("border-[color:var(--border-static-white)]");
   });
 
   it("blurs the avatar only when active", () => {
@@ -51,7 +46,7 @@ describe("SelfSlot", () => {
 
     rerender(<SelfSlot persona={PERSONA} status="active" />);
     expect(screen.getByRole("img", { name: "Data Scientist" })).toHaveClass(
-      "[filter:var(--backdrop-blur-sm)]",
+      "[filter:var(--backdrop-blur)]",
     );
   });
 
