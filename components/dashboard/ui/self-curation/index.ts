@@ -1,6 +1,6 @@
 export {
-  ORBIT_SLOT_COUNT,
-  PersonaOrbit,
-  personaOrbitEmptySlotKey,
-} from "./persona-orbit";
-export type { PersonaOrbitPersona, PersonaOrbitProps } from "./persona-orbit";
+  SELF_CURATION_SLOT_COUNT,
+  SelfCuration,
+  selfCurationEmptySlotKey,
+} from "./self-curation";
+export type { SelfCurationPersona, SelfCurationProps } from "./self-curation";

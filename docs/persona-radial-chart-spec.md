@@ -1,10 +1,4 @@
-# Persona Radial Analytics — 스펙 (v2, 2026-09-10 최신화)
-
-> **v1 → v2 변경 요약**
-> v1은 D3.js 프로토타입(`persona-wheel.html`) 기준으로 작성된 문서였습니다.
-> 이후 Figma 원본(GB_Design-System-v2.2, node `8004:6542`)을 기준으로 React 컴포넌트를
-> 새로 구현하면서 **값 표현 방식·상태 축·인터랙션이 모두 바뀌었습니다.**
-> 아래 본문은 **현재 구현된 코드 기준**이며, v1과 달라진 항목에는 `🔄 v1 대비 변경`을 붙였습니다.
+# Persona Radial Analytics — 스펙
 
 ## 개요
 
@@ -38,7 +32,7 @@
 
 ### 1.2 반지름 분할 (3개 링 = 3개 지표)
 
-캔버스 500×500, 동심원 **4개**로 구획. 🔄 **v1 대비 변경**: 최내곽 반지름 130 → **128** (Figma 실측 127.775의 의도값)
+캔버스 500×500, 동심원 **4개**로 구획(Figma 실측 127.775/159.781/199.539/249.549의 의도값).
 
 | 원 (안쪽부터) | 반지름  | 지름 | 역할                                    |
 | ------------- | ------- | ---- | --------------------------------------- |
@@ -53,21 +47,17 @@
 2. **Qualified Reach** — 160 ~ 200 (폭 40)
 3. **Engagement Intensity** — 200 ~ 250 (폭 50)
 
-> **좌표계 주의**: 위 반지름·각도는 CSS 길이가 아니라 SVG `viewBox` 내부의 **기하 좌표값**입니다. 그래서 `--spacing-*` / `--scale-*` 토큰을 쓰지 않고 순수 숫자 상수로 둡니다. 반면 컴포넌트 **바깥 치수**(캔버스 500, 아바타 40, 보더/스트로크 폭)는 토큰을 사용합니다.
+> **좌표계 주의**: 위 반지름·각도는 CSS 길이가 아니라 SVG `viewBox` 내부의 **기하 좌표값**입니다. 그래서 `--spacing-*` 토큰을 쓰지 않고 순수 숫자 상수로 둡니다. 반면 컴포넌트 **바깥 치수**(캔버스, 아바타, 보더/스트로크 폭)는 토큰을 사용합니다.
 
 ### 1.3 그리드 스타일
 
-🔄 **v1 대비 변경**: 하드코딩 `#262626` → **`--color-muted` 토큰**
-
-- 동심원 4개 + 지름선 4개(=시각적으로 스포크 8개), 기본 색상 `--color-muted`, 굵기 `--stroke-width-1`
+- 동심원 4개 + 지름선 4개(=시각적으로 스포크 8개), 기본 색상 `--color-muted`, 굵기 `--border-1`
 - 데이터 없는 링을 hover하면 **그 링의 경계원 2개만** `--color-semantic-non-changeable`(흰색)로 강조 (§5.2)
 - 링 내부 8단계를 나누는 별도 가이드라인은 **그리지 않습니다.** 단계 구분은 밴드가 겹치며 생기는 밝기 차이로만 보입니다.
 
 ---
 
 ## 2. 값 표현 방식 — 순위 기반 8단 밴드
-
-🔄 **v1 대비 전면 변경.** v1의 "값 비율에 비례한 연속 radial gradient"는 폐기되었습니다.
 
 ### 2.1 밴드 쌓기 구조
 
@@ -76,18 +66,18 @@
 - 링 폭을 8등분한 것이 밴드 1칸
 - N칸이면 `[내경 → 내경+1칸]`, `[내경 → 내경+2칸]` … `[내경 → 내경+N칸]` 총 N개의 path를 겹쳐 그림
 - 겹칠수록 알파가 누적되어 **안쪽이 밝고 바깥으로 갈수록 옅어지는 그라데이션**이 자연스럽게 생김
-- 밴드 색: `--color-rdx-white-4` (흰색 20%)
+- 밴드 색: `color-mix(in srgb, var(--icon-default) 20%, transparent)` (흰색 20%, 다크 기준)
 
-> 즉 v1의 "그라데이션"은 실제 gradient 정의가 아니라, **반투명 밴드를 겹쳐 쌓아 만들어지는 결과물**입니다.
+> "그라데이션"은 실제 gradient 정의가 아니라, **반투명 밴드를 겹쳐 쌓아 만들어지는 결과물**입니다. Figma 원본도 페르소나×지표 조합마다 정적으로 구워진(baked) SVG가 같은 기법(동일 geometry를 N겹 겹쳐 쌓고 동일 `fill-opacity`를 먹임)으로 만들어져 있어, 시각적으로 완전히 동일합니다.
 
 ### 2.2 칸 수 = 링 내 **순위** (값 비율 아님)
 
-**2026-09-10 사용자 확정 사항.** 1등이 8칸, 꼴등이 1칸이 되도록 순위를 균등 배분합니다.
+1등이 8칸, 꼴등이 1칸이 되도록 순위를 균등 배분합니다.
 
-값 비율(1등 대비 몇 %)로 칠했을 때 두 가지 문제가 있었습니다:
+값 비율(1등 대비 몇 %)로 칠하면 두 가지 문제가 있습니다:
 
-1. **값이 비슷하면 뭉개짐** — Reach의 8,340과 8,006이 둘 다 8칸이 되어 구분 불가
-2. **한 명이 압도적이면 나머지가 바닥에 깔림** — Engagement의 14.3 vs 0.3~3.7
+1. **값이 비슷하면 뭉개짐** — 예: 8,340과 8,006이 둘 다 8칸이 되어 구분 불가
+2. **한 명이 압도적이면 나머지가 바닥에 깔림**
 
 순위로 칠하면 **분포와 무관하게 8명이 항상 구분됩니다.** 대신 "얼마나 차이나는지"는 표현되지 않으므로, **정확한 값은 링을 hover했을 때 배지에서 확인**하는 구조입니다 (§5.1).
 
@@ -99,10 +89,8 @@
 
 ## 3. 아바타 배치
 
-🔄 **v1 대비 변경**: 지름 60 → **40**, 궤도 반지름 90 → **97** (Figma 실측)
-
 - 아바타는 **반지름 128 원 안쪽**, 각 섹터 중간 각도(-67.5°, -22.5°, 22.5° …)에 균등 배치
-- 배치 궤도 반지름: **97** / 아바타 크기: **40px** (`--scale-40`)
+- 배치 궤도 반지름: **97** (Figma 실측) / 아바타 크기: **40px**
 - 인접 아바타 간 중심 거리 ≈ 74px > 40px → 겹치지 않음
 - 이미지 없으면 **이니셜 → 아이콘** 순으로 폴백 (`Avatar` 컴포넌트 재사용)
 
@@ -110,15 +98,13 @@
 
 셀프가 1명만 만들어진 상태에서 나머지 7칸에 표시:
 
-- 40px 원, `--border-width-default`(1px) **dashed** 보더, 색 `--color-muted-foreground`
+- 40px 원, `--border-1`(1px) **dashed** 보더, 색 `--color-muted-foreground`
 - 중앙에 8px 텍스트 "No Self" (`text-xxs-medium`)
 - `Avatar`의 initial/icon variant와 형태가 달라 **차트 전용 마크업**을 씁니다
 
 ---
 
 ## 4. 상태 (props)
-
-🔄 **v1 대비 변경.** v1의 `empty / self / full` 3종 → Figma variant 축을 그대로 따르는 **2개 독립 축**으로 재정의.
 
 | prop                  | 값                                                         | 기본값            | 의미                                                                                                |
 | --------------------- | ---------------------------------------------------------- | ----------------- | --------------------------------------------------------------------------------------------------- |
@@ -134,9 +120,7 @@
 
 > Figma에는 `Self=8 + Data collected=false` 조합이 **없습니다.** `Data collected=false`는 `Self=1`에만 존재합니다.
 
-### 4.1 실데이터 연결 (2026-09-10 확장)
-
-🔄 **v1 대비 변경**: `selfCount`가 `1 | 8` 리터럴 타입이었으나 **1~8 전부**로 확장되었습니다.
+### 4.1 실데이터 연결
 
 서버에서 받은 배열을 **그대로 넘기면 됩니다.** `selfCount`를 지정할 필요가 없습니다.
 
@@ -157,7 +141,7 @@ const personas = await fetchPersonas(); // 셀프가 3명이라고 가정
 
 ### 4.2 값 표기
 
-**모든 지표 최대 소수 1자리** (2026-09-10 사용자 확정). `valueFractionDigits`로 덮어쓸 수 있습니다.
+**모든 지표 최대 소수 1자리.** `valueFractionDigits`로 덮어쓸 수 있습니다.
 
 "최대"라서 정수에는 소수점이 붙지 않아 Figma mock 표기가 그대로 유지됩니다.
 
@@ -170,22 +154,22 @@ const personas = await fetchPersonas(); // 셀프가 3명이라고 가정
 
 `toLocaleString("en-US", { maximumFractionDigits })`이 반올림과 천 단위 구분을 함께 처리합니다.
 
-### 4.1 중앙 문구 (Hover × 상태 조합)
+### 4.3 중앙 문구 (Hover × 상태 조합)
 
 Figma 원본 문구 그대로:
 
 | Hover                  | 조건                             | 문구                                       |
 | ---------------------- | -------------------------------- | ------------------------------------------ |
-| `default`              | —                                | `Hover to see analysis` ⚠️ §8 참고         |
+| `default`              | —                                | `Hover to see analysis`                    |
 | `growth`               | —                                | `Growth Potential`                         |
 | `reach` / `engagement` | `isDataCollected=true`           | `Qualified Reach` / `Engagement Intensity` |
 | `reach` / `engagement` | `isDataCollected=false`          | `Create Posts to analyze`                  |
 | `self`                 | **이미 있는 아바타**에 올렸을 때 | `Go to Content Studio`                     |
 | `self`                 | **빈 슬롯**에 올렸을 때          | `Create a Self`                            |
 
-> 🔄 **v1 대비 변경**: `self` 문구의 기준은 `selfCount`가 **아니라 지금 강조된 대상**입니다. `selfCount`로 판단하면 셀프가 1명 있는 상태에서 **그 셀프에 올려도** `Create a Self`가 떠서, 이미 있는 걸 또 만들라고 말하게 됩니다. Figma의 `Self=1 / Hover=self` variant도 셀프가 아니라 **빈 슬롯(섹터 2)이 강조된** 스냅샷이라 이 규칙이 원본과도 일치합니다.
+> `self` 문구의 기준은 `selfCount`가 **아니라 지금 강조된 대상**입니다. `selfCount`로 판단하면 셀프가 1명 있는 상태에서 **그 셀프에 올려도** `Create a Self`가 떠서, 이미 있는 걸 또 만들라고 말하게 됩니다.
 >
-> 마우스 정보가 없는 제어 모드(Storybook에서 `hover="self"`만 지정)에서는 Figma variant를 재현하도록 **빈 슬롯이 있으면 첫 빈 슬롯**을, 없으면 셀프를 강조합니다.
+> 마우스 정보가 없는 제어 모드(Storybook에서 `hover="self"`만 지정)에서는 **빈 슬롯이 있으면 첫 빈 슬롯**을, 없으면 셀프를 강조합니다.
 
 Figma에는 Button 인스턴스 없이 **1줄 텍스트**만 있어 버튼으로 만들지 않았고, CTA 용도로 `onCenterClick`만 열어뒀습니다.
 
@@ -193,14 +177,11 @@ Figma에는 Button 인스턴스 없이 **1줄 텍스트**만 있어 버튼으로
 
 ## 5. 인터랙션
 
-🔄 **v1 대비 전면 변경.** v1의 "툴팁에 3개 지표 동시 표시"는 폐기. Figma 원본에 툴팁이 없습니다.
-
 ### 5.1 링 hover — 배지가 값으로 전환
 
 지표 링에 마우스를 올리면:
 
-1. **해당 링만 흰 밴드 유지**, 나머지 2개 링은 `--color-rdx-black-4`(검정 20%) 밴드로 교체되어 **배경보다 어둡게 가라앉음**
-   - 🔄 v1은 "나머지 링 opacity ↓"였으나, Figma 원본 방식은 **검정 밴드 치환**입니다
+1. **해당 링만 흰 밴드 유지**, 나머지 2개 링은 `var(--background-sheer)`(검정 20%) 밴드로 교체되어 **배경보다 어둡게 가라앉음**
 2. **바깥 배지 8개의 텍스트가 페르소나 이름 → 그 지표의 값으로 교체** (같은 자리에서)
    - Reach는 천 단위 구분 (`8,340`), 나머지는 `%` (`80%`)
 3. 중앙 문구가 지표명으로 전환
@@ -210,24 +191,17 @@ Figma에는 Button 인스턴스 없이 **1줄 텍스트**만 있어 버튼으로
 1. 그 링이 **8겹 밴드 대신 균일한 한 겹**으로 채워짐
 2. 그 링의 **경계원 2개만 흰색으로 강조**
 3. **바깥 배지가 전부 사라짐** (이름으로 되돌아가지 않음)
-4. 하단 안내 배지 `Not Enough Data Yet`이 **나타남**
-
-> 🔄 **v1 대비 변경 (2026-09-10, Figma 갱신 반영)**: 하단 안내 배지의 **비활성(회색) 상태는 삭제되었습니다.**
->
-> - **[Before]** 게시물이 없으면 hover와 무관하게 항상 떠 있다가, 해당 지표를 hover할 때만 활성으로 바뀌는 2단 구성
-> - **[After]** Reach/Engagement를 실제로 hover했을 때만 **default 상태로 나타납니다.** 그 외에는 아예 렌더되지 않습니다 (`hover=default` / `hover=self` / `hover=growth` 전부 없음)
->
-> `selfCount`가 1이든 8이든 동일하게 적용됩니다. 위치는 프레임 중심에서 y +276.
+4. 하단 안내 배지 `Not Enough Data Yet`이 Reach/Engagement를 실제로 hover했을 때만 **default 상태로 나타납니다.** 그 외에는 아예 렌더되지 않습니다. `selfCount`가 1이든 8이든 동일하게 적용되고, 위치는 프레임 중심에서 y +276.
 
 ### 5.3 아바타 hover
 
 - **마우스를 올린 아바타 하나만** 강조됩니다. 링 강조는 일어나지 않습니다
-- 강조 표현 = **흰 2px 안쪽 링 + 블러 + 검정 50% 딤** — 밝아지는 게 아니라 **어두워집니다**
+- 강조 표현 = **흰 2px 안쪽 링 + 블러 + 검정 오버레이** — 밝아지는 게 아니라 **어두워집니다**
   - 링: `outline` 2px `--color-semantic-non-changeable`, `-outline-offset-2`
-  - 블러: `--blur-sm`(4px) — Figma Effect는 FOREGROUND_BLUR radius 8이지만 codegen이 CSS blur(4px)로 환산합니다
-  - 딤: `--color-rdx-black-7`(검정 50%) 오버레이
-- 빈 슬롯도 hover하면 같은 링 + `--color-background-transparent` 배경(다크에서 검정 20%)
-- Storybook의 `hover="self"` 제어 모드는 **어떤 아바타에 올렸는지 알 수 없어** 셀프를 강조합니다. 실제 동작은 `Interactive` story에서 확인
+  - 블러: `--blur-sm`(4px) — Figma Effect는 FOREGROUND_BLUR radius 8이지만 codegen이 CSS blur(4px)로 환산
+  - 딤: `--background-backdrop`(검정, 알파 0.3 — Figma 쪽도 동일 토큰에 바인딩됨)
+- 빈 슬롯도 hover하면 같은 링 + `--background-sheer` 배경(다크에서 검정 20%)
+- Storybook의 `hover="self"` 제어 모드는 **어떤 아바타에 올렸는지 알 수 없어** 셀프를 강조합니다
 
 ### 5.4 바깥 배지 위치
 
@@ -245,14 +219,13 @@ Figma에는 Button 인스턴스 없이 **1줄 텍스트**만 있어 버튼으로
 | **이름** (`hover=default` / `self`) | 이 페이지에서 설정된 **셀프** |
 | **값** (지표 hover)                 | 그 지표의 **1등**             |
 
-- 1등 판정은 값을 다시 비교하지 않고 **링 채움에 쓴 밴드 칸 수를 그대로 재사용**합니다(8칸 = 1등). 링에서 가장 길게 찬 섹터와 채워진 배지가 항상 같은 페르소나를 가리키게 되고, **동점이면 둘 다 8칸이라 배지도 둘 다 채워집니다.**
-- ⚠️ **Figma로는 이 두 규칙이 구분되지 않습니다.** 샘플 데이터에서 Data Scientist(=셀프)가 3개 지표 모두 1등(80% / 8,340 / 14.3%)이라, 15개 variant 전부에서 채워진 배지가 항상 섹터 1 하나뿐입니다. 2등 값(`70%` / `8,006` / `3.7%`)이 채워진 케이스는 원본에 **존재하지 않습니다.** 위 규칙은 **2026-09-10 사용자 확정 사항**입니다.
+1등 판정은 값을 다시 비교하지 않고 **링 채움에 쓴 밴드 칸 수를 그대로 재사용**합니다(8칸 = 1등). 링에서 가장 길게 찬 섹터와 채워진 배지가 항상 같은 페르소나를 가리키게 되고, **동점이면 둘 다 8칸이라 배지도 둘 다 채워집니다.** (Figma 목업은 정적 애셋이라 동점 케이스를 전부 재현하지 못할 수 있지만, 절차적 구현은 모든 동점을 일관되게 처리합니다.)
 
 ---
 
-## 6. 모션 / 전환 (2026-09-10 신규 추가)
+## 6. 모션 / 전환
 
-hover 시 모든 것이 뚝뚝 끊기던 문제를 해결하기 위해, shadcn 관례를 따라 차트 전체에 전환을 적용했습니다.
+hover 시 전환이 끊기지 않도록, shadcn 관례를 따라 차트 전체에 전환을 적용했습니다.
 
 ### 6.1 공통 설정
 
@@ -272,7 +245,7 @@ MOTION_DURATION = duration-200 ease-out
 | 그리드 경계원 4개         | `stroke` 색 페이드               | 데이터 없는 링 hover                   |
 | 아바타 강조 링            | `outline-color` 투명↔흰색        | 아바타 hover                           |
 | 아바타 블러               | `--blur-none` ↔ `--blur-sm` 보간 | 아바타 hover                           |
-| 검정 50% 딤               | `opacity` 0↔1                    | 아바타 hover                           |
+| 딤 오버레이               | `opacity` 0↔1                    | 아바타 hover                           |
 | 빈 슬롯                   | 링 페이드인 + 배경 색 페이드     | `selfCount=1`에서 빈 슬롯 hover        |
 | 배지 텍스트               | 이름↔값 교체 시 페이드인         | 링 hover                               |
 | 배지 등장/퇴장            | 페이드인                         | 데이터 없는 지표 hover                 |
@@ -290,7 +263,9 @@ MOTION_DURATION = duration-200 ease-out
 
 ---
 
-## 7. 샘플 데이터 (Figma mock — 실제 값으로 교체 필요)
+## 7. 샘플 데이터
+
+`DEFAULT_PERSONAS`는 Figma mock 기준 플레이스홀더이며, 실제 화면에서는 백엔드에서 받은 배열로 교체됩니다(수치 자체가 Figma와 일치할 필요는 없습니다).
 
 | 페르소나                | Growth (%) | Qualified Reach | Engagement (%) |
 | ----------------------- | ---------- | --------------- | -------------- |
@@ -303,40 +278,19 @@ MOTION_DURATION = duration-200 ease-out
 | Team Leader             | 50         | 8,006           | 0.5            |
 | Vegan Chef              | 30         | 5,431           | 1.9            |
 
-Growth는 `10/20/30/40/50/60/70/80`의 **완전한 사다리꼴**입니다. 동점이 없어 §2.2의 순위 기반 채움에서 8명이 8단계에 정확히 하나씩 배정됩니다(밴드 path 총 36개).
+Growth는 `10/20/30/40/50/60/70/80`의 완전한 사다리꼴입니다. 동점이 없어 §2.2의 순위 기반 채움에서 8명이 8단계에 정확히 하나씩 배정됩니다(밴드 path 총 36개).
 
-**Figma 대조 완료 (2026-09-10):** 3개 지표 전부 Figma 원본과 일치합니다. 이 과정에서 두 건이 정정되었습니다.
-
-| 지표       | 정정 내용                                                                                        |
-| ---------- | ------------------------------------------------------------------------------------------------ |
-| Engagement | **v1 문서가 틀렸고 코드가 맞았음.** Fashionista `0.3` / Fashion Editor `3.7` / Team Leader `0.5` |
-| Growth     | **코드가 틀렸고 Figma가 맞았음.** Novelist `30 → 40`, Team Leader `40 → 50` (사용자 확정)        |
-
-> ⚠️ **Figma 레이어 네이밍 불일치**: 섹터 7의 배지 텍스트는 `Team Leader`인데, 값 밴드 프레임 안의 해당 레이어 이름은 `Office Worker`입니다. 표시 문구는 `Team Leader`가 맞습니다.
-
-> 🔄 **"지표별 최댓값(스케일 상한)" 개념은 폐기되었습니다.** §2.2의 순위 기반 방식으로 바뀌면서 Growth 100% / Reach 9,000 / Engagement 16% 같은 상한값이 더 이상 쓰이지 않습니다.
+> ⚠️ **"지표별 최댓값(스케일 상한)" 개념은 쓰이지 않습니다.** §2.2의 순위 기반 방식이라 Growth 100% / Reach 9,000 / Engagement 16% 같은 상한값은 필요 없습니다.
 
 ---
 
 ## 8. 미확정 / 추후 논의 필요
 
-- [ ] **중앙 기본 문구 확정** — `Hover to see self analysis`(v1) vs `Hover to see analysis`(현재 코드). 두 차례 조사 결과가 엇갈려 미확정
 - [ ] **아바타 실제 사진 적용** — `imageSrc` prop은 이미 열려 있으나 현재는 전부 이니셜 폴백. Figma `Self=1`에는 실제 인물 사진이 들어가 있음
 - [ ] **빈 슬롯 dashed 패턴** — Figma가 raw dash 값을 노출하지 않아 현재는 브라우저 기본값. 명시적 `stroke-dasharray` 지정 여부
 - [ ] **배지 위치 미세 조정** — Figma 실측 대비 평균 ~5px / 최대 16px 차이. 단, Figma 원본 좌표 자체가 불규칙해 규칙화한 현재 방식이 더 정확할 수 있음
 - [ ] **라이트 테마 variant** — Figma에 다크만 존재. 값 밴드(흰색 20%)가 라이트에서 안 보임
 - [ ] **self 페르소나 밴드 색 구분** — 현재는 다른 페르소나와 동일. 별도 강조색 부여 여부
-
-### 해결된 항목 (v1 → v2)
-
-- [x] ~~지표 최댓값 고정 vs 동적 스케일~~ → **순위 기반**으로 대체 (2026-09-10 확정)
-- [x] ~~프로덕션 배경/타이포~~ → 다크 배경 + 디자인 토큰 전면 적용
-- [x] ~~호버 툴팁 설계~~ → 툴팁 대신 **배지 텍스트 교체**로 확정
-- [x] ~~샘플 Engagement 값 불일치~~ → Figma 실물 확인 결과 **현재 코드가 맞음** (2026-09-10)
-- [x] ~~샘플 Growth 값 2건 불일치~~ → **Figma가 맞음.** Novelist 40% / Team Leader 50%로 정정 (2026-09-10 사용자 확정)
-- [x] ~~어떤 배지가 채워지는가~~ → **셀프 / 지표 1등** 규칙으로 확정 (§5.5, 2026-09-10)
-- [x] ~~`Not Enough Data Yet` 비활성 상태~~ → **삭제.** hover 시에만 default로 표시 (§5.2, 2026-09-10 Figma 갱신)
-- [x] ~~`Create a Self` vs `Go to Content Studio` 기준~~ → `selfCount`가 아니라 **강조된 대상이 빈 슬롯인지**로 확정 (§4.1, 2026-09-10)
 
 ---
 
@@ -344,37 +298,30 @@ Growth는 `10/20/30/40/50/60/70/80`의 **완전한 사다리꼴**입니다. 동�
 
 `components/dashboard/ui/persona-radial-chart/` (프로젝트 규칙대로 컴포넌트 1개 = 4파일)
 
-| 파일                               | 내용                                                                                                                          |
-| ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| `persona-radial-chart.tsx`         | 컴포넌트 본체                                                                                                                 |
-| `persona-radial-chart.stories.tsx` | Storybook — `Playground` 단일 story, Controls로 모든 prop 조작(1 컴포넌트 = 1 Controls story 컨벤션)                          |
-| `persona-radial-chart.test.tsx`    | Vitest **54개** (grid / value bands / isDataCollected / badges / self count / center message / hover behaviour / transitions) |
-| `index.ts`                         | named export                                                                                                                  |
+| 파일                               | 내용                                                                                                                 |
+| ---------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `persona-radial-chart.tsx`         | 컴포넌트 본체                                                                                                        |
+| `persona-radial-chart.stories.tsx` | Storybook — `Playground` 단일 story, Controls로 모든 prop 조작(1 컴포넌트 = 1 Controls story 컨벤션)                 |
+| `persona-radial-chart.test.tsx`    | Vitest (grid / value bands / isDataCollected / badges / self count / center message / hover behaviour / transitions) |
+| `index.ts`                         | named export                                                                                                         |
+
+관련 컴포넌트: 아바타 원형 배치 + 중앙 문구는 `components/dashboard/ui/self-curation/`(`SelfCuration`, Figma `Self curation`, node `8133:122553`)에 분리돼 있고, 슬롯 하나(아바타/빈 슬롯)는 `components/dashboard/ui/self-slot/`(`SelfSlot`, Figma `Part/self`, node `8133:122512`)가 담당합니다.
 
 ### 사용하는 토큰
 
-| 용도                 | 토큰                                          | 값           |
-| -------------------- | --------------------------------------------- | ------------ |
-| 값 밴드 (활성)       | `--color-rdx-white-4`                         | 흰색 20%     |
-| 값 밴드 (침강)       | `--color-rdx-black-4`                         | 검정 20%     |
-| 아바타 딤            | `--color-rdx-black-7`                         | 검정 50%     |
-| 그리드               | `--color-muted`                               | —            |
-| 강조 링/경계원       | `--color-semantic-non-changeable`             | 흰색         |
-| 빈 슬롯 보더/텍스트  | `--color-muted-foreground`                    | —            |
-| 캔버스 / 아바타 크기 | `--scale-500` / `--scale-40`                  | 500px / 40px |
-| 보더 폭              | `--border-width-default` / `--border-width-2` | 1px / 2px    |
-| 그리드 굵기          | `--stroke-width-1`                            | 1px          |
-| 블러                 | `--blur-none` / `--blur-sm`                   | 0px / 4px    |
-| 빈 슬롯 라벨         | `text-xxs-medium`                             | 8px Medium   |
+| 용도                | 토큰                                                   | 값                  |
+| ------------------- | ------------------------------------------------------ | ------------------- |
+| 값 밴드 (활성)      | `color-mix(..., var(--icon-default) 20%, transparent)` | 흰색 20%            |
+| 값 밴드 (침강)      | `var(--background-sheer)`                              | 검정 20%(다크 기준) |
+| 아바타 딤 오버레이  | `var(--background-backdrop)`                           | 검정 알파 0.3       |
+| 그리드              | `var(--color-muted)`                                   | —                   |
+| 강조 링/경계원      | `var(--color-semantic-non-changeable)`                 | 흰색                |
+| 빈 슬롯 보더/텍스트 | `var(--color-muted-foreground)`                        | —                   |
+| 보더 폭             | `var(--border-1)` / `var(--border-2)`                  | 1px / 2px           |
+| 블러                | `var(--blur-none)` / `var(--blur-sm)`                  | 0px / 4px           |
+| 빈 슬롯 원 radius   | `var(--radius-scale-full)`                             | —                   |
+| 빈 슬롯 라벨        | `text-xxs-medium`                                      | 8px Medium          |
 
 > ⚠️ `text-xxs-medium` 같은 커스텀 타이포 클래스는 **`lib/utils.ts`의 `TYPOGRAPHY_PRESET_CLASSES`에 등록되어 있어야** 합니다. 등록하지 않으면 `cn()`(tailwind-merge)이 텍스트 **색상** 유틸리티로 오인해 조용히 삭제하고, 빌드·타입체크·테스트가 전부 통과해버립니다.
-
----
-
-## 참고 자료 (v1 조사 단계)
-
-- https://gist.github.com/KoGor/5ffc6ac508f55433bd0b89d9f0aaf07e (Radial Opposing Stacked Bar Chart)
-- https://gist.github.com/mbostock/8d2112a115ad95f4a6848001389182fb
-- https://observablehq.com/@d3/radial-stacked-bar-chart/3
-
-> `persona-wheel.html`(D3.js 프로토타입)은 **폐기**되었습니다. 현재 구현은 D3 의존성 없이 SVG path를 직접 계산합니다.
+>
+> 위 토큰은 전부 prefix 없는 alias 이름(`--border-1` 등)이며 `src/tokens/*.css`에서 `--gb-*`로 정의된 뒤 별칭된 것입니다. `--gb-` prefix 마이그레이션 상태는 `docs/design-tokens.md` 참고.

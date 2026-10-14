@@ -5,9 +5,9 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import {
-  PersonaOrbit,
-  personaOrbitEmptySlotKey,
-} from "@/components/dashboard/ui/persona-orbit";
+  SelfCuration,
+  selfCurationEmptySlotKey,
+} from "@/components/dashboard/ui/self-curation";
 
 /**
  * Persona Radial Analytics — 셀프 + 8개 페르소나를 3개 지표(동심원 링) × 8개 섹터(각도)로
@@ -17,8 +17,8 @@ import {
  * "Dashboard Data Vis"가 원본 정의. props 축은 원본의
  * `Self(1|8) × Data collected(true|false) × Status(default|hover-reach|
  * hover-engagement|hover-growth potential)` 12개 variant를 그대로 따른다.
- * `hover="self"`는 Figma의 이 컴포넌트 자체 variant가 아니라 `PersonaOrbit`/
- * `PersonaSlot` 아바타를 직접 hover하는 별도 상호작용이다.
+ * `hover="self"`는 Figma의 이 컴포넌트 자체 variant가 아니라 `SelfCuration`/
+ * `SelfSlot` 아바타를 직접 hover하는 별도 상호작용이다.
  *
  * ⚠️ 좌표계 주의: 아래 반지름/각도 상수는 CSS 길이가 아니라 SVG `viewBox` 내부의
  * 기하 좌표값이다. 그래서 `--spacing-*` 토큰을 쓰지 않고 순수 숫자 상수로 둔다.
@@ -28,9 +28,9 @@ import {
  * 따른다 — 배지·그리드 선·값 밴드 전부 시맨틱 토큰을 참조해 자연스럽게
  * 반전된다.
  *
- * 아바타/빈 슬롯 렌더링과 원형 배치+중앙 문구는 Figma의 `Part/persona`·
+ * 아바타/빈 슬롯 렌더링과 원형 배치+중앙 문구는 Figma의 `Part/self`·
  * `Self curation`에 대응하는 별도 컴포넌트로 분리되어
- * `@/components/dashboard/ui/persona-orbit`(내부적으로 `persona-slot` 사용)에
+ * `@/components/dashboard/ui/self-curation`(내부적으로 `self-slot` 사용)에
  * 있다. 이 파일은 그 위에 지표 링(SVG)·그리드·바깥 배지·hover 상태 관리만
  * 담당한다.
  */
@@ -503,7 +503,7 @@ export function PersonaRadialChart({
   const activeAvatarId =
     hoveredAvatarId ??
     (firstEmptySlotKey >= 0
-      ? personaOrbitEmptySlotKey(firstEmptySlotKey)
+      ? selfCurationEmptySlotKey(firstEmptySlotKey)
       : resolvedSelfId);
   /** 지금 강조된 대상이 빈 슬롯인지 — 중앙 문구를 가르는 기준입니다 */
   const isEmptySlotActive = activeAvatarId?.startsWith("slot:") ?? false;
@@ -675,10 +675,10 @@ export function PersonaRadialChart({
       {/*
         아바타 원형 배치 + 중앙 문구 — Figma `Part/self`(8133:122512)·
         `Self curation`(8133:122553)에 대응하는 별도 컴포넌트로 분리되어 있습니다.
-        이 파일은 지표 hover 상태를 그대로 소유하고, PersonaOrbit에는 결과값
+        이 파일은 지표 hover 상태를 그대로 소유하고, SelfCuration에는 결과값
         (강조 대상/중앙 문구)만 내려줍니다.
       */}
-      <PersonaOrbit
+      <SelfCuration
         className="absolute inset-0"
         slots={slots}
         activeSlotId={hover === "self" ? activeAvatarId : null}

@@ -4,31 +4,31 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 import {
-  PersonaSlot,
-  type PersonaSlotPersona,
-} from "@/components/dashboard/ui/persona-slot";
+  SelfSlot,
+  type SelfSlotPersona,
+} from "@/components/dashboard/ui/self-slot";
 
 /**
- * Figma `Self curation` (📌 GB_UXUI 261002, node 8133:122553) — 8개 `PersonaSlot`을
+ * Figma `Self curation` (📌 GB_UXUI 261002, node 8133:122553) — 8개 `SelfSlot`을
  * 원형 궤도에 배치하고 중앙에 안내 문구를 띄우는 컴포넌트.
  * `components/dashboard/ui/persona-radial-chart`가 이 위에 지표 링(SVG)을 씌워 사용합니다.
  *
- * Figma 컴포넌트셋 자체는 `Self number`(1/8) × `Status=default` 2종뿐이고
- * `active` 조합은 독립 variant로 없습니다 — 강조 상태는 `Dashboard Data Vis`
- * 안에 인라인 인스턴스로만 존재합니다. 그래서 이 컴포넌트도 "몇 칸이
- * 채워졌는가"를 직접 계산하지 않습니다. 호출부가 길이 8인 `slots` 배열(빈
- * 칸은 `null`)을 그대로 넘기는 방식으로 selfNumber 1~8 전부를 표현하고,
+ * Figma 컴포넌트셋 자체는 `Self number=1, Status=default` 단일 variant뿐이다 —
+ * `Self number=8`도, `active` 조합도 독립 variant로 없다. 8칸 궤도는
+ * `Dashboard Data Vis` 안에 인라인 인스턴스로만 존재한다. 그래서 이 컴포넌트도
+ * "몇 칸이 채워졌는가"를 직접 계산하지 않는다. 호출부가 길이 8인 `slots`
+ * 배열(빈 칸은 `null`)을 그대로 넘기는 방식으로 1~8명 전부를 표현하고,
  * 강조(hover) 상태도 controlled로 받아 상위(PersonaRadialChart)가 지표
- * 링과 같은 hover 축을 공유할 수 있게 합니다.
+ * 링과 같은 hover 축을 공유할 수 있게 한다.
  */
 
-export const ORBIT_SLOT_COUNT = 8;
+export const SELF_CURATION_SLOT_COUNT = 8;
 
 /** 아바타 중심이 놓이는 궤도 반지름 (Figma 실측 ≈97, persona-radial-chart와 동일 좌표계) */
 const AVATAR_ORBIT_RADIUS = 97;
 /** SVG 좌표계는 3시 방향이 0°, 시계방향이 +이므로 -90°(12시)에서 시작해야 첫 슬롯이 정확히 수직입니다 */
 const FIRST_SECTOR_START_ANGLE = -90;
-const SECTOR_ANGLE = 360 / ORBIT_SLOT_COUNT;
+const SECTOR_ANGLE = 360 / SELF_CURATION_SLOT_COUNT;
 
 const MOTION_DURATION = "duration-200 ease-out";
 const FADE_IN = `animate-in fade-in ${MOTION_DURATION} motion-reduce:animate-none`;
@@ -46,11 +46,11 @@ function round(value: number) {
 }
 
 /** 빈 슬롯(페르소나 없음)을 식별하는 합성 키. 인덱스별로 달라야 슬롯을 개별 강조할 수 있습니다 */
-export function personaOrbitEmptySlotKey(index: number) {
+export function selfCurationEmptySlotKey(index: number) {
   return `slot:${index}`;
 }
 
-export interface PersonaOrbitPersona {
+export interface SelfCurationPersona {
   /** React key 및 강조 대상 판정에 쓰이는 식별자 */
   id: string;
   /** 아바타 alt 텍스트 */
@@ -59,18 +59,18 @@ export interface PersonaOrbitPersona {
   initials?: string;
 }
 
-export interface PersonaOrbitProps extends Omit<
+export interface SelfCurationProps extends Omit<
   React.HTMLAttributes<HTMLDivElement>,
   "onClick"
 > {
   /**
-   * `ORBIT_SLOT_COUNT`(8)개 슬롯. `null`이면 그 칸은 Figma `style=empty`
+   * `SELF_CURATION_SLOT_COUNT`(8)개 슬롯. `null`이면 그 칸은 Figma `style=empty`
    * 빈 슬롯이 됩니다.
    */
-  slots: (PersonaOrbitPersona | null)[];
+  slots: (SelfCurationPersona | null)[];
   /**
    * 지금 강조된 슬롯의 id. 페르소나가 있으면 그 `id`, 빈 슬롯이면
-   * `personaOrbitEmptySlotKey(index)` 값과 비교됩니다. `null`/`undefined`면
+   * `selfCurationEmptySlotKey(index)` 값과 비교됩니다. `null`/`undefined`면
    * 강조되는 슬롯이 없습니다.
    */
   activeSlotId?: string | null;
@@ -82,7 +82,7 @@ export interface PersonaOrbitProps extends Omit<
   onCenterClick?: () => void;
 }
 
-export function PersonaOrbit({
+export function SelfCuration({
   slots,
   activeSlotId,
   centerMessage,
@@ -90,7 +90,7 @@ export function PersonaOrbit({
   onCenterClick,
   className,
   ...props
-}: PersonaOrbitProps) {
+}: SelfCurationProps) {
   return (
     <div
       // pointer-events-none — 이 500×500 wrapper 전체가 PersonaRadialChart의
@@ -105,8 +105,8 @@ export function PersonaOrbit({
         const startAngle = FIRST_SECTOR_START_ANGLE + SECTOR_ANGLE * index;
         const midAngle = startAngle + SECTOR_ANGLE / 2;
         const position = polarToCartesian(AVATAR_ORBIT_RADIUS, midAngle);
-        const slotId = persona ? persona.id : personaOrbitEmptySlotKey(index);
-        const slotPersona: PersonaSlotPersona | null = persona
+        const slotId = persona ? persona.id : selfCurationEmptySlotKey(index);
+        const slotPersona: SelfSlotPersona | null = persona
           ? {
               name: persona.name,
               imageSrc: persona.imageSrc,
@@ -126,9 +126,9 @@ export function PersonaOrbit({
             onMouseEnter={() => onSlotHover?.(slotId)}
             onMouseLeave={() => onSlotHover?.(null)}
           >
-            <PersonaSlot
+            <SelfSlot
               persona={slotPersona}
-              active={slotId === activeSlotId}
+              status={slotId === activeSlotId ? "active" : "default"}
             />
           </div>
         );

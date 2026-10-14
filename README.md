@@ -23,14 +23,14 @@ npm run storybook
 
 http://localhost:6006 이 열립니다. 아래는 바로 보면 좋은 story들입니다.
 
-| 앱            | Story                                             | 특징                                              |
-| ------------- | ------------------------------------------------- | ------------------------------------------------- |
-| **Dashboard** | `Dashboard/UI/PersonaRadialChart` → `Interactive` | 링 hover 시 배지가 값으로 전환, 아바타 hover 강조 |
-| **Dashboard** | `Dashboard/UI/PersonaOrbit` → `Interactive`       | 궤도형 페르소나 배치                              |
-| **Compass**   | `Compass/UI/CompassSphere` → `Playground`         | three.js 파티클 3D 시각화, hover로 라벨 순환      |
-| **Compass**   | `Compass/UI/CompassDial` → `Playground`           | 랭킹 원형 게이지 + 눈금(tick)                     |
-| **Compass**   | `Compass/UI/CompassAnalysis` → `Playground`       | 다이얼 + 셀프 클러스터 + 랭킹 배지 합성 뷰        |
-| **Compass**   | `Compass/UI/CompassDetailView` → `Default`        | 지표 상세 패널, 증감(delta) 배지                  |
+| 앱            | Story                                            | 특징                                              |
+| ------------- | ------------------------------------------------ | ------------------------------------------------- |
+| **Dashboard** | `Dashboard/UI/PersonaRadialChart` → `Playground` | 링 hover 시 배지가 값으로 전환, 아바타 hover 강조 |
+| **Dashboard** | `Dashboard/UI/SelfCuration` → `Playground`       | 궤도형 셀프 배치                                  |
+| **Compass**   | `Compass/UI/CompassSphere` → `Playground`        | three.js 파티클 3D 시각화, hover로 라벨 순환      |
+| **Compass**   | `Compass/UI/CompassDial` → `Playground`          | 랭킹 원형 게이지 + 눈금(tick)                     |
+| **Compass**   | `Compass/UI/CompassAnalysis` → `Playground`      | 다이얼 + 셀프 클러스터 + 랭킹 배지 합성 뷰        |
+| **Compass**   | `Compass/UI/CompassDetailView` → `Default`       | 지표 상세 패널, 증감(delta) 배지                  |
 
 Compass 컴포넌트들을 실제 화면으로 조립한 모습은 `npm run dev` 후 http://localhost:3000/compass 에서 볼 수 있습니다.
 
@@ -40,8 +40,8 @@ Compass 컴포넌트들을 실제 화면으로 조립한 모습은 `npm run dev`
 app/compass/page.tsx                          Compass 앱 전체를 조립한 실동작 데모 페이지
 components/dashboard/ui/
   persona-radial-chart/                       셀프×페르소나×3지표 원형 차트
-  persona-orbit/                              궤도형 페르소나 배치
-  persona-slot/                               PersonaOrbit이 재사용하는 슬롯
+  self-curation/                              궤도형 셀프 배치 (Figma `Self curation`)
+  self-slot/                                  SelfCuration이 재사용하는 슬롯 (Figma `Part/self`)
 components/compass/ui/
   compass-dial/ + compass-dial-tick/          랭킹 원형 게이지 + 눈금
   compass-sphere/                             three.js 파티클 3D 시각화

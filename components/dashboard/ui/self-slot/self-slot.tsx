@@ -7,7 +7,7 @@ import { Avatar } from "@/components/ui/avatar";
 
 /**
  * Figma `Part/self` (📌 GB_UXUI 261002, node 8133:122512) — 40×40 원형 페르소나 슬롯.
- * `PersonaOrbit`이 8개를 원형으로 배치해 사용하는 최소 단위입니다
+ * `SelfCuration`이 8개를 원형으로 배치해 사용하는 최소 단위입니다
  * (`components/dashboard/ui/persona-radial-chart`가 이 두 컴포넌트를 조합해서 씁니다).
  *
  * Figma variant는 `style`(empty/data scientist 샘플) × `status`(default/active) = 4종인데,
@@ -15,7 +15,7 @@ import { Avatar } from "@/components/ui/avatar";
  * `persona`가 있는지 여부로 `style=empty` ↔ 실제 페르소나를 가릅니다.
  */
 
-export interface PersonaSlotPersona {
+export interface SelfSlotPersona {
   /** 아바타 alt 텍스트 */
   name: string;
   /** 아바타 이미지 URL. 없으면 initials → 아이콘 순으로 폴백됩니다 */
@@ -24,11 +24,11 @@ export interface PersonaSlotPersona {
   initials?: string;
 }
 
-export interface PersonaSlotProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface SelfSlotProps extends React.HTMLAttributes<HTMLDivElement> {
   /** 표시할 페르소나. 없으면 "No Self" 빈 슬롯(Figma `style=empty`)이 됩니다 */
-  persona?: PersonaSlotPersona | null;
-  /** Figma `status=active` — 흰 링 강조 (아바타는 블러+딤 오버레이, 빈 슬롯은 배경 채움) */
-  active?: boolean;
+  persona?: SelfSlotPersona | null;
+  /** Figma `Status` variant. `active`는 흰 링 강조(아바타는 블러+딤 오버레이, 빈 슬롯은 배경 채움) */
+  status?: "default" | "active";
 }
 
 /** 빈 슬롯에 표시되는 플레이스홀더 문구 (Figma 원본 그대로) */
@@ -49,12 +49,14 @@ const HIGHLIGHT_RING_ON =
   "outline-[color:var(--color-semantic-non-changeable)]";
 const HIGHLIGHT_RING_OFF = "outline-transparent";
 
-export function PersonaSlot({
+export function SelfSlot({
   persona,
-  active = false,
+  status = "default",
   className,
   ...props
-}: PersonaSlotProps) {
+}: SelfSlotProps) {
+  const isActive = status === "active";
+
   if (persona) {
     return (
       <div
@@ -64,7 +66,7 @@ export function PersonaSlot({
           "rounded-[var(--radius-scale-full)]",
           HIGHLIGHT_RING,
           COLOR_TRANSITION,
-          active ? HIGHLIGHT_RING_ON : HIGHLIGHT_RING_OFF,
+          isActive ? HIGHLIGHT_RING_ON : HIGHLIGHT_RING_OFF,
           className,
         )}
         {...props}
@@ -79,7 +81,7 @@ export function PersonaSlot({
             "size-full",
             EFFECT_TRANSITION,
             // Figma Effect는 FOREGROUND_BLUR radius 8 → CSS blur(4px) = --blur-sm
-            active ? "[filter:var(--blur-sm)]" : "[filter:var(--blur-none)]",
+            isActive ? "[filter:var(--blur-sm)]" : "[filter:var(--blur-none)]",
           )}
         />
         <span
@@ -89,7 +91,7 @@ export function PersonaSlot({
             "rounded-[var(--radius-scale-full)]",
             "bg-[var(--background-backdrop)]",
             EFFECT_TRANSITION,
-            active ? "opacity-100" : "opacity-0",
+            isActive ? "opacity-100" : "opacity-0",
           )}
         />
       </div>
@@ -109,7 +111,7 @@ export function PersonaSlot({
         "border-[color:var(--color-muted-foreground)]",
         HIGHLIGHT_RING,
         COLOR_TRANSITION,
-        active
+        isActive
           ? cn(HIGHLIGHT_RING_ON, "bg-[var(--background-sheer)]")
           : cn(HIGHLIGHT_RING_OFF, "bg-transparent"),
         className,

@@ -1,2 +1,2 @@
-export { PersonaSlot } from "./persona-slot";
-export type { PersonaSlotPersona, PersonaSlotProps } from "./persona-slot";
+export { SelfSlot } from "./self-slot";
+export type { SelfSlotPersona, SelfSlotProps } from "./self-slot";
