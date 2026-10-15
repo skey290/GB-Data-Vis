@@ -231,6 +231,13 @@
       "figmaUrl": "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%F0%9F%93%8C-GB_Design-System--Atom-?node-id=7792-522",
       "component": "components/ui/scrollbar/scrollbar.tsx",
       "export": "Scrollbar"
+    },
+    "Onboarding": {
+      "figmaNodeId": "8135:128629",
+      "_참고": "Figma 레이어명 'Onboarding'(Section) → 실제 콘텐츠는 하위 'Detail view'(node 8135:128630) 하나뿐, variant/상태 축 없음. Google 로그인 버튼은 범용 Button(variant=\"google\")을 그대로 재사용. 워드마크는 Figma SVG 대신 GNB가 이미 쓰는 기존 자산 /images/logo.png를 재사용, 일러스트(/images/onboarding/pixelated-human.png)만 신규 다운로드.",
+      "figmaUrl": "https://www.figma.com/design/Wp6AZNGqC4qf2Sz5zQ2PzQ/%F0%9F%93%8C-GB_UXUI--261002-?node-id=8135-128629",
+      "component": "components/app/onboarding/onboarding.tsx",
+      "export": "Onboarding"
     }
   }
 }
