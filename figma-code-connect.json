@@ -201,7 +201,7 @@
     },
     "Gnb": {
       "figmaNodeId": "8163:93080",
-      "_참고": "Expand/Notification 축을 expanded boolean + activeId/disabledIds로 축약. 접힌 상태의 아이콘 레일(토글/벨/설정/네비게이션)은 범용 Button 인스턴스, 펼친 상태의 메뉴 리스트는 Part/GNB(MenuButton) — 서로 다른 Figma 컴포넌트. GNB 계열은 always-dark(.dark 클래스 스코프). Settings 플라이아웃은 후속 작업(onSettingsClick 콜백만 노출). Work History(node 8163:93431)/Self Archive(node 8163:93776) variant는 Notfication과 달리 별도 컴포넌트를 인스턴싱하지 않고 범용 atom만으로 GNB 안에 직접 그려져 있어, 별도 컴포넌트로 분리하지 않고 gnb.tsx 내부(GnbHistoryPanel)에 그대로 구현. 레일-패널 간격 Figma 실측 0px(완전 플러시). 트리거는 패널에서 20px 띄워 뜨는 Toggle 인스턴스(history/archive 아이콘) — left는 railWidth+(드로어 열림?407:0)+20 공식으로 매 렌더 계산.",
+      "_참고": "Expand/Notification 축을 expanded boolean + activeId/disabledIds로 축약. 접힌 상태의 아이콘 레일(토글/벨/설정/네비게이션)은 범용 Button 인스턴스, 펼친 상태의 메뉴 리스트는 Part/GNB(MenuButton) — 서로 다른 Figma 컴포넌트. GNB 계열은 always-dark(.dark 클래스 스코프). Settings 플라이아웃은 후속 작업(onSettingsClick 콜백만 노출). Work History(node 8163:93431)/Self Archive(node 8163:93776) variant는 Notfication과 달리 별도 컴포넌트를 인스턴싱하지 않고 범용 atom만으로 GNB 안에 직접 그려져 있어, 별도 컴포넌트로 분리하지 않고 gnb.tsx 내부(GnbHistoryPanel)에 그대로 구현. 레일-패널 간격 Figma 실측 0px(완전 플러시). 트리거는 패널에서 20px 띄워 뜨는 Toggle 인스턴스(history/archive 아이콘) — left(레일 폭 축, 레일 width와 같은 200ms 트랜지션)와 transform(드로어 폭 축, 트랜지션 없이 즉시 스냅)으로 분리. Self Archive 행의 selected 회색 강조는 Figma에 근거 없어 제거함(5개 샘플 전부 동일 모습). 삭제는 Figma엔 없는 확인창(범용 Popover type=warning)을 거친 뒤 실행 — 코드 쪽 안전장치.",
       "figmaUrl": "https://www.figma.com/design/Wp6AZNGqC4qf2Sz5zQ2PzQ/%F0%9F%93%8C-GB_UXUI--261002-?node-id=8163-93080",
       "component": "components/app/gnb/gnb.tsx",
       "export": "Gnb"
