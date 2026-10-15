@@ -180,17 +180,10 @@
     },
     "MenuButton": {
       "figmaNodeId": "8163:93014",
-      "_참고": "Figma 레이어명 'Part/GNB'. Type(text/icon+text) × Status(default/active/disabled) 6조합. 아이콘 박스는 범용 Button(icon-ghost)과 동일한 radius/배경 전환(default: rounded-full, active: rounded-lg+mute)을 값으로 재현 — button-in-button 구조 제약으로 Button 컴포넌트 자체는 임베드하지 않음.",
+      "_참고": "Figma 레이어명 'Part/GNB'. Type(text/icon+text) × Status(default/active/disabled) 6조합. 아이콘 박스는 범용 Button(icon-ghost)과 동일한 radius/배경 전환(default: rounded-full, active: rounded-lg+mute)을 값으로 재현 — button-in-button 구조 제약으로 Button 컴포넌트 자체는 임베드하지 않음. GNB 알림벨 트리거(node 8191:56346, Button 인스턴스에 아이콘만 dot-bell-icon으로 override)도 별도 컴포넌트 없이 이 MenuButton을 재사용 — 호출부(gnb.tsx)가 unreadCount에 따라 icon을 dot-bell-icon/Bell 중 계산해서 넘긴다.",
       "figmaUrl": "https://www.figma.com/design/Wp6AZNGqC4qf2Sz5zQ2PzQ/%F0%9F%93%8C-GB_UXUI--261002-?node-id=8163-93014",
       "component": "components/app/menu-button/menu-button.tsx",
       "export": "MenuButton"
-    },
-    "MenuNotification": {
-      "figmaNodeId": "8191:56346",
-      "_참고": "GNB(node 8163:93080) 안 알림벨 트리거 — Figma에선 범용 Button 인스턴스에 아이콘만 dot-bell-icon(벨+점이 합쳐진 단일 에셋)으로 override. 코드는 읽지 않음 표시가 있을 때만 이 에셋을 쓰고, 없을 때(Figma엔 없는 상태)는 순수 Bell 아이콘으로 대체.",
-      "figmaUrl": "https://www.figma.com/design/Wp6AZNGqC4qf2Sz5zQ2PzQ/%F0%9F%93%8C-GB_UXUI--261002-?node-id=8163-93080",
-      "component": "components/app/menu-notification/menu-notification.tsx",
-      "export": "MenuNotification"
     },
     "NotiDropdown": {
       "figmaNodeId": "8163:93051",
