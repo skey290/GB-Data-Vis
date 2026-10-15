@@ -208,7 +208,7 @@
     },
     "ChatboxComposer": {
       "figmaNodeId": "8158:31088",
-      "_참고": "Figma 레이어명 'Chatbox slot'. 범용 Chatbox(figmaNodeId 7219:5418)의 children 슬롯에 들어가는 콘텐츠 3종(이미지 썸네일/필터 chips/sentence option). chips는 삭제(X) 배지 없음(필터 선택용이라 지울 수 있는 대상이 아님). Type=image variant는 썸네일 3장이 고정 콘텐츠로 박힌 정적 예시.",
+      "_참고": "Figma 레이어명 'Chatbox slot'. 범용 Chatbox(figmaNodeId 7219:5418)의 children 슬롯에 들어가는 콘텐츠 3종(이미지 썸네일/필터 chips/sentence option). chips는 삭제(X) 배지 없음(필터 선택용이라 지울 수 있는 대상이 아님). Type=image variant는 썸네일 3장이 고정 콘텐츠로 박힌 정적 예시. Type=options(sentence-option) 3행은 아이콘 없이 라벨 중앙 정렬, 전부 미선택 모습만 그려져 있고(Button에 선택됨 variant 없음) 초기 선택 상태는 null.",
       "figmaUrl": "https://www.figma.com/design/Wp6AZNGqC4qf2Sz5zQ2PzQ/%F0%9F%93%8C-GB_UXUI--261002-?node-id=8158-31088",
       "component": "components/app/chatbox-composer/chatbox-composer.tsx",
       "export": "ChatboxComposer"
