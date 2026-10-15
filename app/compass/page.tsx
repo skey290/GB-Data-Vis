@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Blocks, Home, UserSearch } from "lucide-react";
+import { Blocks, Compass, Home, UserSearch } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { createSpriteIcon } from "@/lib/sprite-icon";
@@ -25,15 +25,14 @@ import {
 import type { CompassDialType } from "@/components/compass/ui/compass-dial";
 import type { CompassSelfClusterVariant } from "@/components/compass/ui/compass-self-cluster";
 
-// Figma GNB 노드(616:3399)와 동일 — Assets/Compass는 커스텀 스프라이트,
-// 나머지는 lucide 표준 아이콘 (components/ui/gnb/gnb.stories.tsx와 동일 소스).
+// Figma GNB 노드(8163:93080)와 동일 — Assets는 커스텀 스프라이트,
+// 나머지는 lucide 표준 아이콘 (components/app/gnb/gnb.stories.tsx와 동일 소스).
 const AssetIcon = createSpriteIcon("asset-icon");
-const CompassIcon = createSpriteIcon("compass-icon");
 
 const GNB_ITEMS: GnbItem[] = [
   { id: "dashboard", icon: Home, label: "Dashboard" },
   { id: "assets", icon: AssetIcon, label: "Assets" },
-  { id: "compass", icon: CompassIcon, label: "Compass" },
+  { id: "compass", icon: Compass, label: "Compass" },
   { id: "contents-studio", icon: Blocks, label: "Contents Studio" },
   { id: "know-thyself", icon: UserSearch, label: "Know Thyself" },
 ];
