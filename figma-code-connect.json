@@ -51,10 +51,17 @@
     },
     "Select": {
       "figmaNodeId": "614:2466",
-      "_참고": "트리거/variant 7종은 이 Atom 노드가 기준. 드롭다운 리스트 아이템 콘텐츠(leadingIcon, 옵션 단위 disabled)는 별도 파일의 Dropdown slot(node 8160:31364, https://www.figma.com/design/Wp6AZNGqC4qf2Sz5zQ2PzQ/%F0%9F%93%8C-GB_UXUI--261002-?node-id=8160-31364)과 Part/dropdown slot(node 8160:31351)이 기준.",
+      "_참고": "트리거/variant 7종은 이 Atom 노드가 기준. Atom 파일 안의 'Dropdown'은 내용 없는 빈 slot(stroke/shadow만 바인딩, geometry 확정값만 Figma 기준) — 실제 리스트 아이템 콘텐츠(leadingIcon, 옵션 단위 disabled)는 별도 파일의 Dropdown slot(node 8160:31364)과 Part/dropdown slot(node 8160:31351)이 기준. 코드도 이 빈 슬롯 구조를 그대로 반영 — 드롭다운 패널 콘텐츠는 Select 안에 직접 안 쓰고 별도 컴포넌트 DropdownList(components/ui/dropdown-list)로 분리해서 import 후 PopoverPrimitive.Content 안에 끼워 넣음(Chatbox/ChatboxComposer와 동일한 '범용 슬롯 + 슬롯 채우는 콘텐츠' 조합 구조). SelectOption은 DropdownListOption의 별칭.",
       "figmaUrl": "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%F0%9F%93%8C-GB_Design-System--Atom-?node-id=614-2466",
       "component": "components/ui/select/select.tsx",
       "export": "Select"
+    },
+    "DropdownList": {
+      "figmaNodeId": "8160:31364",
+      "_참고": "Figma 레이어명 'Dropdown slot'(컨테이너, node 8160:31364)과 그 안에서 재사용되는 'Part/dropdown slot'(행 1개, node 8160:31351) — Select의 빈 Dropdown slot에 실제로 꽂히는 콘텐츠의 기준. Type=menu/self/social media/timeframe/mbti/phone number 6종은 Figma variant 프로퍼티가 아니라 Part/dropdown slot 인스턴스를 여러 개 쌓아놓은 쇼케이스일 뿐, 컨테이너 디자인은 전부 동일(코드 변경 불필요 확정). 코드에서는 Select가 이 컴포넌트를 import해서 조합(children 슬롯이 아니라 highlightedIndex/onHighlightChange/onCommit으로 상태를 주고받는 양방향 조합). 커스텀 스크롤바와 'Show more' 버튼은 Figma 대응 디자인이 없어 코드베이스 컨벤션.",
+      "figmaUrl": "https://www.figma.com/design/Wp6AZNGqC4qf2Sz5zQ2PzQ/%F0%9F%93%8C-GB_UXUI--261002-?node-id=8160-31364",
+      "component": "components/ui/dropdown-list/dropdown-list.tsx",
+      "export": "DropdownList"
     },
     "Skeleton": {
       "figmaNodeId": "3017:2922",
