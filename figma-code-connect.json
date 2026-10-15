@@ -201,7 +201,7 @@
     },
     "Gnb": {
       "figmaNodeId": "8163:93080",
-      "_참고": "Expand/Notification 축을 expanded boolean + activeId/disabledIds로 축약. 접힌 상태의 아이콘 레일(토글/벨/설정/네비게이션)은 범용 Button 인스턴스, 펼친 상태의 메뉴 리스트는 Part/GNB(MenuButton) — 서로 다른 Figma 컴포넌트. GNB 계열은 always-dark(.dark 클래스 스코프). Settings 플라이아웃은 후속 작업(onSettingsClick 콜백만 노출).",
+      "_참고": "Expand/Notification 축을 expanded boolean + activeId/disabledIds로 축약. 접힌 상태의 아이콘 레일(토글/벨/설정/네비게이션)은 범용 Button 인스턴스, 펼친 상태의 메뉴 리스트는 Part/GNB(MenuButton) — 서로 다른 Figma 컴포넌트. GNB 계열은 always-dark(.dark 클래스 스코프). Settings 플라이아웃은 후속 작업(onSettingsClick 콜백만 노출). Work History(node 8163:93431)/Self Archive(node 8163:93776) variant는 Notfication과 달리 별도 컴포넌트를 인스턴싱하지 않고 범용 atom만으로 GNB 안에 직접 그려져 있어, 별도 컴포넌트로 분리하지 않고 gnb.tsx 내부(GnbHistoryPanel)에 그대로 구현. 트리거는 GNB 패널 옆에 독립적으로 뜨는 Toggle 인스턴스(history/archive 아이콘).",
       "figmaUrl": "https://www.figma.com/design/Wp6AZNGqC4qf2Sz5zQ2PzQ/%F0%9F%93%8C-GB_UXUI--261002-?node-id=8163-93080",
       "component": "components/app/gnb/gnb.tsx",
       "export": "Gnb"
@@ -212,13 +212,6 @@
       "figmaUrl": "https://www.figma.com/design/Wp6AZNGqC4qf2Sz5zQ2PzQ/%F0%9F%93%8C-GB_UXUI--261002-?node-id=8158-31088",
       "component": "components/app/chatbox-composer/chatbox-composer.tsx",
       "export": "ChatboxComposer"
-    },
-    "AssetHistoryDrawer": {
-      "figmaNodeId": "3365:461",
-      "_참고": "Work History(node 3365:461, 배지+라벨+타임스탬프+되돌리기)와 Self Archive(node 3419:1099, 라벨+되돌리기+삭제) 두 행 레이아웃을 badge/timestamp 존재 여부로 자동 판별해 하나의 컴포넌트로 통합.",
-      "figmaUrl": "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%F0%9F%93%8C-GB_Design-System--Atom-?node-id=3365-461",
-      "component": "components/app/asset-history-drawer/asset-history-drawer.tsx",
-      "export": "AssetHistoryDrawer"
     },
     "CompassToolbar": {
       "figmaNodeId": "5266:11096",
