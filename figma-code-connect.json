@@ -2,8 +2,9 @@
   "_설명": "Figma Code Connect 매핑. 기준 파일은 G9YNa2vjdqDjnML9y5hXJ4 (📌 GB_Design-System — Atom).",
   "mappings": {
     "ProfilePrint": {
-      "figmaNodeId": "7256:22281",
-      "figmaUrl": "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%F0%9F%93%8C-GB_Design-System--Atom-?node-id=7256-22281",
+      "figmaNodeId": "8163:92698",
+      "_참고": "예전 Atom 파일 node(7256:22281)는 더 이상 존재하지 않음 — 실제 현재 위치는 UXUI 파일 Common 섹션의 \"Part/print\"(2026-10-16 확인, Type=process/completed/upload 구조 일치).",
+      "figmaUrl": "https://www.figma.com/design/Wp6AZNGqC4qf2Sz5zQ2PzQ/%F0%9F%93%8C-GB_UXUI--261002-?node-id=8163-92698",
       "component": "components/app/profile-print/profile-print.tsx",
       "export": "ProfilePrint"
     },
@@ -179,9 +180,9 @@
       "export": "RangeSelect"
     },
     "FloatingProfile": {
-      "figmaNodeId": "7244:22163",
-      "_참고": "avatarSrc 없으면 \"no profile\" 상태(node 7425:4495)로 Avatar의 아이콘 폴백을 재사용(2026-09-27).",
-      "figmaUrl": "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%F0%9F%93%8C-GB_Design-System--Atom-?node-id=7244-22163",
+      "figmaNodeId": "8163:92774",
+      "_참고": "예전 Atom 파일 node(7244:22163)는 더 이상 존재하지 않음 — 실제 현재 위치는 UXUI 파일 Common 섹션의 \"Floating profile\"(2026-10-16 확인). Type(default/no profile) × Open(true/false) 중 3개만 존재 — no profile+Open=true 조합은 Figma에 없음, avatarSrc 없으면 카드 열기를 막는 코드 동작과 모순되지 않음. 닫기 버튼은 범용 Button(icon-ghost) 인스턴스로 커스텀 색 오버라이드 없이 그대로 사용.",
+      "figmaUrl": "https://www.figma.com/design/Wp6AZNGqC4qf2Sz5zQ2PzQ/%F0%9F%93%8C-GB_UXUI--261002-?node-id=8163-92774",
       "component": "components/app/floating-profile/floating-profile.tsx",
       "export": "FloatingProfile"
     },
