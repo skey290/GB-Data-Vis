@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Blocks, Compass, Home, UserSearch } from "lucide-react";
+import { Blocks, Compass, Home, UserRoundSearch } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { createSpriteIcon } from "@/lib/sprite-icon";
@@ -34,7 +34,7 @@ const GNB_ITEMS: GnbItem[] = [
   { id: "assets", icon: AssetIcon, label: "Assets" },
   { id: "compass", icon: Compass, label: "Compass" },
   { id: "contents-studio", icon: Blocks, label: "Contents Studio" },
-  { id: "know-thyself", icon: UserSearch, label: "Know Thyself" },
+  { id: "know-thyself", icon: UserRoundSearch, label: "Know Thyself" },
 ];
 
 // 8개 셀프 플레이스홀더 — Figma 다이얼 캐릭터 variant에서 확인된 8개 페르소나 이름을
