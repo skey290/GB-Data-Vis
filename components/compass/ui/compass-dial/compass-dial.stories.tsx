@@ -23,7 +23,7 @@ const DEFAULT_SELVES: CompassDialSelf[] = [
 // Reach/Engagement 값을 개별 숫자 컨트롤로 풀고 렌더 직전에 argsToSelves로 조립한다.
 interface CompassDialStoryArgs {
   type: CompassDialType;
-  dataCollected: boolean;
+  isDataCollected: boolean;
   selfCount: number;
   self1Reach: number;
   self1Engagement: number;
@@ -103,7 +103,7 @@ const meta = {
       control: "radio",
       options: ["reach", "engagement", "reach-and-engagement"],
     },
-    dataCollected: { control: "boolean" },
+    isDataCollected: { control: "boolean" },
     selfCount: {
       control: { type: "range", min: 0, max: 8, step: 1 },
       description:
@@ -128,7 +128,7 @@ const meta = {
   },
   args: {
     type: "reach",
-    dataCollected: true,
+    isDataCollected: true,
     selfCount: 8,
     self1Reach: 8340,
     self1Engagement: 14.3,
@@ -150,7 +150,7 @@ const meta = {
   render: (args) => (
     <CompassDial
       type={args.type}
-      dataCollected={args.dataCollected}
+      isDataCollected={args.isDataCollected}
       selves={argsToSelves(args)}
     />
   ),

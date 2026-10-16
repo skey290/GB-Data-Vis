@@ -143,7 +143,7 @@ const ANALYSIS_CONFIG: Record<
     label?: string;
   }
 > = {
-  "growth-potential": { dial: false, clusterVariant: "growth-potential" },
+  "growth-potential": { dial: false, clusterVariant: "potential" },
   reach: {
     dial: true,
     type: "reach",

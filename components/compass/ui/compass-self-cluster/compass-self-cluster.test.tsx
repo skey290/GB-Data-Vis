@@ -23,8 +23,8 @@ const selfA = { image: "/a.jpg", imageAlt: "A" };
 const selfB = { image: "/b.jpg", imageAlt: "B" };
 
 /**
- * 장식 없는 셀프도 항상 CompassGrowthAvatar로 렌더링되고 opacity로만 숨겨지므로
- * (뚝뚝 끊기지 않는 트랜지션을 위해), 배지 텍스트는 항상 DOM에 존재한다.
+ * 장식 없는 셀프도 항상 CompassSelfAvatar(variant="potential")로 렌더링되고
+ * opacity로만 숨겨지므로, 배지 텍스트는 항상 DOM에 존재한다.
  * "안 보인다"는 opacity-0 클래스 여부로 확인한다.
  */
 function isBadgeVisible(percentText: string): boolean {
@@ -65,7 +65,7 @@ describe("CompassSelfCluster", () => {
   it("shows the fixed 'Growth Potential' label and ignores the label prop for growth sets", () => {
     render(
       <CompassSelfCluster
-        variant="growth-potential"
+        variant="potential"
         selves={[{ ...selfA, growth: 40 }]}
         label="Should be ignored"
       />,
@@ -78,7 +78,7 @@ describe("CompassSelfCluster", () => {
   it("decorates only the single self with growth potential when there is exactly one", () => {
     render(
       <CompassSelfCluster
-        variant="growth-potential"
+        variant="potential"
         selves={[{ ...selfA, growth: 40 }]}
       />,
     );
@@ -89,7 +89,7 @@ describe("CompassSelfCluster", () => {
   it("decorates only the self with the highest growth when there are 2+", () => {
     render(
       <CompassSelfCluster
-        variant="growth-potential"
+        variant="potential"
         selves={[
           { ...selfA, growth: 20 },
           { ...selfB, growth: 70 },
@@ -104,7 +104,7 @@ describe("CompassSelfCluster", () => {
   it("keeps the focus self's growth decoration when that self is also active", () => {
     render(
       <CompassSelfCluster
-        variant="growth-potential"
+        variant="potential"
         selves={[
           { ...selfA, growth: 20 },
           { ...selfB, growth: 60 },
@@ -121,9 +121,9 @@ describe("CompassSelfCluster", () => {
   it("keeps the focus self's growth decoration when an empty slot is active instead", () => {
     render(
       <CompassSelfCluster
-        variant="growth-potential"
+        variant="potential"
         selves={[{ ...selfA, growth: 60 }]}
-        activeEmptyPosition={-45}
+        activeEmptyPosition={45}
       />,
     );
 
@@ -135,7 +135,7 @@ describe("CompassSelfCluster", () => {
   it("moves the growth decoration to a non-focus self when it is hovered, and removes it from the default focus self", () => {
     const { container } = render(
       <CompassSelfCluster
-        variant="growth-potential"
+        variant="potential"
         selves={[
           { ...selfA, growth: 20 },
           { ...selfB, growth: 60 },
@@ -166,7 +166,7 @@ describe("CompassSelfCluster", () => {
   it("hides all growth decoration while an empty slot is hovered", () => {
     render(
       <CompassSelfCluster
-        variant="growth-potential"
+        variant="potential"
         selves={[{ ...selfA, growth: 60 }]}
       />,
     );
@@ -190,7 +190,7 @@ describe("CompassSelfCluster", () => {
   it("shows Estimate (red badge, no overlay text) only for the resting default focus self", () => {
     render(
       <CompassSelfCluster
-        variant="growth-potential-estimate"
+        variant="potential-estimate"
         selves={[{ ...selfA, growth: 60, estimate: true }]}
       />,
     );
@@ -205,7 +205,7 @@ describe("CompassSelfCluster", () => {
   it("never shows the Estimate overlay text on a hovered self, but the badge color still follows that self's own estimate flag", () => {
     const { container } = render(
       <CompassSelfCluster
-        variant="growth-potential-estimate"
+        variant="potential-estimate"
         selves={[
           { ...selfA, growth: 60, estimate: false },
           { ...selfB, growth: 20, estimate: true },
@@ -230,10 +230,10 @@ describe("CompassSelfCluster", () => {
     expect(screen.getByText("Content Studio")).toBeInTheDocument();
   });
 
-  it("switches the focus badge to alarm styling for growth-potential-estimate", () => {
+  it("switches the focus badge to alarm styling for potential-estimate", () => {
     render(
       <CompassSelfCluster
-        variant="growth-potential-estimate"
+        variant="potential-estimate"
         selves={[{ ...selfA, growth: 25 }]}
       />,
     );
@@ -248,7 +248,7 @@ describe("CompassSelfCluster", () => {
     const onRetry = vi.fn();
     const { container } = render(
       <CompassSelfCluster
-        variant="growth-potential-error"
+        variant="potential-error"
         selves={[{ ...selfA, growth: 90 }]}
         onRetry={onRetry}
       />,
@@ -297,7 +297,7 @@ describe("CompassSelfCluster", () => {
   it("shows the coachmark tooltip on the resting default focus self's badge", () => {
     render(
       <CompassSelfCluster
-        variant="growth-potential"
+        variant="potential"
         selves={[
           { ...selfA, growth: 20 },
           { ...selfB, growth: 60 },
@@ -316,7 +316,7 @@ describe("CompassSelfCluster", () => {
   it("hides the coachmark while a different self is hovered", () => {
     const { container } = render(
       <CompassSelfCluster
-        variant="growth-potential"
+        variant="potential"
         selves={[
           { ...selfA, growth: 20 },
           { ...selfB, growth: 60 },

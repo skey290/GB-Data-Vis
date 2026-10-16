@@ -92,7 +92,7 @@ export interface CompassDialProps extends Omit<
    * 데이터 수집 여부(콜드스타트). 기본 `true`. `false`면 Self 배열과 무관하게
    * 북쪽에 "No Data Collected"만 작게 표시되고 나머지는 전부 장식용 눈금입니다.
    */
-  dataCollected?: boolean;
+  isDataCollected?: boolean;
   /**
    * 북쪽 칩(슬롯0)에 붙는 온보딩 코치마크. `type="reach"`/`"engagement"`에서만
    * 반영되고(`"reach-and-engagement"`는 무시), 해당 링이 실제 라벨을 그릴 때만
@@ -104,14 +104,20 @@ export interface CompassDialProps extends Omit<
 export function CompassDial({
   type,
   selves,
-  dataCollected = true,
+  isDataCollected = true,
   coachmark,
   className,
   ...props
 }: CompassDialProps) {
   const plan = React.useMemo(
-    () => buildCompassDialPlan({ type, selves, dataCollected, coachmark }),
-    [type, selves, dataCollected, coachmark],
+    () =>
+      buildCompassDialPlan({
+        type,
+        selves,
+        dataCollected: isDataCollected,
+        coachmark,
+      }),
+    [type, selves, isDataCollected, coachmark],
   );
 
   return (

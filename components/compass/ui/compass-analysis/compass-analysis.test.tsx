@@ -55,11 +55,11 @@ describe("CompassAnalysis", () => {
     expect(container.querySelectorAll("img").length).toBe(2);
   });
 
-  it("passes clusterVariant through to the growth-potential focus self", () => {
+  it("passes clusterVariant through to the potential focus self", () => {
     render(
       <CompassAnalysis
         dial={false}
-        clusterVariant="growth-potential"
+        clusterVariant="potential"
         selves={[selfA, selfB]}
       />,
     );
@@ -84,12 +84,12 @@ describe("CompassAnalysis", () => {
     expect(onSelfClick).toHaveBeenCalledWith(0);
   });
 
-  it("forwards onRetry for the growth-potential-error variant", () => {
+  it("forwards onRetry for the potential-error variant", () => {
     const onRetry = vi.fn();
     render(
       <CompassAnalysis
         dial={false}
-        clusterVariant="growth-potential-error"
+        clusterVariant="potential-error"
         selves={[selfA]}
         onRetry={onRetry}
       />,
@@ -111,11 +111,11 @@ describe("CompassAnalysis", () => {
     expect(screen.getByText("Most Reached: 8,340")).toBeInTheDocument();
   });
 
-  it("forwards coachmark to the growth-potential focus self's badge when dial=false", () => {
+  it("forwards coachmark to the potential focus self's badge when dial=false", () => {
     render(
       <CompassAnalysis
         dial={false}
-        clusterVariant="growth-potential"
+        clusterVariant="potential"
         selves={[selfA, selfB]}
         coachmark={{ title: "Growth Potential: 80%" }}
       />,

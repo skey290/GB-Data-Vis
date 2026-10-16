@@ -1,32 +1,20 @@
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
+import { Tooltip } from "@/components/ui/tooltip";
 
-/**
- * Figma "Part/persona" (❄️ GB_Compass, C34HOpbSASmThFA1iYFm8D) node-id 8003:10251.
- *
- * 컴퍼스 다이얼에 배치될 "셀프 1명"을 표현하는 원자 컴포넌트. 원형 배치(각도/반지름
- * 계산)는 상위 조립 컴포넌트의 몫이며, 이 파일은 정사각 프레임 안에 셀프 콘텐츠
- * (이미지 / 미배정 슬롯 / 가이드 링) 하나만 그린다.
- *
- * Figma variant → props 매핑:
- * - `Style=impact` → `variant="guide"`, `Style=empty` → `variant="empty"`,
- *   나머지(페르소나 예시들) → `variant="self"`(고정 enum 대신 임의 유저 이미지를
- *   받는 범용 구조 — 실제 다이얼의 셀프는 유저가 만든 사람이라 enum이 안 맞음).
- * - `Size`는 `guide`에서만 의미 있다(100~300px, 리터럴 고정).
- * - `Status=default/active`는 `self`/`empty`에서만 유효.
- * - `Error=true`는 `self` && `status="default"`에서만 유효(Figma 조합 규칙).
- *
- * `status="active"`와 별개로 마우스 hover 시에도 동일한 active 모습이 나타난다
- * (`isActive = status==="active" || hover`). border/overlay/blur 전환 모두에
- * `duration-150`을 명시해 속도를 동기화했다 — `transition-[filter]`처럼
- * arbitrary-property 트랜지션은 Tailwind 프리셋과 달리 duration이 자동으로
- * 붙지 않는다.
- */
-
-export type CompassSelfAvatarVariant = "self" | "empty" | "guide";
+export type CompassSelfAvatarVariant = "self" | "empty" | "guide" | "potential";
 export type CompassSelfAvatarStatus = "default" | "active";
 export type CompassSelfAvatarGuideSize = 100 | 150 | 200 | 250 | 300;
+export type CompassSelfAvatarPosition =
+  0 | 45 | 90 | 135 | 180 | 225 | 270 | 315;
+
+export interface CompassSelfAvatarCoachmark {
+  title: string;
+  description?: string;
+  onDismiss?: () => void;
+}
 
 export interface CompassSelfAvatarProps extends Omit<
   React.HTMLAttributes<HTMLDivElement>,
@@ -34,20 +22,30 @@ export interface CompassSelfAvatarProps extends Omit<
 > {
   /** 셀프 콘텐츠 종류 */
   variant?: CompassSelfAvatarVariant;
-  /** variant="guide" 전용 사이즈(px). 그 외 variant는 항상 100px 고정(Figma 스펙) */
+  /** variant="guide" 전용 사이즈(px). 그 외 variant는 항상 100px 고정 */
   guideSize?: CompassSelfAvatarGuideSize;
-  /** variant="self"|"empty" 전용 상태 */
+  /** variant="self"|"empty"|"potential" 전용 상태 */
   status?: CompassSelfAvatarStatus;
-  /** variant="self" && status="default"에서만 유효(Figma 조합 규칙) */
+  /** variant="self" && status="default"에서만 유효 */
   error?: boolean;
-  /** variant="self"일 때 표시할 유저 이미지 URL */
+  /** variant="self"|"potential"일 때 표시할 유저 이미지 URL */
   image?: string;
   /** 이미지 대체 텍스트(유저 이름 등) */
   imageAlt?: string;
   /** status="active" 오버레이 텍스트. 미지정 시 variant별 기본값 사용 */
   label?: string;
-  /** error 상태 하단 설명 텍스트. 미지정 시 기본값 사용 */
+  /** error(또는 potential의 데이터 부족) 상태 하단 설명 텍스트. 미지정 시 기본값 사용 */
   description?: string;
+  /** variant="potential"일 때 0~100 성장 값. 0이면 링/커넥터/배지를 숨긴다 */
+  growth?: number;
+  /** variant="potential"일 때 다이얼 중심 기준 배치 각도(0=북쪽, 시계방향) */
+  position?: CompassSelfAvatarPosition;
+  /** variant="potential"일 때 데이터 수집 여부. false면 배지가 경고색으로 바뀌고 Estimate 안내가 겹친다 */
+  isDataCollected?: boolean;
+  /** variant="potential"일 때 링/커넥터/배지 노출 여부(opacity 트랜지션). 기본 true */
+  decorated?: boolean;
+  /** variant="potential"일 때 퍼센트 배지에 붙는 온보딩 코치마크 */
+  coachmark?: CompassSelfAvatarCoachmark;
 }
 
 /** Figma `Size` 축(px), 전부 리터럴 유지 */
@@ -66,7 +64,19 @@ const DEFAULT_ACTIVE_LABEL: Record<"self" | "empty", string> = {
 
 const DEFAULT_EMPTY_LABEL = "No\nSelf Yet";
 
-const DEFAULT_ERROR_DESCRIPTION = "(No experience data)";
+const DEFAULT_ERROR_DESCRIPTION: Record<"self" | "potential", string> = {
+  self: "(No experience data)",
+  potential: "(Lack of Data)",
+};
+
+/** 아바타 반지름(px) */
+const AVATAR_RADIUS = 50;
+/** 배지 중심 ≈ 링 반지름 + 이 값(px) */
+const BADGE_RADIAL_GAP = 31;
+
+function getRingRadius(growth: number): number {
+  return AVATAR_RADIUS + growth * 1.25;
+}
 
 function MultilineText({
   text,
@@ -95,6 +105,11 @@ export function CompassSelfAvatar({
   imageAlt = "",
   label,
   description,
+  growth = 0,
+  position = 0,
+  isDataCollected = true,
+  decorated = true,
+  coachmark,
   className,
   onMouseEnter,
   onMouseLeave,
@@ -116,8 +131,10 @@ export function CompassSelfAvatar({
     );
   }
 
+  const isPotential = variant === "potential";
   const isActive = status === "active" || isHovered;
-  const showError = variant === "self" && !isActive && error;
+  const effectiveError = isPotential ? decorated && !isDataCollected : error;
+  const showError = variant !== "empty" && !isActive && effectiveError;
   const hoverHandlers = {
     onMouseEnter: (event: React.MouseEvent<HTMLDivElement>) => {
       setIsHovered(true);
@@ -158,15 +175,15 @@ export function CompassSelfAvatar({
     );
   }
 
-  return (
+  const avatar = (
     <div
       className={cn(
         "relative size-[100px] shrink-0 cursor-pointer overflow-hidden rounded-[var(--radius-scale-full)] transition-colors duration-150",
         isActive &&
           "border-[length:var(--border-2)] border-[var(--border-static-white)]",
-        className,
+        !isPotential && className,
       )}
-      {...props}
+      {...(!isPotential ? props : {})}
       {...hoverHandlers}
     >
       {image && (
@@ -202,11 +219,107 @@ export function CompassSelfAvatar({
             <span className="text-xs-semi-bold">Estimate</span>
             <br />
             <span className="text-xs-regular">
-              {description ?? DEFAULT_ERROR_DESCRIPTION}
+              {description ??
+                DEFAULT_ERROR_DESCRIPTION[isPotential ? "potential" : "self"]}
             </span>
           </span>
         )}
       </div>
+    </div>
+  );
+
+  if (!isPotential) {
+    return avatar;
+  }
+
+  const showRing = growth > 0;
+  const ringRadius = getRingRadius(growth);
+  const bearing = position;
+  const showEstimateStyling = !isDataCollected;
+  const decorationVisibilityClass = cn(
+    "transition-opacity duration-150 ease-out",
+    decorated ? "opacity-100" : "pointer-events-none opacity-0",
+  );
+
+  return (
+    <div className={cn("relative isolate size-[100px]", className)} {...props}>
+      {avatar}
+
+      {showRing && (
+        <div
+          className={cn(
+            "absolute top-1/2 left-1/2 z-[-1] rounded-[var(--radius-scale-full)] border-[length:var(--border-1)] border-dashed border-[var(--border-muted)]",
+            decorationVisibilityClass,
+          )}
+          style={{
+            width: ringRadius * 2,
+            height: ringRadius * 2,
+            transform: "translate(-50%, -50%)",
+          }}
+          aria-hidden="true"
+        />
+      )}
+
+      {showRing && (
+        <div
+          className={cn(
+            "absolute top-1/2 left-1/2 z-[-1] h-0 w-0",
+            decorationVisibilityClass,
+          )}
+          style={{ transform: `rotate(${bearing}deg)` }}
+          aria-hidden="true"
+        >
+          <div
+            className="absolute left-1/2 w-px -translate-x-1/2 bg-[var(--border-muted)]"
+            style={{ top: -ringRadius, height: ringRadius - AVATAR_RADIUS }}
+          />
+        </div>
+      )}
+
+      {showRing &&
+        (() => {
+          const badge = (
+            <div style={{ transform: `rotate(${-bearing}deg)` }}>
+              <Badge
+                variant={showEstimateStyling ? "alarm" : "reverse"}
+                size="20"
+              >
+                {Math.round(growth)}%
+              </Badge>
+            </div>
+          );
+
+          return (
+            <div
+              className={cn(
+                "absolute top-1/2 left-1/2 h-0 w-0",
+                decorationVisibilityClass,
+              )}
+              style={{ transform: `rotate(${bearing}deg)` }}
+            >
+              <div
+                className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2"
+                style={{ top: -(ringRadius + BADGE_RADIAL_GAP) }}
+              >
+                {coachmark ? (
+                  <Tooltip
+                    variant="reversed"
+                    open
+                    side="right"
+                    align="start"
+                    title={coachmark.title}
+                    description={coachmark.description}
+                    onClose={coachmark.onDismiss}
+                  >
+                    {badge}
+                  </Tooltip>
+                ) : (
+                  badge
+                )}
+              </div>
+            </div>
+          );
+        })()}
     </div>
   );
 }

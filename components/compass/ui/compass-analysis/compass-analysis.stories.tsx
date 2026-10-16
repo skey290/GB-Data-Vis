@@ -97,9 +97,9 @@ const meta = {
       control: "radio",
       options: [
         "reach-or-engagement",
-        "growth-potential",
-        "growth-potential-estimate",
-        "growth-potential-error",
+        "potential",
+        "potential-estimate",
+        "potential-error",
       ],
     },
     type: {
@@ -107,13 +107,13 @@ const meta = {
       options: ["reach", "engagement", "reach-and-engagement"],
     },
     dial: { control: "boolean" },
-    dataCollected: { control: "boolean" },
+    isDataCollected: { control: "boolean" },
     label: { control: "text" },
   },
   args: {
     dial: true,
     type: "reach-and-engagement",
-    dataCollected: true,
+    isDataCollected: true,
     clusterVariant: "reach-or-engagement",
     label: "Reach",
     selves: DEMO_SELVES,

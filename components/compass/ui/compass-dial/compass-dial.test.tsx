@@ -272,9 +272,9 @@ describe("CompassDial", () => {
     expect(screen.getByText("8th")).toBeInTheDocument();
   });
 
-  it("shows 'No Data Collected' when dataCollected is false", () => {
+  it("shows 'No Data Collected' when isDataCollected is false", () => {
     render(
-      <CompassDial type="reach" selves={SELVES_8} dataCollected={false} />,
+      <CompassDial type="reach" selves={SELVES_8} isDataCollected={false} />,
     );
 
     expect(screen.getByText("No Data Collected")).toBeInTheDocument();

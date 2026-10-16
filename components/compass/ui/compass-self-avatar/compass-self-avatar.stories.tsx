@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
+import { within, expect } from "storybook/test";
 
 import { CompassSelfAvatar } from "./compass-self-avatar";
 
@@ -28,7 +29,7 @@ const meta = {
   },
   decorators: [
     (Story) => (
-      <div className="dark bg-[var(--background-default)] p-[var(--spacing-24)]">
+      <div className="dark flex size-[400px] items-center justify-center bg-[var(--background-default)]">
         <Story />
       </div>
     ),
@@ -36,7 +37,7 @@ const meta = {
   argTypes: {
     variant: {
       control: "radio",
-      options: ["self", "empty", "guide"],
+      options: ["self", "empty", "guide", "potential"],
     },
     guideSize: {
       control: { type: "range", min: 100, max: 300, step: 50 },
@@ -57,11 +58,28 @@ const meta = {
     description: {
       control: "text",
     },
+    growth: {
+      control: { type: "range", min: 0, max: 100, step: 1 },
+    },
+    position: {
+      control: "select",
+      options: [0, 45, 90, 135, 180, 225, 270, 315],
+    },
+    isDataCollected: {
+      control: "boolean",
+    },
+    decorated: {
+      control: "boolean",
+    },
   },
   args: {
     variant: "self",
     image: DEMO_IMAGES[0],
     imageAlt: "Entrepreneur",
+    growth: 40,
+    position: 0,
+    isDataCollected: true,
+    decorated: true,
   },
 } satisfies Meta<typeof CompassSelfAvatar>;
 
@@ -70,3 +88,14 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Playground: Story = {};
+
+export const Potential: Story = {
+  args: {
+    variant: "potential",
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    await expect(canvas.getByText("40%")).toBeInTheDocument();
+  },
+};
