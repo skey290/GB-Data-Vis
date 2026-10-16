@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { Badge, type BadgeProps } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs } from "@/components/ui/tabs";
+import { Icon } from "@/lib/sprite-icon";
 import {
   CompassMetricCard,
   type CompassMetricCardState,
@@ -364,7 +365,7 @@ function StatBlock({ stat }: { stat: CompassDetailViewPostStat }) {
       )}
       <Button
         variant="icon-ghost"
-        icon="arrow-up-right-icon"
+        icon={<Icon id="arrow-up-right-icon" />}
         aria-label={`${stat.label} 자세히 보기`}
         onClick={stat.onRefreshClick}
         className="absolute top-[-8px] right-0"
@@ -445,11 +446,18 @@ export function CompassDetailView({
           variant="primary"
           onClick={onCreatePostsClick}
           aria-disabled={isError || undefined}
-          className={cn(
-            "w-full",
-            isError &&
-              "pointer-events-none border border-[var(--border-overlay)] bg-[var(--background-selected)] text-[var(--text-subtler)]",
-          )}
+          className={cn("w-full", isError && "pointer-events-none")}
+          // Button의 CSS Module이 [data-variant="primary"]로 색을 정하는데
+          // 그게 className보다 명시도가 높아 className으로는 더 이상 못 덮어쓴다.
+          style={
+            isError
+              ? {
+                  border: "var(--border-1) solid var(--border-overlay)",
+                  background: "var(--background-selected)",
+                  color: "var(--text-subtler)",
+                }
+              : undefined
+          }
         >
           Create Posts with one click
         </Button>

@@ -183,7 +183,7 @@ describe("CompassMetricCard", () => {
     expect(wrapper?.className).not.toContain("items-center");
   });
 
-  it("gives the footer link a different hover color than its default color (bug fix — both used to resolve to --text-subtle, so hover looked broken)", () => {
+  it("gives the footer link a different hover color than its default color (bug fix — both used to resolve to --text-subtle, so hover looked broken)", async () => {
     render(
       <CompassMetricCard
         title="Growth Potential"
@@ -195,8 +195,13 @@ describe("CompassMetricCard", () => {
 
     const link = screen.getByText("Update in Know thyself");
 
-    expect(link.className).toContain("text-[var(--text-subtle)]");
-    expect(link.className).toContain("hover:text-[var(--text-emphasis)]");
+    expect(link).toHaveStyle({ color: "var(--text-subtle)" });
+
+    await userEvent.hover(link);
+    expect(link).toHaveStyle({ color: "var(--text-emphasis)" });
+
+    await userEvent.unhover(link);
+    expect(link).toHaveStyle({ color: "var(--text-subtle)" });
   });
 
   it("forwards additional props to the root element", () => {

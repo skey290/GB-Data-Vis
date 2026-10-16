@@ -125,8 +125,10 @@ describe("CompassDetailView", () => {
     render(<CompassDetailView type="error" />);
 
     const cta = screen.getByText("Create Posts with one click");
-    expect(cta.className).toContain("bg-[var(--background-selected)]");
-    expect(cta.className).toContain("text-[var(--text-subtler)]");
+    expect(cta).toHaveStyle({
+      background: "var(--background-selected)",
+      color: "var(--text-subtler)",
+    });
     // Figma의 error CTA 색은 --background-disabled/--text-static-gray가 아니라
     // --background-selected/--text-subtler라 Button의 `disabled` html 속성을
     // 쓰지 않는다 — 실제로 비활성화(disabled attribute)되지 않았는지 확인.

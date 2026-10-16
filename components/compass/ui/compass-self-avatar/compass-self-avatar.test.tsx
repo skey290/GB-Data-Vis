@@ -211,8 +211,9 @@ describe("CompassSelfAvatar", () => {
         />,
       );
 
-      expect(screen.getByText("20%").className).toContain(
-        "bg-[var(--gb-background-default)]",
+      expect(screen.getByText("20%")).toHaveAttribute(
+        "data-variant",
+        "reverse",
       );
 
       rerender(
@@ -225,9 +226,7 @@ describe("CompassSelfAvatar", () => {
         />,
       );
 
-      expect(screen.getByText("20%").className).toContain(
-        "text-[var(--gb-text-warning)]",
-      );
+      expect(screen.getByText("20%")).toHaveAttribute("data-variant", "alarm");
     });
 
     it("rotates the connector/badge pivot by the position degrees", () => {
@@ -272,9 +271,7 @@ describe("CompassSelfAvatar", () => {
       );
 
       expect(screen.queryByText("Estimate")).toBeNull();
-      expect(screen.getByText("20%").className).toContain(
-        "text-[var(--gb-text-warning)]",
-      );
+      expect(screen.getByText("20%")).toHaveAttribute("data-variant", "alarm");
     });
 
     it("fades the ring/connector/badge to opacity-0 when decorated=false, without unmounting them", () => {
@@ -289,9 +286,7 @@ describe("CompassSelfAvatar", () => {
         />,
       );
 
-      expect(screen.getByText("20%").className).toContain(
-        "text-[var(--gb-text-warning)]",
-      );
+      expect(screen.getByText("20%")).toHaveAttribute("data-variant", "alarm");
       const ring = container.querySelector(".border-dashed") as HTMLElement;
       expect(ring).toBeInTheDocument();
       expect(ring.className).toContain("opacity-0");

@@ -233,3 +233,25 @@ export const ICON_IDS: readonly IconId[] = [
   ...(Object.keys(LUCIDE_SPRITE_MAP) as LucideIconId[]),
   ...SPRITE_ONLY_ICON_IDS,
 ];
+
+/**
+ * Resolves an `IconId` to its actual element — a lucide component if one is
+ * mapped, otherwise an `<svg><use></svg>` reference into `/public/icons.svg`.
+ * Lets call sites that only have a string id produce a `ReactNode` to hand to
+ * components (e.g. `Button`) whose `icon` prop takes rendered elements.
+ */
+export function Icon({ id, className }: { id: IconId; className?: string }) {
+  const LucideIconComponent = (
+    LUCIDE_SPRITE_MAP as Record<string, LucideIcon | undefined>
+  )[id];
+
+  if (LucideIconComponent) {
+    return <LucideIconComponent className={className} aria-hidden="true" />;
+  }
+
+  return (
+    <svg className={className} aria-hidden="true">
+      <use href={`/icons.svg#${id}`} />
+    </svg>
+  );
+}

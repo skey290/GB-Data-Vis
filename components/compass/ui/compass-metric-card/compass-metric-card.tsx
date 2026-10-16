@@ -61,6 +61,7 @@ export function CompassMetricCard({
   ...props
 }: CompassMetricCardProps) {
   const isError = state === "error";
+  const [isFooterLinkHovered, setIsFooterLinkHovered] = React.useState(false);
 
   return (
     <div
@@ -107,12 +108,20 @@ export function CompassMetricCard({
             기본색만 오버라이드하고 hover를 그대로 두면 기본=호버=text-subtle이
             되어 버튼이 안 눌리는 것처럼 보인다 — hover는 Figma에 근거가 없어 이 프로젝트의 기존
             컨벤션(Tabs 비선택 탭: subtle → hover 시 emphasis, tabs.tsx 참고)을
-            그대로 따라 `hover:text-[var(--text-emphasis)]`로 보강함.
+            그대로 따라 hover 색을 보강함. className이 아니라 inline style로 넣는
+            이유: Button의 CSS Module이 `[data-variant="link"]`로 색을 정하는데
+            그게 className보다 명시도가 높아 className 오버라이드가 더 이상 안 먹힌다.
           */}
           <Button
             variant="link"
             onClick={onFooterLinkClick}
-            className="text-[var(--text-subtle)] hover:text-[var(--text-emphasis)]"
+            onMouseEnter={() => setIsFooterLinkHovered(true)}
+            onMouseLeave={() => setIsFooterLinkHovered(false)}
+            style={{
+              color: isFooterLinkHovered
+                ? "var(--text-emphasis)"
+                : "var(--text-subtle)",
+            }}
           >
             {footerLinkLabel}
           </Button>

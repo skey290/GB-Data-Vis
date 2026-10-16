@@ -195,9 +195,7 @@ describe("CompassSelfCluster", () => {
       />,
     );
 
-    expect(screen.getByText("60%").className).toContain(
-      "text-[var(--gb-text-warning)]",
-    );
+    expect(screen.getByText("60%")).toHaveAttribute("data-variant", "alarm");
     expect(screen.getByText("Estimate")).toBeInTheDocument();
     expect(screen.queryByText("Go to")).toBeNull();
   });
@@ -222,9 +220,7 @@ describe("CompassSelfCluster", () => {
     fireEvent.mouseEnter(selfBWrapper);
 
     expect(isBadgeVisible("20%")).toBe(true);
-    expect(screen.getByText("20%").className).toContain(
-      "text-[var(--gb-text-warning)]",
-    );
+    expect(screen.getByText("20%")).toHaveAttribute("data-variant", "alarm");
     expect(screen.queryByText("Estimate")).toBeNull();
     expect(screen.getByText("Go to")).toBeInTheDocument();
     expect(screen.getByText("Content Studio")).toBeInTheDocument();
@@ -238,9 +234,7 @@ describe("CompassSelfCluster", () => {
       />,
     );
 
-    expect(screen.getByText("25%").className).toContain(
-      "text-[var(--gb-text-warning)]",
-    );
+    expect(screen.getByText("25%")).toHaveAttribute("data-variant", "alarm");
     expect(screen.getByText("Estimate")).toBeInTheDocument();
   });
 
