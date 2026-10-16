@@ -215,9 +215,7 @@ describe("PersonaRadialChart", () => {
 
       // 하단 배지는 페르소나 배지와 달리 페이드용 span 중첩이 없어 요소 자체가 Badge입니다
       const badge = screen.getByText("Not Enough Data Yet");
-      expect(badge).toHaveClass("bg-[var(--gb-background-bold)]");
-      // 삭제된 비활성 상태의 흔적이 남아있지 않은지
-      expect(badge).not.toHaveClass("bg-accent");
+      expect(badge).toHaveAttribute("data-variant", "default");
     });
 
     it("fills the ring uniformly while awaiting data", () => {
@@ -363,8 +361,8 @@ describe("PersonaRadialChart", () => {
       render(<PersonaRadialChart personas={SELF_IS_RUNNER_UP} selfId="self" />);
 
       // 이름을 보여줄 때의 기준은 "이 페이지에서 설정된 셀프"입니다
-      expect(badgeOf("Self")).toHaveClass("bg-[var(--gb-background-bold)]");
-      expect(badgeOf("Rival")).toHaveClass("bg-transparent");
+      expect(badgeOf("Self")).toHaveAttribute("data-variant", "default");
+      expect(badgeOf("Rival")).toHaveAttribute("data-variant", "outline");
     });
 
     it("fills the top performer's badge while the badges show values", () => {
@@ -377,8 +375,8 @@ describe("PersonaRadialChart", () => {
       );
 
       // 값을 보여줄 때의 기준은 셀프가 아니라 그 지표의 1등입니다
-      expect(badgeOf("90%")).toHaveClass("bg-[var(--gb-background-bold)]");
-      expect(badgeOf("10%")).toHaveClass("bg-transparent");
+      expect(badgeOf("90%")).toHaveAttribute("data-variant", "default");
+      expect(badgeOf("10%")).toHaveAttribute("data-variant", "outline");
     });
 
     it("fills both badges when the top value is tied", () => {
@@ -396,9 +394,7 @@ describe("PersonaRadialChart", () => {
       const tied = screen.getAllByText("50%");
       expect(tied).toHaveLength(2);
       for (const label of tied) {
-        expect(label.parentElement).toHaveClass(
-          "bg-[var(--gb-background-bold)]",
-        );
+        expect(label.parentElement).toHaveAttribute("data-variant", "default");
       }
     });
   });
