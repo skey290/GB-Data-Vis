@@ -11,7 +11,6 @@ import {
   CompassSelfCluster,
   type CompassSelfClusterPosition,
   type CompassSelfClusterSelf,
-  type CompassSelfClusterVariant,
 } from "@/components/compass/ui/compass-self-cluster";
 
 /**
@@ -19,18 +18,25 @@ import {
  * 800×800 캔버스(`CompassDial`의 `CANVAS_SIZE`) 중심에 `CompassSelfCluster`를
  * 겹쳐 놓는다.
  *
- * `CompassDialType`에는 potential류에 대응하는 타입이 없으므로, potential류
- * `clusterVariant`에서는 `dial={false}`로 다이얼 눈금 링을 숨기고 셀프
- * 클러스터만 보여주는 용도로 쓴다.
+ * `type`이 다이얼 노출 여부까지 함께 결정하는 지정된 짝이다(자유 조합 아님):
+ * `reach`/`engagement`/`reach-and-engagement`는 다이얼+클러스터를 함께 보여주고,
+ * `potential`은 다이얼 없이 클러스터만 보여준다(`potentialVariant`로
+ * potential/potential-estimate/potential-error 중 하나 선택).
  *
  * 셀프 데이터는 `CompassDialSelf`(id/qualifiedReach/engagementIntensity)와
  * `CompassSelfClusterSelf`(image/imageAlt/growth)로 모양이 다르지만 같은 8명을
  * 같은 슬롯 순서로 가리켜야 하므로, 통합된 `CompassAnalysisSelf` 배열 하나만
  * 받아 내부에서 각 하위 컴포넌트용으로 변환한다.
  *
- * `coachmark`는 `dial`/`clusterVariant`에 맞는 하위 컴포넌트로 그대로 전달되며,
+ * `coachmark`는 다이얼/클러스터 중 해당하는 쪽으로 그대로 전달되며, 둘 다
  * 해당하지 않으면(Ranking 등) 무시된다.
  */
+
+export type CompassAnalysisType =
+  "potential" | "reach" | "engagement" | "reach-and-engagement";
+
+export type CompassAnalysisPotentialVariant =
+  "potential" | "potential-estimate" | "potential-error";
 
 export interface CompassAnalysisSelf {
   id: string;
@@ -38,9 +44,9 @@ export interface CompassAnalysisSelf {
   imageAlt?: string;
   qualifiedReach: number;
   engagementIntensity: number;
-  /** potential류 clusterVariant에서만 사용 */
+  /** type="potential"에서만 사용 */
   growth?: number;
-  /** clusterVariant="potential-estimate"에서 이 셀프가 장식될 때만 유효 */
+  /** potentialVariant="potential-estimate"에서 이 셀프가 장식될 때만 유효 */
   estimate?: boolean;
 }
 
@@ -48,15 +54,13 @@ export interface CompassAnalysisProps extends Omit<
   React.HTMLAttributes<HTMLDivElement>,
   "children"
 > {
-  /** 다이얼 눈금 링 표시 여부(Figma `dial` prop). 기본 true */
-  dial?: boolean;
-  /** dial=true일 때만 유효. CompassDial로 그대로 전달 */
-  type?: CompassDialType;
-  /** dial=true일 때만 유효. CompassDial로 그대로 전달 */
+  /** 다이얼 노출 여부까지 함께 결정. 기본 "reach-and-engagement" */
+  type?: CompassAnalysisType;
+  /** type="potential"에서만 유효. 기본 "potential" */
+  potentialVariant?: CompassAnalysisPotentialVariant;
+  /** type이 reach/engagement/reach-and-engagement일 때만 유효 */
   isDataCollected?: boolean;
-  /** CompassSelfCluster의 variant. 기본 "reach-or-engagement" */
-  clusterVariant?: CompassSelfClusterVariant;
-  /** clusterVariant="reach-or-engagement"에서만 유효한 중앙 라벨. 미지정 시 type에 따른 기본값("reach"→"Reach"/"engagement"→"Engagement"/"reach-and-engagement"→"Ranking") 사용 */
+  /** 중앙 라벨. 미지정 시 type에 따른 기본값("reach"→"Reach"/"engagement"→"Engagement"/"reach-and-engagement"→"Ranking") 사용. type="potential"에서는 무시됨(클러스터가 "Growth Potential" 고정) */
   label?: string;
   /** 북쪽부터 시계방향으로 채워질 셀프 목록. 최대 8명 */
   selves?: CompassAnalysisSelf[];
@@ -64,11 +68,11 @@ export interface CompassAnalysisProps extends Omit<
   activeEmptyPosition?: CompassSelfClusterPosition;
   onSelfClick?: (index: number) => void;
   onEmptySlotClick?: (position: CompassSelfClusterPosition) => void;
-  /** clusterVariant="potential-error"에서만 유효한 Retry 클릭 핸들러 */
+  /** potentialVariant="potential-error"에서만 유효한 Retry 클릭 핸들러 */
   onRetry?: () => void;
   /**
-   * 현재 서브메뉴의 온보딩 코치마크. `dial`/`clusterVariant`에 맞는 하위
-   * 컴포넌트로 그대로 전달되며, 해당하지 않으면(Ranking 등) 무시된다.
+   * 현재 서브메뉴의 온보딩 코치마크. 다이얼/클러스터 중 해당하는 쪽으로
+   * 그대로 전달되며, 둘 다 해당하지 않으면(Ranking 등) 무시된다.
    */
   coachmark?: {
     title: string;
@@ -84,10 +88,9 @@ const DEFAULT_LABEL_BY_TYPE: Record<CompassDialType, string> = {
 };
 
 export function CompassAnalysis({
-  dial = true,
   type = "reach-and-engagement",
+  potentialVariant = "potential",
   isDataCollected = true,
-  clusterVariant = "reach-or-engagement",
   label,
   selves = [],
   activeSelfIndex,
@@ -99,6 +102,8 @@ export function CompassAnalysis({
   className,
   ...props
 }: CompassAnalysisProps) {
+  const isPotential = type === "potential";
+  const dialType: CompassDialType | undefined = isPotential ? undefined : type;
   const dialSelves = React.useMemo<CompassDialSelf[]>(
     () =>
       selves.map((self) => ({
@@ -126,9 +131,9 @@ export function CompassAnalysis({
       style={{ width: CANVAS_SIZE, height: CANVAS_SIZE }}
       {...props}
     >
-      {dial && (
+      {dialType && (
         <CompassDial
-          type={type}
+          type={dialType}
           selves={dialSelves}
           isDataCollected={isDataCollected}
           coachmark={coachmark}
@@ -137,8 +142,10 @@ export function CompassAnalysis({
 
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
         <CompassSelfCluster
-          variant={clusterVariant}
-          label={label ?? DEFAULT_LABEL_BY_TYPE[type]}
+          variant={isPotential ? potentialVariant : "reach-or-engagement"}
+          label={
+            isPotential ? undefined : (label ?? DEFAULT_LABEL_BY_TYPE[type])
+          }
           selves={clusterSelves}
           activeSelfIndex={activeSelfIndex}
           activeEmptyPosition={activeEmptyPosition}

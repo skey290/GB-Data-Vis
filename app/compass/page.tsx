@@ -17,13 +17,12 @@ import { CompassDetailView } from "@/components/compass/ui/compass-detail-view";
 import {
   CompassAnalysis,
   type CompassAnalysisSelf,
+  type CompassAnalysisType,
 } from "@/components/compass/ui/compass-analysis";
 import {
   CompassAnalysisMenu,
   type CompassAnalysisMenuValue,
 } from "@/components/compass/ui/compass-analysis-menu";
-import type { CompassDialType } from "@/components/compass/ui/compass-dial";
-import type { CompassSelfClusterVariant } from "@/components/compass/ui/compass-self-cluster";
 
 // Figma GNB 노드(8163:93080)와 동일 — Assets는 커스텀 스프라이트,
 // 나머지는 lucide 표준 아이콘 (components/app/gnb/gnb.stories.tsx와 동일 소스).
@@ -137,31 +136,14 @@ const ANALYSIS_SELVES: CompassAnalysisSelf[] = [
 const ANALYSIS_CONFIG: Record<
   CompassAnalysisMenuValue,
   {
-    dial: boolean;
-    type?: CompassDialType;
-    clusterVariant: CompassSelfClusterVariant;
+    type: CompassAnalysisType;
     label?: string;
   }
 > = {
-  "growth-potential": { dial: false, clusterVariant: "potential" },
-  reach: {
-    dial: true,
-    type: "reach",
-    clusterVariant: "reach-or-engagement",
-    label: "Most Reached Post",
-  },
-  engagement: {
-    dial: true,
-    type: "engagement",
-    clusterVariant: "reach-or-engagement",
-    label: "Most Engaged Post",
-  },
-  ranking: {
-    dial: true,
-    type: "reach-and-engagement",
-    clusterVariant: "reach-or-engagement",
-    label: "Ranking",
-  },
+  "growth-potential": { type: "potential" },
+  reach: { type: "reach", label: "Most Reached Post" },
+  engagement: { type: "engagement", label: "Most Engaged Post" },
+  ranking: { type: "reach-and-engagement", label: "Ranking" },
 };
 
 /**
@@ -359,9 +341,7 @@ export default function CompassPage() {
               )}
             >
               <CompassAnalysis
-                dial={analysisConfig.dial}
                 type={analysisConfig.type}
-                clusterVariant={analysisConfig.clusterVariant}
                 label={analysisConfig.label}
                 selves={ANALYSIS_SELVES}
                 coachmark={coachmark}

@@ -46,9 +46,9 @@ describe("CompassAnalysis", () => {
     expect(container.querySelectorAll("img").length).toBe(2);
   });
 
-  it("hides the dial entirely when dial=false", () => {
+  it("hides the dial entirely when type='potential'", () => {
     const { container } = render(
-      <CompassAnalysis dial={false} selves={[selfA, selfB]} />,
+      <CompassAnalysis type="potential" selves={[selfA, selfB]} />,
     );
 
     expect(screen.queryByText("1st")).toBeNull();
@@ -62,7 +62,7 @@ describe("CompassAnalysis", () => {
   ] as const)(
     "defaults the center label to match type=%s when label is not given",
     (type, expectedLabel) => {
-      render(<CompassAnalysis dial={false} type={type} selves={[selfA]} />);
+      render(<CompassAnalysis type={type} selves={[selfA]} />);
 
       expect(screen.getByText(expectedLabel)).toBeInTheDocument();
     },
@@ -70,26 +70,15 @@ describe("CompassAnalysis", () => {
 
   it("lets an explicit label override the type-based default", () => {
     render(
-      <CompassAnalysis
-        dial={false}
-        type="engagement"
-        label="Custom"
-        selves={[selfA]}
-      />,
+      <CompassAnalysis type="engagement" label="Custom" selves={[selfA]} />,
     );
 
     expect(screen.getByText("Custom")).toBeInTheDocument();
     expect(screen.queryByText("Engagement")).toBeNull();
   });
 
-  it("passes clusterVariant through to the potential focus self", () => {
-    render(
-      <CompassAnalysis
-        dial={false}
-        clusterVariant="potential"
-        selves={[selfA, selfB]}
-      />,
-    );
+  it("defaults potentialVariant to 'potential' and decorates the focus self", () => {
+    render(<CompassAnalysis type="potential" selves={[selfA, selfB]} />);
 
     // growth가 가장 큰 selfB(60%)만 장식(decorated) 대상이라 배지가 존재하고,
     // 나머지는 CompassSelfAvatar가 링/배지 자체를 렌더링하지 않는다.
@@ -101,7 +90,7 @@ describe("CompassAnalysis", () => {
     const onSelfClick = vi.fn();
     const { container } = render(
       <CompassAnalysis
-        dial={false}
+        type="potential"
         selves={[selfA]}
         onSelfClick={onSelfClick}
       />,
@@ -111,12 +100,12 @@ describe("CompassAnalysis", () => {
     expect(onSelfClick).toHaveBeenCalledWith(0);
   });
 
-  it("forwards onRetry for the potential-error variant", () => {
+  it("forwards onRetry for potentialVariant='potential-error'", () => {
     const onRetry = vi.fn();
     render(
       <CompassAnalysis
-        dial={false}
-        clusterVariant="potential-error"
+        type="potential"
+        potentialVariant="potential-error"
         selves={[selfA]}
         onRetry={onRetry}
       />,
@@ -126,7 +115,7 @@ describe("CompassAnalysis", () => {
     expect(onRetry).toHaveBeenCalledOnce();
   });
 
-  it("forwards coachmark to CompassDial's north badge when dial=true", () => {
+  it("forwards coachmark to CompassDial's north badge when type is reach/engagement/reach-and-engagement", () => {
     render(
       <CompassAnalysis
         type="reach"
@@ -138,11 +127,10 @@ describe("CompassAnalysis", () => {
     expect(screen.getByText("Most Reached: 8,340")).toBeInTheDocument();
   });
 
-  it("forwards coachmark to the potential focus self's badge when dial=false", () => {
+  it("forwards coachmark to the potential focus self's badge when type='potential'", () => {
     render(
       <CompassAnalysis
-        dial={false}
-        clusterVariant="potential"
+        type="potential"
         selves={[selfA, selfB]}
         coachmark={{ title: "Growth Potential: 80%" }}
       />,

@@ -93,28 +93,20 @@ const meta = {
     ),
   ],
   argTypes: {
-    clusterVariant: {
-      control: "radio",
-      options: [
-        "reach-or-engagement",
-        "potential",
-        "potential-estimate",
-        "potential-error",
-      ],
-    },
     type: {
       control: "radio",
-      options: ["reach", "engagement", "reach-and-engagement"],
+      options: ["potential", "reach", "engagement", "reach-and-engagement"],
     },
-    dial: { control: "boolean" },
+    potentialVariant: {
+      control: "radio",
+      options: ["potential", "potential-estimate", "potential-error"],
+    },
     isDataCollected: { control: "boolean" },
     label: { control: "text" },
   },
   args: {
-    dial: true,
     type: "reach-and-engagement",
     isDataCollected: true,
-    clusterVariant: "reach-or-engagement",
     selves: DEMO_SELVES,
   },
 } satisfies Meta<typeof CompassAnalysis>;
