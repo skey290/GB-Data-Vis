@@ -170,7 +170,7 @@ export function CompassSelfCluster({
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
         {isError ? (
           <div className="flex flex-col items-center gap-[var(--spacing-2)]">
-            <p className="text-sm-semi-bold text-[var(--text-default)]">
+            <p className="text-xs-bold text-[var(--text-default)]">
               We couldn&apos;t fetch your data
             </p>
             <Button variant="link" onClick={onRetry}>
@@ -178,7 +178,7 @@ export function CompassSelfCluster({
             </Button>
           </div>
         ) : (
-          <p className="text-base-semi-bold text-[var(--text-default)]">
+          <p className="text-xs-bold text-[var(--text-default)]">
             {isGrowthSet ? "Growth Potential" : label}
           </p>
         )}

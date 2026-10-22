@@ -168,15 +168,11 @@ export function CompassSelfAvatar({
       )}
       <div
         className={cn(
-          "absolute inset-0 flex items-center justify-center p-[var(--spacing-2)] transition-opacity duration-150",
+          "absolute inset-0 flex items-center justify-center p-[var(--spacing-2)] bg-[var(--gb-background-backdrop)] transition-opacity duration-150",
           isActive || showError
             ? "opacity-100"
             : "pointer-events-none opacity-0",
         )}
-        style={{
-          backgroundColor:
-            "color-mix(in srgb, var(--color-black) 50%, transparent)",
-        }}
       >
         {isActive && (
           <MultilineText

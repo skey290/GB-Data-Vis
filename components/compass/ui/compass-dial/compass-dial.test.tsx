@@ -84,9 +84,9 @@ describe("rankDescending", () => {
 });
 
 describe("getBucketSize (Rule D)", () => {
-  it("gives rank 0 (best) size 5 and the worst rank size 1 for N=8", () => {
+  it("pairs ranks two at a time, one size smaller per pair, for N=8", () => {
     const sizes = Array.from({ length: 8 }, (_, i) => getBucketSize(i, 8));
-    expect(sizes).toEqual([5, 4, 4, 3, 3, 2, 2, 1]);
+    expect(sizes).toEqual([5, 5, 4, 4, 3, 3, 2, 2]);
   });
 
   it("returns size 5 for a lone value (N<=1, comparison impossible)", () => {
@@ -94,9 +94,9 @@ describe("getBucketSize (Rule D)", () => {
     expect(getBucketSize(0, 0)).toBe(5);
   });
 
-  it("only produces two distinct sizes for N=2", () => {
+  it("gives both ranks size 5 for N=2 (same pair)", () => {
     expect(getBucketSize(0, 2)).toBe(5);
-    expect(getBucketSize(1, 2)).toBe(1);
+    expect(getBucketSize(1, 2)).toBe(5);
   });
 });
 

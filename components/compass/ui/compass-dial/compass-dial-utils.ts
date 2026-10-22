@@ -129,17 +129,17 @@ export function getTextArrangement(
 /**
  * Rule D — 순위(0-based, 0=1등) → 눈금 크기(1~5).
  *
- * `size = round(5 - (rankIndex / (n-1)) * 4)`. n<=1(비교 대상 없음)이면
- * 5(가장 큰 크기, 유일한 값이므로 최대로 표시 — Figma "Self number=1,
- * Data Collected=true" 실측: 북쪽 눈금이 size5로 렌더링됨, 확인).
+ * 2명씩 짝지어 한 단계씩 작아진다(`size = 5 - floor(rankIndex / 2)`,
+ * 최대 8명이라 1까지 내려가지 않고 2에서 멈춘다) — Figma "Self number=8"
+ * 실측(reach는 픽셀, engagement는 스크린샷 대조): `[5,5,4,4,3,3,2,2]`.
+ * n<=1(비교 대상 없음)이면 5(유일한 값이므로 최대로 표시).
  */
 export function getBucketSize(
   rankIndex: number,
   n: number,
 ): CompassDialTickSize {
   if (n <= 1) return 5;
-  const raw = 5 - (rankIndex / (n - 1)) * 4;
-  return clampSize(Math.round(raw));
+  return clampSize(5 - Math.floor(rankIndex / 2));
 }
 
 /**
