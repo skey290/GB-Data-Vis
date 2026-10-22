@@ -33,14 +33,12 @@ export interface CompassSelfAvatarProps extends Omit<
   label?: string;
   /** error(또는 potential의 데이터 부족) 상태 하단 설명 텍스트. 미지정 시 기본값 사용 */
   description?: string;
-  /** variant="potential"일 때 0~100 성장 값. 0이면 링/커넥터/배지를 숨긴다 */
+  /** variant="potential"일 때 0~100 성장 값 */
   growth?: number;
   /** variant="potential"일 때 다이얼 중심 기준 배치 각도(0=북쪽, 시계방향) */
   position?: CompassSelfAvatarPosition;
   /** variant="potential"일 때 데이터 수집 여부. false면 배지가 경고색으로 바뀌고 Estimate 안내가 겹친다 */
   isDataCollected?: boolean;
-  /** variant="potential"일 때 링/커넥터/배지 노출 여부. 기본 true */
-  decorated?: boolean;
   /** variant="potential"일 때 퍼센트 배지에 붙는 온보딩 코치마크 */
   coachmark?: CompassSelfAvatarCoachmark;
 }
@@ -95,7 +93,6 @@ export function CompassSelfAvatar({
   growth = 0,
   position = 0,
   isDataCollected = true,
-  decorated = true,
   coachmark,
   className,
   onMouseEnter,
@@ -106,7 +103,7 @@ export function CompassSelfAvatar({
 
   const isPotential = variant === "potential";
   const isActive = status === "active" || isHovered;
-  const effectiveError = isPotential ? decorated && !isDataCollected : error;
+  const effectiveError = isPotential ? !isDataCollected : error;
   const showError = variant !== "empty" && !isActive && effectiveError;
   const hoverHandlers = {
     onMouseEnter: (event: React.MouseEvent<HTMLDivElement>) => {
@@ -205,7 +202,6 @@ export function CompassSelfAvatar({
     return avatar;
   }
 
-  const showDecoration = growth > 0 && decorated;
   const ringRadius = getRingRadius(growth);
   const bearing = position;
   const showEstimateStyling = !isDataCollected;
@@ -214,72 +210,67 @@ export function CompassSelfAvatar({
     <div className={cn("relative isolate size-[100px]", className)} {...props}>
       {avatar}
 
-      {showDecoration && (
+      <div
+        className="absolute top-1/2 left-1/2 z-[-1] rounded-[var(--radius-scale-full)] border-[length:var(--border-1)] border-dashed border-[var(--border-muted)]"
+        style={{
+          width: ringRadius * 2,
+          height: ringRadius * 2,
+          transform: "translate(-50%, -50%)",
+        }}
+        aria-hidden="true"
+      />
+
+      <div
+        className="absolute top-1/2 left-1/2 z-[-1] h-0 w-0"
+        style={{ transform: `rotate(${bearing}deg)` }}
+        aria-hidden="true"
+      >
         <div
-          className="absolute top-1/2 left-1/2 z-[-1] rounded-[var(--radius-scale-full)] border-[length:var(--border-1)] border-dashed border-[var(--border-muted)]"
-          style={{
-            width: ringRadius * 2,
-            height: ringRadius * 2,
-            transform: "translate(-50%, -50%)",
-          }}
-          aria-hidden="true"
+          className="absolute left-1/2 w-px -translate-x-1/2 bg-[var(--border-muted)]"
+          style={{ top: -ringRadius, height: ringRadius - AVATAR_RADIUS }}
         />
-      )}
+      </div>
 
-      {showDecoration && (
-        <div
-          className="absolute top-1/2 left-1/2 z-[-1] h-0 w-0"
-          style={{ transform: `rotate(${bearing}deg)` }}
-          aria-hidden="true"
-        >
-          <div
-            className="absolute left-1/2 w-px -translate-x-1/2 bg-[var(--border-muted)]"
-            style={{ top: -ringRadius, height: ringRadius - AVATAR_RADIUS }}
-          />
-        </div>
-      )}
-
-      {showDecoration &&
-        (() => {
-          const badge = (
-            <div style={{ transform: `rotate(${-bearing}deg)` }}>
-              <Badge
-                variant={showEstimateStyling ? "alarm" : "reverse"}
-                size="20"
-              >
-                {Math.round(growth)}%
-              </Badge>
-            </div>
-          );
-
-          return (
-            <div
-              className="absolute top-1/2 left-1/2 h-0 w-0"
-              style={{ transform: `rotate(${bearing}deg)` }}
+      {(() => {
+        const badge = (
+          <div style={{ transform: `rotate(${-bearing}deg)` }}>
+            <Badge
+              variant={showEstimateStyling ? "alarm" : "reverse"}
+              size="20"
             >
-              <div
-                className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2"
-                style={{ top: -(ringRadius + BADGE_RADIAL_GAP) }}
-              >
-                {coachmark ? (
-                  <Tooltip
-                    variant="reversed"
-                    open
-                    side="right"
-                    align="start"
-                    title={coachmark.title}
-                    description={coachmark.description}
-                    onClose={coachmark.onDismiss}
-                  >
-                    {badge}
-                  </Tooltip>
-                ) : (
-                  badge
-                )}
-              </div>
+              {Math.round(growth)}%
+            </Badge>
+          </div>
+        );
+
+        return (
+          <div
+            className="absolute top-1/2 left-1/2 h-0 w-0"
+            style={{ transform: `rotate(${bearing}deg)` }}
+          >
+            <div
+              className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2"
+              style={{ top: -(ringRadius + BADGE_RADIAL_GAP) }}
+            >
+              {coachmark ? (
+                <Tooltip
+                  variant="reversed"
+                  open
+                  side="right"
+                  align="start"
+                  title={coachmark.title}
+                  description={coachmark.description}
+                  onClose={coachmark.onDismiss}
+                >
+                  {badge}
+                </Tooltip>
+              ) : (
+                badge
+              )}
             </div>
-          );
-        })()}
+          </div>
+        );
+      })()}
     </div>
   );
 }

@@ -142,14 +142,14 @@ describe("CompassSelfAvatar", () => {
   });
 
   describe("variant='potential'", () => {
-    it("renders only the avatar image with no ring/connector/badge when growth=0", () => {
+    it("still shows the ring/badge as 0% when growth=0", () => {
       const { container } = render(
         <CompassSelfAvatar variant="potential" growth={0} image="/self.jpg" />,
       );
 
       expect(container.querySelector("img")).toBeInTheDocument();
-      expect(container.querySelector(".border-dashed")).not.toBeInTheDocument();
-      expect(screen.queryByText("0%")).toBeNull();
+      expect(container.querySelector(".border-dashed")).toBeInTheDocument();
+      expect(screen.getByText("0%")).toBeInTheDocument();
     });
 
     it("renders a dashed guide ring sized 100 + growth*1.25 px in diameter when growth>0", () => {
@@ -252,22 +252,6 @@ describe("CompassSelfAvatar", () => {
 
       expect(screen.queryByText("Estimate")).toBeNull();
       expect(screen.getByText("20%")).toHaveAttribute("data-variant", "alarm");
-    });
-
-    it("unmounts the ring/connector/badge when decorated=false", () => {
-      const { container } = render(
-        <CompassSelfAvatar
-          variant="potential"
-          growth={20}
-          position={0}
-          isDataCollected={false}
-          decorated={false}
-          image="/self.jpg"
-        />,
-      );
-
-      expect(screen.queryByText("20%")).toBeNull();
-      expect(container.querySelector(".border-dashed")).not.toBeInTheDocument();
     });
 
     it("forwards additional props to the outer wrapper", () => {

@@ -249,28 +249,17 @@ export function CompassSelfCluster({
                 : undefined
             }
           >
-            {isGrowthSet ? (
-              <CompassSelfAvatar
-                variant="potential"
-                position={position}
-                growth={self.growth ?? 0}
-                decorated={isDecorated}
-                isDataCollected={!isFocusEstimate}
-                status={isActive ? "active" : "default"}
-                image={self.image}
-                imageAlt={self.imageAlt}
-                coachmark={showCoachmarkHere ? coachmark : undefined}
-                onClick={() => onSelfClick?.(i)}
-              />
-            ) : (
-              <CompassSelfAvatar
-                variant="self"
-                status={isActive ? "active" : "default"}
-                image={self.image}
-                imageAlt={self.imageAlt}
-                onClick={() => onSelfClick?.(i)}
-              />
-            )}
+            <CompassSelfAvatar
+              variant={isDecorated ? "potential" : "self"}
+              position={position}
+              growth={self.growth ?? 0}
+              isDataCollected={!isFocusEstimate}
+              status={isActive ? "active" : "default"}
+              image={self.image}
+              imageAlt={self.imageAlt}
+              coachmark={showCoachmarkHere ? coachmark : undefined}
+              onClick={() => onSelfClick?.(i)}
+            />
           </PositionedSatellite>
         );
       })}

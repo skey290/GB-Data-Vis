@@ -64,11 +64,6 @@ const meta = {
     isDataCollected: {
       control: "boolean",
     },
-    // 클러스터가 "지금 강조 대상이 누구인지"를 전달하는 내부 배선용 prop이라
-    // 단일 아바타를 사람이 직접 고르는 값이 아님 — Controls에서 숨긴다
-    decorated: {
-      control: false,
-    },
   },
   args: {
     variant: "self",
@@ -77,7 +72,6 @@ const meta = {
     growth: 40,
     position: 0,
     isDataCollected: true,
-    decorated: true,
   },
 } satisfies Meta<typeof CompassSelfAvatar>;
 
