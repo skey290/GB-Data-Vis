@@ -6,9 +6,9 @@ import { Home } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /**
- * Figma Design System "Atom" 파일의 `Floating pill`(node-id 601:467) —
- * Compass 캔버스 상단에 모든 시나리오 공통으로 떠 있는 4버튼 nav입니다
- *.
+ * Figma UXUI 파일 Compass 페이지의 `Floating pill`(node-id 8125:11938 —
+ * 별도 마스터 컴포넌트는 없고, 목업 인스턴스 안에 중첩 인스턴스로만 존재) —
+ * Compass 캔버스 상단에 모든 시나리오 공통으로 떠 있는 4버튼 nav입니다.
  *
  * Figma 원본은 가변 아이템 배열이 아니라 "Home(아이콘 전용 원형 버튼) +
  * Assets/Compass/Content Studio(텍스트 버튼) 3개"로 고정된 비대칭 구조라

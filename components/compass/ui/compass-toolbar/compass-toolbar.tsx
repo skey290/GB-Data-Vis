@@ -7,10 +7,11 @@ import { Select, type SelectOption } from "@/components/ui/select";
 import { Toggle } from "@/components/ui/toggle";
 
 /**
- * Figma "Compass"/"Contents Studio" 사이드바 예시(GNB `Style=compass-home`,
- * node-id 5266:11096)에 등장하는, 사이드바 옆에 뜨는 툴바 조합 —
- * "toggle select"(node 5274:11821, `Home`/`Analysis` 또는 `Analysis`/`Content`)
- * + "select"(node 5274:12001, `variant="mute"`) 두 인스턴스로 구성됩니다.
+ * Figma UXUI 파일 Compass 페이지의 "Compass Page Component" 목업
+ * 인스턴스(node-id 8125:11938 — 별도 마스터 컴포넌트는 없고, 인스턴스 안에
+ * 중첩 인스턴스로만 존재)에 등장하는, 사이드바 옆에 뜨는 툴바 조합 —
+ * "toggle select"(`Home`/`Analysis` 또는 `Analysis`/`Content`)
+ * + "select"(`variant="mute"`) 두 인스턴스로 구성됩니다.
  *
  * 위쪽 세그먼트 토글은 `Toggle`(`type="text"`), 아래쪽 드롭다운은
  * `Select`(`variant="mute"`)를 그대로 재사용합니다.

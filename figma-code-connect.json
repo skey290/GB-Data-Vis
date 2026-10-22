@@ -222,11 +222,18 @@
       "export": "ChatboxComposer"
     },
     "CompassToolbar": {
-      "figmaNodeId": "5266:11096",
-      "_참고": "Compass/Contents Studio 사이드바 예시의 'toggle select'(node 5274:11821, Home/Analysis 또는 Analysis/Content 라벨) + 'select'(node 5274:12001, 기존 Select type=self style=mute 그대로 재사용) 조합. 세그먼트 토글은 기존 toggle-select(AM/PM 전용, 다른 토큰 세트)와 재사용 불가해 이 wrapper 내부에 새로 최소 구현.",
-      "figmaUrl": "https://www.figma.com/design/G9YNa2vjdqDjnML9y5hXJ4/%F0%9F%93%8C-GB_Design-System--Atom-?node-id=5266-11096",
+      "figmaNodeId": "8125:11938",
+      "_참고": "예전 Atom 파일 node(5266:11096, 하위 5274:11821/5274:12001)는 더 이상 존재하지 않음 — 현재 UXUI 파일에도 별도 마스터 컴포넌트로는 없고, Compass 페이지 '캔버스 이동' 섹션의 'Compass Page Component' 목업 인스턴스(동일 구조 반복 중 하나, node 8125:11938) 안에 중첩 인스턴스로만 남아있음(2026-10-22 확인). 'toggle select'(Home/Analysis 라벨, 체인 id I8125:11938;8045:20717;5274:11413) + 'select'(`All 'Self'`, 기존 Select 컴포넌트 재사용, 체인 id I8125:11938;8045:20717;5274:11991) 조합은 코드와 일치. 세그먼트 토글은 기존 toggle-select(AM/PM 전용, 다른 토큰 세트)와 재사용 불가해 이 wrapper 내부에 새로 최소 구현.",
+      "figmaUrl": "https://www.figma.com/design/Wp6AZNGqC4qf2Sz5zQ2PzQ/%F0%9F%93%8C-GB_UXUI--261002-?node-id=8125-11938",
       "component": "components/compass/ui/compass-toolbar/compass-toolbar.tsx",
       "export": "CompassToolbar"
+    },
+    "CompassFloatingNav": {
+      "figmaNodeId": "8125:11938",
+      "_참고": "예전 Atom 파일 node(601:467)는 더 이상 존재하지 않음 — 현재 UXUI 파일에도 별도 마스터 컴포넌트로는 없고, Compass 페이지 '캔버스 이동' 섹션의 'Compass Page Component' 목업 인스턴스(동일 구조 반복 중 하나, node 8125:11938) 안에 중첩 인스턴스로만 남아있음(data-name 'Floating pill', 체인 id I8125:11938;8045:21710;8045:21498, 2026-10-22 확인). Home(아이콘 전용 원형 버튼) + Assets/Compass/Content Studio(텍스트 버튼) 3개 고정 구조는 코드와 일치.",
+      "figmaUrl": "https://www.figma.com/design/Wp6AZNGqC4qf2Sz5zQ2PzQ/%F0%9F%93%8C-GB_UXUI--261002-?node-id=8125-11938",
+      "component": "components/compass/ui/compass-floating-nav/compass-floating-nav.tsx",
+      "export": "CompassFloatingNav"
     },
     "ButtonGroup": {
       "figmaNodeId": "3466:29935",
