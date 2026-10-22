@@ -13,9 +13,37 @@ const SAMPLE_PERSONA = {
   initials: "DS",
 };
 
+type SelfSlotPreviewProps = Omit<SelfSlotProps, "persona"> & {
+  persona: NonNullable<SelfSlotProps["persona"]>;
+  /** Story 전용 토글 — SelfSlot 자체엔 이런 prop이 없고, persona 유무로만 빈 슬롯을 표현한다 */
+  showEmpty: boolean;
+};
+
+/** Local hover state so a real mouse hover can reproduce Figma `Status=active` */
+function SelfSlotPreview({
+  showEmpty,
+  persona,
+  status,
+  ...args
+}: SelfSlotPreviewProps) {
+  const [isHovering, setIsHovering] = useState(false);
+  return (
+    <div
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+    >
+      <SelfSlot
+        {...args}
+        persona={showEmpty ? null : persona}
+        status={isHovering ? "active" : status}
+      />
+    </div>
+  );
+}
+
 const meta = {
   title: "Dashboard/UI/SelfSlot",
-  component: SelfSlot,
+  component: SelfSlotPreview,
   tags: ["autodocs"],
   parameters: {
     design: {
@@ -33,35 +61,20 @@ const meta = {
   argTypes: {
     status: { control: "radio", options: ["default", "active"] },
     persona: { control: "object" },
+    showEmpty: { control: "boolean" },
   },
   args: {
     persona: SAMPLE_PERSONA,
     status: "default",
+    showEmpty: false,
   },
-} satisfies Meta<typeof SelfSlot>;
+} satisfies Meta<typeof SelfSlotPreview>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-/** 실제 마우스 hover로도 Figma `Status=active`를 재현할 수 있도록 로컬 hover 상태를 둡니다 */
-function PlaygroundRender(args: SelfSlotProps) {
-  const [isHovering, setIsHovering] = useState(false);
-  return (
-    <div
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
-    >
-      <SelfSlot
-        {...args}
-        status={isHovering ? "active" : args.status}
-      />
-    </div>
-  );
-}
-
 export const Playground: Story = {
-  render: PlaygroundRender,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await expect(

@@ -84,14 +84,33 @@ type SelfCurationPreviewProps = Omit<
  * that state (in the real app `PersonaRadialChart` plays that role).
  * `selfCount` is a story-only control — `SelfCuration` itself has no such
  * prop, `slots` is built from it here, the same way `PersonaRadialChart` does.
+ *
+ * `centerMessage` is likewise swapped on hover here for preview purposes only
+ * — `SelfCuration` itself never computes this, it just renders whatever
+ * `centerMessage` it's given. This mirrors only the "self hover" branch of
+ * `PersonaRadialChart`'s `getCenterMessage` (its other branches depend on
+ * metric/data-collected state that doesn't exist at this level).
  */
-function SelfCurationPreview({ selfCount, ...args }: SelfCurationPreviewProps) {
+function SelfCurationPreview({
+  selfCount,
+  centerMessage,
+  ...args
+}: SelfCurationPreviewProps) {
   const [activeSlotId, setActiveSlotId] = useState<string | null>(null);
+  const isEmptySlotActive = activeSlotId?.startsWith("slot:") ?? false;
+  const hoverMessage =
+    activeSlotId === null
+      ? centerMessage
+      : isEmptySlotActive
+        ? "Create a Self"
+        : "Go to Content Studio";
+
   return (
     <SelfCuration
       {...args}
       slots={buildSlots(selfCount)}
       activeSlotId={activeSlotId}
+      centerMessage={hoverMessage}
       onSlotHover={setActiveSlotId}
     />
   );
