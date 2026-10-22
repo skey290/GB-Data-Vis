@@ -254,6 +254,27 @@
       "component": "components/onboarding/ui/detail-view/detail-view.tsx",
       "export": "DetailView"
     },
+    "SelfSlot": {
+      "figmaNodeId": "8133:122512",
+      "_참고": "Figma 레이어명 'Part/self'(40×40 원형 슬롯). 8개를 원형 배치해 쓰는 SelfCuration의 최소 단위 — Data collected × Status(default/hover-reach/hover-engagement/hover-growth potential) 조합을 대조해 일치 확인.",
+      "figmaUrl": "https://www.figma.com/design/Wp6AZNGqC4qf2Sz5zQ2PzQ/%F0%9F%93%8C-GB_UXUI--261002-?node-id=8133-122512",
+      "component": "components/dashboard/ui/self-slot/self-slot.tsx",
+      "export": "SelfSlot"
+    },
+    "SelfCuration": {
+      "figmaNodeId": "8133:122553",
+      "_참고": "Figma 레이어명 'Self curation'. SelfSlot 8개를 원형 궤도(반지름 ≈97px)에 배치하고 중앙에 안내 문구를 띄움 — PersonaRadialChart가 이 위에 지표 링을 겹쳐 사용.",
+      "figmaUrl": "https://www.figma.com/design/Wp6AZNGqC4qf2Sz5zQ2PzQ/%F0%9F%93%8C-GB_UXUI--261002-?node-id=8133-122553",
+      "component": "components/dashboard/ui/self-curation/self-curation.tsx",
+      "export": "SelfCuration"
+    },
+    "PersonaRadialChart": {
+      "figmaNodeId": "8133:122594",
+      "_참고": "Figma 레이어명 'Dashboard Data Vis'. 셀프+8개 페르소나를 3개 지표(동심원 링) × 8개 섹터로 비교하는 원형 차트 — Data collected true/false, Status(default/hover-reach/hover-engagement/hover-growth potential), Self=1/8 조합 대조해 일치 확인. 중앙 기본 문구(hover=default)는 Figma 원본 'Hover to see analysis' 대신 사용자 요청으로 'Hover to explore'를 씀 — 의도적 분기, 나머지 hover 문구는 Figma 그대로.",
+      "figmaUrl": "https://www.figma.com/design/Wp6AZNGqC4qf2Sz5zQ2PzQ/%F0%9F%93%8C-GB_UXUI--261002-?node-id=8133-122594",
+      "component": "components/dashboard/ui/persona-radial-chart/persona-radial-chart.tsx",
+      "export": "PersonaRadialChart"
+    },
     "GoalSetting": {
       "figmaNodeId": "8234:99895",
       "_참고": "Figma 레이어명 'Goal setting'. 하위 'Type=empty'(8127:91766)/'Type=modeling partner'(8127:91771)/'Type=fashionista'(8127:91902)는 Figma variant 프로퍼티가 아니라 독립된 3개 컴포넌트(레이어명 컨벤션일 뿐, COMPONENT_SET 아님) — 구조적으로는 empty/filled 2가지뿐이고 modeling partner·fashionista는 filled 상태에 들어가는 샘플 데이터 2종일 뿐 구조 차이 없음. 문단(paragraph1/2) 안의 Badge는 별도 자유 텍스트가 아니라 brandPosition/target/postingFrequency+postingCount/targetedFollowers/trackingFrequency와 같은 소스를 공유 — paragraph1Template/paragraph2Template의 {key} placeholder에 그 값들이 자동으로 Badge로 삽입되어 하단 입력과 항상 동기화됨. 이 인라인 Badge는 원래 Chips였으나 사용자가 Figma에서 Badge로 교체함(클릭 가능한 액션이 아니라 값을 보여주기만 하는 비클릭커블 용도라 Badge가 맞음) — 코드는 범용 Badge(variant=\"default\" size=\"20\")를 수정 없이 그대로 재사용한다(실측 결과 size=\"20\" 기본 프리셋 자체가 Figma 값(h-20px, px-6px, text-xs-medium)과 정확히 일치 — className으로 패딩/폰트를 덮어쓰면 오히려 틀어짐, align-middle만 추가해 빈 값일 때 baseline 밀림 방지). 서브 요소 전부 기존 컴포넌트 재사용(empty 상태=Chatbox 그대로, Brand Position/Target 행=Input 그대로, 문단 안 Badge=Badge default size=20, Posting/Tracking Frequency 버튼=Button variant=outline(flex-1 균등폭, 선택 시 색만 override), Posting 카운터=Button variant=icon-rounded(24px), Targeted Followers=Slider, 닫기=Button icon-ghost, Save=Button primary) — 손으로 짠 버튼은 전혀 없음, 전부 범용 Button이라 hover/focus-visible/active가 동일하게 동작. brandPosition/target/postingFrequency/postingCount/targetedFollowersIndex/trackingFrequency는 전부 제어/비제어 쌍(defaultX) 지원. Targeted Followers 하단 스케일 레이블 6개는 Figma의 정적 균등-gap 배치를 따르지 않고 슬라이더 thumb과 같은 퍼센트 공식으로 위치를 맞췄다(실제 동작하는 슬라이더는 값에 따라 레이블이 thumb과 일치해야 하므로 사용자 확인 하에 의도적으로 Figma와 분기). 마지막 2개 레이블은 사용자가 Figma에서 \"1,000,000\"/\"1,000,000+\"를 \"1M\"/\"1M+\"로 축약함. Know Thyself의 'Edit Goal'과 Content Studio의 'My goal' 편집이 공유하는 조합이라 components/app에 위치. empty 상태 안내문구는 Chatbox children 슬롯이 아니라 Chatbox 자체의 placeholder(한 덩어리 문자열, focus 시 자동으로 사라짐 — 범용 Chatbox 동작 그대로)로 전달하며, 이때 Chatbox에 className=w-full을 반드시 줘야 한다(Chatbox 자체 기본폭이 700px라 안 주면 카드 밖으로 삐져나감). empty 상태에도 Save 버튼이 있음(Figma 실측). Brand Position/Target의 Input 업로드 행 placeholder는 Input 자체 기본값(\"File upload\")을 그대로 쓴다 — Figma의 \"File.pdf\"는 빈 상태 placeholder가 아니라 이미 값이 채워진 필드 샘플의 첨부파일명이었음(Figma 목업 전체가 '내용이 이미 채워진 상태' 기준으로 그려져 있어 빈 상태 UI를 추론할 때 착각하기 쉬운 지점).",

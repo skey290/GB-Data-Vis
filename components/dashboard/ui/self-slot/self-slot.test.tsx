@@ -35,18 +35,18 @@ describe("SelfSlot", () => {
     );
 
     const ring = container.querySelector(".border-solid");
-    expect(ring).toHaveClass("border-[color:var(--border-static-white)]");
+    expect(ring).toHaveClass("border-[color:var(--gb-border-static-white)]");
   });
 
   it("blurs the avatar only when active", () => {
     const { rerender } = render(<SelfSlot persona={PERSONA} />);
     expect(screen.getByRole("img", { name: "Data Scientist" })).toHaveClass(
-      "[filter:var(--backdrop-blur-none)]",
+      "[filter:var(--gb-backdrop-blur-none)]",
     );
 
     rerender(<SelfSlot persona={PERSONA} status="active" />);
     expect(screen.getByRole("img", { name: "Data Scientist" })).toHaveClass(
-      "[filter:var(--backdrop-blur-sm)]",
+      "[filter:var(--gb-backdrop-blur-sm)]",
     );
   });
 
@@ -58,7 +58,24 @@ describe("SelfSlot", () => {
 
     rerender(<SelfSlot persona={null} status="active" />);
     expect(screen.getByRole("img", { name: "No Self" })).toHaveClass(
-      "bg-[var(--background-sheer)]",
+      "bg-[var(--gb-background-sheer)]",
     );
+  });
+
+  it("replaces the dashed border with a solid white one when active, instead of layering both", () => {
+    render(<SelfSlot persona={null} status="active" />);
+
+    const slot = screen.getByRole("img", { name: "No Self" });
+    expect(slot).toHaveClass("border-solid");
+    expect(slot).not.toHaveClass("border-dashed");
+  });
+
+  it("sizes the avatar to fill the 40px slot instead of Avatar's own 32px default", () => {
+    render(<SelfSlot persona={PERSONA} />);
+
+    expect(screen.getByRole("img", { name: "Data Scientist" })).toHaveStyle({
+      width: "40px",
+      height: "40px",
+    });
   });
 });

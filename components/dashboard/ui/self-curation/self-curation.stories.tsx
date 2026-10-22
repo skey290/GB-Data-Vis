@@ -4,6 +4,7 @@ import { within, expect } from "storybook/test";
 
 import {
   SelfCuration,
+  SELF_CURATION_SLOT_COUNT,
   type SelfCurationPersona,
   type SelfCurationProps,
 } from "./self-curation";
@@ -62,9 +63,43 @@ const EIGHT_PERSONAS: SelfCurationPersona[] = [
   },
 ];
 
+/** PersonaRadialChart의 selfCount 로직과 동일 — 앞에서부터 `selfCount`명만 채우고 나머지는 빈 슬롯 */
+function buildSlots(selfCount: number): (SelfCurationPersona | null)[] {
+  return Array.from({ length: SELF_CURATION_SLOT_COUNT }, (_, index) =>
+    index < selfCount ? EIGHT_PERSONAS[index] : null,
+  );
+}
+
+type SelfCurationPreviewProps = Omit<
+  SelfCurationProps,
+  "slots" | "activeSlotId" | "onSlotHover"
+> & {
+  /** 몇 명까지 채워진 슬롯으로 보여줄지 (나머지는 "No Self" 빈 슬롯) */
+  selfCount: number;
+};
+
+/**
+ * `SelfCuration` is purely controlled and does not hold `activeSlotId` itself.
+ * To see the highlight change on a real mouse hover, this wraps it and holds
+ * that state (in the real app `PersonaRadialChart` plays that role).
+ * `selfCount` is a story-only control — `SelfCuration` itself has no such
+ * prop, `slots` is built from it here, the same way `PersonaRadialChart` does.
+ */
+function SelfCurationPreview({ selfCount, ...args }: SelfCurationPreviewProps) {
+  const [activeSlotId, setActiveSlotId] = useState<string | null>(null);
+  return (
+    <SelfCuration
+      {...args}
+      slots={buildSlots(selfCount)}
+      activeSlotId={activeSlotId}
+      onSlotHover={setActiveSlotId}
+    />
+  );
+}
+
 const meta = {
   title: "Dashboard/UI/SelfCuration",
-  component: SelfCuration,
+  component: SelfCurationPreview,
   tags: ["autodocs"],
   parameters: {
     design: {
@@ -81,37 +116,21 @@ const meta = {
   ],
   argTypes: {
     centerMessage: { control: "text" },
-    slots: { control: "object" },
+    selfCount: {
+      control: { type: "number", min: 1, max: SELF_CURATION_SLOT_COUNT, step: 1 },
+    },
   },
   args: {
-    slots: EIGHT_PERSONAS,
-    centerMessage: "Hover to see analysis",
+    selfCount: SELF_CURATION_SLOT_COUNT,
+    centerMessage: "Hover to explore",
   },
-} satisfies Meta<typeof SelfCuration>;
+} satisfies Meta<typeof SelfCurationPreview>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-/**
- * `SelfCuration`은 순수 controlled 컴포넌트라 `activeSlotId`를 스스로 들고
- * 있지 않습니다. 실제 마우스 hover로 강조가 바뀌는 걸 보려면 스토리가 직접
- * `onSlotHover` 콜백을 받아 상태를 들고 있어야 합니다(실제 앱에서는
- * `PersonaRadialChart`가 이 역할을 합니다).
- */
-function PlaygroundRender(args: SelfCurationProps) {
-  const [activeSlotId, setActiveSlotId] = useState<string | null>(null);
-  return (
-    <SelfCuration
-      {...args}
-      activeSlotId={activeSlotId}
-      onSlotHover={setActiveSlotId}
-    />
-  );
-}
-
 export const Playground: Story = {
-  render: PlaygroundRender,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await expect(

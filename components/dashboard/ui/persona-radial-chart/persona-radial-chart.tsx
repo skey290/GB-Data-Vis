@@ -35,8 +35,8 @@ const BADGE_TRANSITION = `transition-[color,background-color,box-shadow] ${MOTIO
 const FADE_IN = `animate-in fade-in ${MOTION_DURATION} motion-reduce:animate-none`;
 /** 다크=흰색/라이트=검정으로 반전되는 시맨틱 토큰으로 강조 밴드를, 반대 극성 토큰으로 딤 밴드를 표현 */
 const HIGHLIGHT_BAND_FILL =
-  "color-mix(in srgb, var(--icon-default) 20%, transparent)";
-const DIMMED_BAND_FILL = "var(--background-sheer)";
+  "color-mix(in srgb, var(--gb-icon-default) 20%, transparent)";
+const DIMMED_BAND_FILL = "var(--gb-background-sheer)";
 
 /** 안쪽부터 3개의 큰 링 = 3개 지표 카테고리 */
 export const PERSONA_METRICS = [
@@ -85,7 +85,7 @@ export const DEFAULT_PERSONAS: PersonaDatum[] = [
     id: "data-scientist",
     name: "Data Scientist",
     imageSrc: "/images/personas/self-default.jpg",
-    initials: "DS",
+    initials: "D",
     growth: 80,
     reach: 8340,
     engagement: 14.3,
@@ -94,7 +94,7 @@ export const DEFAULT_PERSONAS: PersonaDatum[] = [
     id: "yoga-meditator",
     name: "Yoga Meditator",
     imageSrc: "/images/personas/yoga-meditator.jpg",
-    initials: "YM",
+    initials: "Y",
     growth: 10,
     reach: 6453,
     engagement: 1.8,
@@ -103,7 +103,7 @@ export const DEFAULT_PERSONAS: PersonaDatum[] = [
     id: "novelist",
     name: "Novelist",
     imageSrc: "/images/personas/novelist.jpg",
-    initials: "NV",
+    initials: "N",
     growth: 40,
     reach: 4784,
     engagement: 0.4,
@@ -112,7 +112,7 @@ export const DEFAULT_PERSONAS: PersonaDatum[] = [
     id: "entrepreneur",
     name: "Entrepreneur",
     imageSrc: "/images/personas/entrepreneur.jpg",
-    initials: "EN",
+    initials: "E",
     growth: 70,
     reach: 978,
     engagement: 2.0,
@@ -121,7 +121,7 @@ export const DEFAULT_PERSONAS: PersonaDatum[] = [
     id: "fashionista",
     name: "Fashionista",
     imageSrc: "/images/personas/fashionista.jpg",
-    initials: "FA",
+    initials: "F",
     growth: 60,
     reach: 6782,
     engagement: 0.3,
@@ -130,7 +130,7 @@ export const DEFAULT_PERSONAS: PersonaDatum[] = [
     id: "fashion-editor",
     name: "Fashion Editor",
     imageSrc: "/images/personas/fashion-editor.jpg",
-    initials: "FE",
+    initials: "F",
     growth: 20,
     reach: 125,
     engagement: 3.7,
@@ -139,7 +139,7 @@ export const DEFAULT_PERSONAS: PersonaDatum[] = [
     id: "team-leader",
     name: "Team Leader",
     imageSrc: "/images/personas/team-leader.jpg",
-    initials: "TL",
+    initials: "T",
     growth: 50,
     reach: 8006,
     engagement: 0.5,
@@ -148,7 +148,7 @@ export const DEFAULT_PERSONAS: PersonaDatum[] = [
     id: "vegan-chef",
     name: "Vegan Chef",
     imageSrc: "/images/personas/vegan-chef.jpg",
-    initials: "VC",
+    initials: "V",
     growth: 30,
     reach: 5431,
     engagement: 1.9,
@@ -168,7 +168,7 @@ function getCenterMessage(
     return isEmptySlotActive ? "Create a Self" : "Go to Content Studio";
   }
   if (hover === "default") {
-    return "Hover to see analysis";
+    return "Hover to explore";
   }
   if (hover === "growth") {
     return "Growth Potential";
@@ -421,7 +421,7 @@ export function PersonaRadialChart({
           );
         })}
 
-        <g fill="none" strokeWidth="var(--border-1)" aria-hidden="true">
+        <g fill="none" strokeWidth="var(--gb-border-1)" aria-hidden="true">
           {RING_BOUNDARY_RADII.map((radius) => {
             const isHighlighted =
               isAwaitingData &&
@@ -441,7 +441,7 @@ export function PersonaRadialChart({
                 r={radius}
                 stroke={
                   isHighlighted
-                    ? "var(--color-semantic-non-changeable)"
+                    ? "var(--gb-color-semantic-non-changeable)"
                     : "var(--color-muted)"
                 }
               />
@@ -539,7 +539,7 @@ export function PersonaRadialChart({
                 !isEmphasized &&
                   cn(
                     "text-muted-foreground",
-                    "shadow-[inset_0_0_0_var(--border-1)_var(--color-muted-foreground)]",
+                    "shadow-[inset_0_0_0_var(--gb-border-1)_var(--color-muted-foreground)]",
                   ),
               )}
             >

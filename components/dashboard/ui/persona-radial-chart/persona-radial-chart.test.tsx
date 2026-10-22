@@ -13,8 +13,9 @@ function getBandPaths(container: HTMLElement, fill: string) {
 
 // 컴포넌트의 HIGHLIGHT_BAND_FILL/DIMMED_BAND_FILL과 동일한 문자열(앱 테마
 // 반응형 — 다크면 흰색/라이트면 검정이 되는 강조, 반대 극성이 딤)
-const WHITE_BAND = "color-mix(in srgb, var(--icon-default) 20%, transparent)";
-const BLACK_BAND = "var(--background-sheer)";
+const WHITE_BAND =
+  "color-mix(in srgb, var(--gb-icon-default) 20%, transparent)";
+const BLACK_BAND = "var(--gb-background-sheer)";
 
 /**
  * 배지 텍스트로 Badge 루트를 찾습니다. 텍스트는 페이드인용으로 한 겹 더 감싼
@@ -239,7 +240,7 @@ describe("PersonaRadialChart", () => {
         .filter(
           (circle) =>
             circle.getAttribute("stroke") ===
-            "var(--color-semantic-non-changeable)",
+            "var(--gb-color-semantic-non-changeable)",
         )
         .map((circle) => circle.getAttribute("r"));
 
@@ -459,7 +460,7 @@ describe("PersonaRadialChart", () => {
       await userEvent.hover(slots[2]);
 
       const highlighted = container.querySelectorAll(
-        ".border-\\[color\\:var\\(--border-static-white\\)\\]",
+        ".border-\\[color\\:var\\(--gb-border-static-white\\)\\]",
       );
       expect(highlighted).toHaveLength(1);
     });
@@ -486,7 +487,7 @@ describe("PersonaRadialChart", () => {
 
   describe("center message", () => {
     it.each([
-      ["default" as const, true, 8 as const, "Hover to see analysis"],
+      ["default" as const, true, 8 as const, "Hover to explore"],
       ["growth" as const, true, 8 as const, "Growth Potential"],
       ["reach" as const, true, 8 as const, "Qualified Reach"],
       ["engagement" as const, true, 8 as const, "Engagement Intensity"],
@@ -598,7 +599,7 @@ describe("PersonaRadialChart", () => {
         relatedTarget: screen.getByText("Go to Content Studio"),
       });
 
-      expect(screen.getByText("Hover to see analysis")).toBeInTheDocument();
+      expect(screen.getByText("Hover to explore")).toBeInTheDocument();
     });
 
     it("says Go to Content Studio when an existing avatar is hovered", async () => {
@@ -668,12 +669,12 @@ describe("PersonaRadialChart", () => {
       // 링은 항상 있고 색만 바뀝니다 — 그래야 border-color가 전환됩니다
       for (const el of [ringOf(idle), ringOf(active)]) {
         expect(el).toHaveClass("border-solid");
-        expect(el).toHaveClass("border-[length:var(--border-2)]");
+        expect(el).toHaveClass("border-[length:var(--gb-border-2)]");
         expect(el).toHaveClass("transition-colors");
       }
       expect(ringOf(idle)).toHaveClass("border-transparent");
       expect(ringOf(active)).toHaveClass(
-        "border-[color:var(--border-static-white)]",
+        "border-[color:var(--gb-border-static-white)]",
       );
     });
 
@@ -690,17 +691,19 @@ describe("PersonaRadialChart", () => {
       expect(overlayOf(active)).toHaveClass("opacity-100");
     });
 
-    it("keeps the empty slot's dashed border alongside the highlight ring", () => {
+    it("swaps the empty slot's dashed border for a solid one when it becomes the highlight", () => {
       const slotOf = (hover?: "self") =>
         render(
           <PersonaRadialChart selfCount={1} hover={hover} />,
         ).container.querySelectorAll<HTMLElement>('[aria-label="No Self"]')[0];
 
-      for (const slot of [slotOf(), slotOf("self")]) {
-        // dashed는 두 상태 모두 유지되고, 활성 링(자식 span)이 그 위를 덮습니다
-        expect(slot).toHaveClass("border-dashed");
-        expect(slot.querySelector(".border-solid")).toHaveClass("border-solid");
-      }
+      const idle = slotOf();
+      expect(idle).toHaveClass("border-dashed");
+      expect(idle).not.toHaveClass("border-solid");
+
+      const active = slotOf("self");
+      expect(active).toHaveClass("border-solid");
+      expect(active).not.toHaveClass("border-dashed");
     });
 
     it("fades the badge label in when the text is swapped", () => {

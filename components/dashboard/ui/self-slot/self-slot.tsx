@@ -35,8 +35,8 @@ const EFFECT_TRANSITION = `transition-[filter,opacity] ${MOTION_DURATION} motion
 
 // 강조 링은 outline이 아니라 별도 span(DOM상 가장 뒤)으로 그린다 — 음수
 // outline-offset은 40px를 꽉 채우는 아바타 자식에 가려 Chrome에서 안 보인다
-const RING_BORDER = "border-[length:var(--border-2)] border-solid";
-const RING_ON = "border-[color:var(--border-static-white)]";
+const RING_BORDER = "border-[length:var(--gb-border-2)] border-solid";
+const RING_ON = "border-[color:var(--gb-border-static-white)]";
 const RING_OFF = "border-transparent";
 
 export function SelfSlot({
@@ -53,7 +53,7 @@ export function SelfSlot({
         className={cn(
           "relative",
           "size-[40px]",
-          "rounded-[var(--radius-scale-full)]",
+          "rounded-[var(--gb-radius-scale-full)]",
           className,
         )}
         {...props}
@@ -64,24 +64,26 @@ export function SelfSlot({
           src={persona.imageSrc}
           initials={persona.initials}
           alt={persona.name}
+          // Avatar의 CSS Module이 width/height:32px를 언레이어드로 고정해 Tailwind
+          // size-full(className)보다 우선하므로, inline style로 덮어써야 40px가 적용된다
+          style={{ width: 40, height: 40 }}
           className={cn(
-            "size-full",
             EFFECT_TRANSITION,
             // Figma 쪽 Effect 파라미터는 radius 8이지만, Figma가 직접 생성한 코드
             // (get_design_context)의 이 레이어 className이 그대로 `backdrop-blur-[4px]`
             // — 토큰 이름이 아니라 codegen 결과값을 기준으로 삼는다. 아바타 뒤에 다른
             // 레이어가 없어 filter로 적용해도 backdrop-filter와 결과가 같다.
             isActive
-              ? "[filter:var(--backdrop-blur-sm)]"
-              : "[filter:var(--backdrop-blur-none)]",
+              ? "[filter:var(--gb-backdrop-blur-sm)]"
+              : "[filter:var(--gb-backdrop-blur-none)]",
           )}
         />
         <span
           aria-hidden="true"
           className={cn(
             "pointer-events-none absolute inset-0",
-            "rounded-[var(--radius-scale-full)]",
-            "bg-[var(--background-backdrop)]",
+            "rounded-[var(--gb-radius-scale-full)]",
+            "bg-[var(--gb-background-backdrop)]",
             EFFECT_TRANSITION,
             isActive ? "opacity-100" : "opacity-0",
           )}
@@ -90,7 +92,7 @@ export function SelfSlot({
           aria-hidden="true"
           className={cn(
             "pointer-events-none absolute inset-0",
-            "rounded-[var(--radius-scale-full)]",
+            "rounded-[var(--gb-radius-scale-full)]",
             RING_BORDER,
             COLOR_TRANSITION,
             isActive ? RING_ON : RING_OFF,
@@ -107,27 +109,19 @@ export function SelfSlot({
       className={cn(
         "relative flex items-center justify-center",
         "size-[40px]",
-        "rounded-[var(--radius-scale-full)]",
+        "rounded-[var(--gb-radius-scale-full)]",
         "text-xxs-medium text-muted-foreground",
-        "border-[length:var(--border-1)] border-dashed",
-        "border-[color:var(--border-muted)]",
         COLOR_TRANSITION,
-        isActive ? "bg-[var(--background-sheer)]" : "bg-transparent",
+        // active 시 점선 위에 링을 얹는 게 아니라, 테두리 자체를 1px 점선 → 2px
+        // 흰 실선으로 완전히 교체한다(Figma 기준 — 이중 테두리 방지)
+        isActive
+          ? "border-solid border-[length:var(--gb-border-2)] border-[color:var(--gb-border-static-white)] bg-[var(--gb-background-sheer)]"
+          : "border-dashed border-[length:var(--gb-border-1)] border-[color:var(--gb-border-muted)] bg-transparent",
         className,
       )}
       {...props}
     >
       <span aria-hidden="true">{PLACEHOLDER_LABEL}</span>
-      <span
-        aria-hidden="true"
-        className={cn(
-          "pointer-events-none absolute inset-0",
-          "rounded-[var(--radius-scale-full)]",
-          RING_BORDER,
-          COLOR_TRANSITION,
-          isActive ? RING_ON : RING_OFF,
-        )}
-      />
     </div>
   );
 }

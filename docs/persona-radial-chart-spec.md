@@ -155,11 +155,11 @@ const personas = await fetchPersonas(); // 셀프가 3명이라고 가정
 
 ### 4.3 중앙 문구 (Hover × 상태 조합)
 
-Figma 원본 문구 그대로:
+`default` 한 줄만 Figma 원본("Hover to see analysis") 대신 사용자 요청으로 교체한 문구이고, 나머지는 Figma 원본 그대로:
 
 | Hover                  | 조건                             | 문구                                       |
 | ---------------------- | -------------------------------- | ------------------------------------------ |
-| `default`              | —                                | `Hover to see analysis`                    |
+| `default`              | —                                | `Hover to explore`                         |
 | `growth`               | —                                | `Growth Potential`                         |
 | `reach` / `engagement` | `isDataCollected=true`           | `Qualified Reach` / `Engagement Intensity` |
 | `reach` / `engagement` | `isDataCollected=false`          | `Create Posts to analyze`                  |

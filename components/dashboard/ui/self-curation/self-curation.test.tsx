@@ -54,7 +54,7 @@ describe("SelfCuration", () => {
         .parentElement?.querySelector(".border-solid");
 
     expect(ringOf("A")).toHaveClass("border-transparent");
-    expect(ringOf("B")).toHaveClass("border-[color:var(--border-static-white)]");
+    expect(ringOf("B")).toHaveClass("border-[color:var(--gb-border-static-white)]");
   });
 
   it("highlights an empty slot via its synthetic key", () => {
@@ -67,12 +67,13 @@ describe("SelfCuration", () => {
     );
 
     const emptySlots = screen.getAllByRole("img", { name: "No Self" });
-    const ringOf = (slot: HTMLElement) => slot.querySelector(".border-solid");
 
-    expect(ringOf(emptySlots[0])).toHaveClass(
-      "border-[color:var(--border-static-white)]",
+    expect(emptySlots[0]).toHaveClass(
+      "border-[color:var(--gb-border-static-white)]",
     );
-    expect(ringOf(emptySlots[1])).toHaveClass("border-transparent");
+    expect(emptySlots[1]).toHaveClass(
+      "border-[color:var(--gb-border-muted)]",
+    );
   });
 
   it("calls onSlotHover with the slot id on enter and null on leave", async () => {
