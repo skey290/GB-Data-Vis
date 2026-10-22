@@ -55,6 +55,33 @@ describe("CompassAnalysis", () => {
     expect(container.querySelectorAll("img").length).toBe(2);
   });
 
+  it.each([
+    ["reach", "Reach"],
+    ["engagement", "Engagement"],
+    ["reach-and-engagement", "Ranking"],
+  ] as const)(
+    "defaults the center label to match type=%s when label is not given",
+    (type, expectedLabel) => {
+      render(<CompassAnalysis dial={false} type={type} selves={[selfA]} />);
+
+      expect(screen.getByText(expectedLabel)).toBeInTheDocument();
+    },
+  );
+
+  it("lets an explicit label override the type-based default", () => {
+    render(
+      <CompassAnalysis
+        dial={false}
+        type="engagement"
+        label="Custom"
+        selves={[selfA]}
+      />,
+    );
+
+    expect(screen.getByText("Custom")).toBeInTheDocument();
+    expect(screen.queryByText("Engagement")).toBeNull();
+  });
+
   it("passes clusterVariant through to the potential focus self", () => {
     render(
       <CompassAnalysis

@@ -56,7 +56,7 @@ export interface CompassAnalysisProps extends Omit<
   isDataCollected?: boolean;
   /** CompassSelfCluster의 variant. 기본 "reach-or-engagement" */
   clusterVariant?: CompassSelfClusterVariant;
-  /** clusterVariant="reach-or-engagement"에서만 유효한 중앙 라벨 */
+  /** clusterVariant="reach-or-engagement"에서만 유효한 중앙 라벨. 미지정 시 type에 따른 기본값("reach"→"Reach"/"engagement"→"Engagement"/"reach-and-engagement"→"Ranking") 사용 */
   label?: string;
   /** 북쪽부터 시계방향으로 채워질 셀프 목록. 최대 8명 */
   selves?: CompassAnalysisSelf[];
@@ -76,6 +76,12 @@ export interface CompassAnalysisProps extends Omit<
     onDismiss?: () => void;
   };
 }
+
+const DEFAULT_LABEL_BY_TYPE: Record<CompassDialType, string> = {
+  reach: "Reach",
+  engagement: "Engagement",
+  "reach-and-engagement": "Ranking",
+};
 
 export function CompassAnalysis({
   dial = true,
@@ -132,7 +138,7 @@ export function CompassAnalysis({
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
         <CompassSelfCluster
           variant={clusterVariant}
-          label={label}
+          label={label ?? DEFAULT_LABEL_BY_TYPE[type]}
           selves={clusterSelves}
           activeSelfIndex={activeSelfIndex}
           activeEmptyPosition={activeEmptyPosition}

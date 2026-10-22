@@ -84,8 +84,8 @@ const meta = {
     },
   },
   decorators: [
-    // CompassDial 눈금선이 --border-static-white 고정이라 항상 어두운 표면
-    // 위에서만 보인다(compass-dial.stories.tsx와 동일 규칙).
+    // CompassDial's tick lines are pinned to --border-static-white, so they are
+    // only visible on a dark surface (same rule as compass-dial.stories.tsx).
     (Story) => (
       <div className="dark bg-[var(--background-default)] p-[var(--spacing-24)]">
         <Story />
@@ -115,7 +115,6 @@ const meta = {
     type: "reach-and-engagement",
     isDataCollected: true,
     clusterVariant: "reach-or-engagement",
-    label: "Reach",
     selves: DEMO_SELVES,
   },
 } satisfies Meta<typeof CompassAnalysis>;
