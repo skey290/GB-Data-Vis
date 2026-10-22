@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
-import { within, expect } from "storybook/test";
 
 import { CompassSelfAvatar } from "./compass-self-avatar";
 
@@ -65,8 +64,10 @@ const meta = {
     isDataCollected: {
       control: "boolean",
     },
+    // 클러스터가 "지금 강조 대상이 누구인지"를 전달하는 내부 배선용 prop이라
+    // 단일 아바타를 사람이 직접 고르는 값이 아님 — Controls에서 숨긴다
     decorated: {
-      control: "boolean",
+      control: false,
     },
   },
   args: {
@@ -85,14 +86,3 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Playground: Story = {};
-
-export const Potential: Story = {
-  args: {
-    variant: "potential",
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-
-    await expect(canvas.getByText("40%")).toBeInTheDocument();
-  },
-};
