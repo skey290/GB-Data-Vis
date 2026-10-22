@@ -37,10 +37,7 @@ const meta = {
   argTypes: {
     variant: {
       control: "radio",
-      options: ["self", "empty", "guide", "potential"],
-    },
-    guideSize: {
-      control: { type: "range", min: 100, max: 300, step: 50 },
+      options: ["self", "empty", "potential"],
     },
     status: {
       control: "radio",

@@ -4,9 +4,8 @@ import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip } from "@/components/ui/tooltip";
 
-export type CompassSelfAvatarVariant = "self" | "empty" | "guide" | "potential";
+export type CompassSelfAvatarVariant = "self" | "empty" | "potential";
 export type CompassSelfAvatarStatus = "default" | "active";
-export type CompassSelfAvatarGuideSize = 100 | 150 | 200 | 250 | 300;
 export type CompassSelfAvatarPosition =
   0 | 45 | 90 | 135 | 180 | 225 | 270 | 315;
 
@@ -22,8 +21,6 @@ export interface CompassSelfAvatarProps extends Omit<
 > {
   /** 셀프 콘텐츠 종류 */
   variant?: CompassSelfAvatarVariant;
-  /** variant="guide" 전용 사이즈(px). 그 외 variant는 항상 100px 고정 */
-  guideSize?: CompassSelfAvatarGuideSize;
   /** variant="self"|"empty"|"potential" 전용 상태 */
   status?: CompassSelfAvatarStatus;
   /** variant="self" && status="default"에서만 유효 */
@@ -42,20 +39,11 @@ export interface CompassSelfAvatarProps extends Omit<
   position?: CompassSelfAvatarPosition;
   /** variant="potential"일 때 데이터 수집 여부. false면 배지가 경고색으로 바뀌고 Estimate 안내가 겹친다 */
   isDataCollected?: boolean;
-  /** variant="potential"일 때 링/커넥터/배지 노출 여부(opacity 트랜지션). 기본 true */
+  /** variant="potential"일 때 링/커넥터/배지 노출 여부. 기본 true */
   decorated?: boolean;
   /** variant="potential"일 때 퍼센트 배지에 붙는 온보딩 코치마크 */
   coachmark?: CompassSelfAvatarCoachmark;
 }
-
-/** Figma `Size` 축(px), 전부 리터럴 유지 */
-const GUIDE_SIZE_PX: Record<CompassSelfAvatarGuideSize, number> = {
-  100: 100,
-  150: 150,
-  200: 200,
-  250: 250,
-  300: 300,
-};
 
 const DEFAULT_ACTIVE_LABEL: Record<"self" | "empty", string> = {
   self: "Go to\nContent Studio",
@@ -98,7 +86,6 @@ function MultilineText({
 
 export function CompassSelfAvatar({
   variant = "self",
-  guideSize = 100,
   status = "default",
   error = false,
   image,
@@ -116,20 +103,6 @@ export function CompassSelfAvatar({
   ...props
 }: CompassSelfAvatarProps) {
   const [isHovered, setIsHovered] = React.useState(false);
-
-  if (variant === "guide") {
-    const size = GUIDE_SIZE_PX[guideSize];
-    return (
-      <div
-        className={cn(
-          "shrink-0 rounded-[var(--radius-scale-full)] border-[length:var(--border-1)] border-dashed border-[var(--border-muted)]",
-          className,
-        )}
-        style={{ width: size, height: size }}
-        {...props}
-      />
-    );
-  }
 
   const isPotential = variant === "potential";
   const isActive = status === "active" || isHovered;
@@ -232,25 +205,18 @@ export function CompassSelfAvatar({
     return avatar;
   }
 
-  const showRing = growth > 0;
+  const showDecoration = growth > 0 && decorated;
   const ringRadius = getRingRadius(growth);
   const bearing = position;
   const showEstimateStyling = !isDataCollected;
-  const decorationVisibilityClass = cn(
-    "transition-opacity duration-150 ease-out",
-    decorated ? "opacity-100" : "pointer-events-none opacity-0",
-  );
 
   return (
     <div className={cn("relative isolate size-[100px]", className)} {...props}>
       {avatar}
 
-      {showRing && (
+      {showDecoration && (
         <div
-          className={cn(
-            "absolute top-1/2 left-1/2 z-[-1] rounded-[var(--radius-scale-full)] border-[length:var(--border-1)] border-dashed border-[var(--border-muted)]",
-            decorationVisibilityClass,
-          )}
+          className="absolute top-1/2 left-1/2 z-[-1] rounded-[var(--radius-scale-full)] border-[length:var(--border-1)] border-dashed border-[var(--border-muted)]"
           style={{
             width: ringRadius * 2,
             height: ringRadius * 2,
@@ -260,12 +226,9 @@ export function CompassSelfAvatar({
         />
       )}
 
-      {showRing && (
+      {showDecoration && (
         <div
-          className={cn(
-            "absolute top-1/2 left-1/2 z-[-1] h-0 w-0",
-            decorationVisibilityClass,
-          )}
+          className="absolute top-1/2 left-1/2 z-[-1] h-0 w-0"
           style={{ transform: `rotate(${bearing}deg)` }}
           aria-hidden="true"
         >
@@ -276,7 +239,7 @@ export function CompassSelfAvatar({
         </div>
       )}
 
-      {showRing &&
+      {showDecoration &&
         (() => {
           const badge = (
             <div style={{ transform: `rotate(${-bearing}deg)` }}>
@@ -291,10 +254,7 @@ export function CompassSelfAvatar({
 
           return (
             <div
-              className={cn(
-                "absolute top-1/2 left-1/2 h-0 w-0",
-                decorationVisibilityClass,
-              )}
+              className="absolute top-1/2 left-1/2 h-0 w-0"
               style={{ transform: `rotate(${bearing}deg)` }}
             >
               <div

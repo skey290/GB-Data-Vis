@@ -21,26 +21,6 @@ beforeAll(() => {
 });
 
 describe("CompassSelfAvatar", () => {
-  it("renders a dashed circle with no content for variant='guide'", () => {
-    const { container } = render(<CompassSelfAvatar variant="guide" />);
-
-    const guide = container.firstElementChild as HTMLElement;
-    expect(guide.className).toContain("border-dashed");
-    expect(guide.style.width).toBe("100px");
-    expect(guide.style.height).toBe("100px");
-    expect(guide.textContent).toBe("");
-  });
-
-  it("scales the guide size in px per guideSize", () => {
-    const { container } = render(
-      <CompassSelfAvatar variant="guide" guideSize={250} />,
-    );
-
-    const guide = container.firstElementChild as HTMLElement;
-    expect(guide.style.width).toBe("250px");
-    expect(guide.style.height).toBe("250px");
-  });
-
   it("renders the default empty slot with 'No Self Yet' text", () => {
     render(<CompassSelfAvatar variant="empty" />);
 
@@ -274,7 +254,7 @@ describe("CompassSelfAvatar", () => {
       expect(screen.getByText("20%")).toHaveAttribute("data-variant", "alarm");
     });
 
-    it("fades the ring/connector/badge to opacity-0 when decorated=false, without unmounting them", () => {
+    it("unmounts the ring/connector/badge when decorated=false", () => {
       const { container } = render(
         <CompassSelfAvatar
           variant="potential"
@@ -286,10 +266,8 @@ describe("CompassSelfAvatar", () => {
         />,
       );
 
-      expect(screen.getByText("20%")).toHaveAttribute("data-variant", "alarm");
-      const ring = container.querySelector(".border-dashed") as HTMLElement;
-      expect(ring).toBeInTheDocument();
-      expect(ring.className).toContain("opacity-0");
+      expect(screen.queryByText("20%")).toBeNull();
+      expect(container.querySelector(".border-dashed")).not.toBeInTheDocument();
     });
 
     it("forwards additional props to the outer wrapper", () => {

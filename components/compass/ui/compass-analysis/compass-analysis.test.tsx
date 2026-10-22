@@ -64,10 +64,10 @@ describe("CompassAnalysis", () => {
       />,
     );
 
-    // 장식 없는 셀프도 opacity-0로만 숨겨질 뿐 DOM에는 계속 있다(부드러운
-    // 트랜지션을 위해) — 배지 텍스트 자체는 둘 다 존재한다.
+    // growth가 가장 큰 selfB(60%)만 장식(decorated) 대상이라 배지가 존재하고,
+    // 나머지는 CompassSelfAvatar가 링/배지 자체를 렌더링하지 않는다.
     expect(screen.getByText("60%")).toBeInTheDocument();
-    expect(screen.getByText("20%")).toBeInTheDocument();
+    expect(screen.queryByText("20%")).toBeNull();
   });
 
   it("forwards onSelfClick with the clicked self's index", () => {

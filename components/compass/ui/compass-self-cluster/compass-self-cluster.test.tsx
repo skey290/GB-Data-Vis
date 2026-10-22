@@ -23,14 +23,11 @@ const selfA = { image: "/a.jpg", imageAlt: "A" };
 const selfB = { image: "/b.jpg", imageAlt: "B" };
 
 /**
- * 장식 없는 셀프도 항상 CompassSelfAvatar(variant="potential")로 렌더링되고
- * opacity로만 숨겨지므로, 배지 텍스트는 항상 DOM에 존재한다.
- * "안 보인다"는 opacity-0 클래스 여부로 확인한다.
+ * 장식 없는 셀프는 CompassSelfAvatar가 링/커넥터/배지 자체를 렌더링하지
+ * 않으므로, "안 보인다"는 배지 텍스트가 DOM에 아예 없는지로 확인한다.
  */
 function isBadgeVisible(percentText: string): boolean {
-  const badge = screen.getByText(percentText);
-  const wrapper = badge.closest('[class*="opacity-"]') as HTMLElement | null;
-  return wrapper?.className.includes("opacity-100") ?? false;
+  return screen.queryByText(percentText) !== null;
 }
 
 describe("CompassSelfCluster", () => {
