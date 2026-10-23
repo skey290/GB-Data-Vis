@@ -1,17 +1,21 @@
 "use client";
 
 import * as React from "react";
-import { Blocks, Compass, Home, UserRoundSearch } from "lucide-react";
+import {
+  Blocks,
+  CircleArrowOutUpRight,
+  Compass,
+  Home,
+  UserRoundSearch,
+} from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { createSpriteIcon } from "@/lib/sprite-icon";
 import { Gnb, type GnbItem } from "@/components/app/gnb";
 import { FloatingProfile } from "@/components/app/floating-profile";
 import { CompassToolbar } from "@/components/compass/ui/compass-toolbar";
-import {
-  CompassFloatingNav,
-  type CompassFloatingNavItemId,
-} from "@/components/compass/ui/compass-floating-nav";
+import { ButtonGroup } from "@/components/ui/button-group";
+import { Toggle, type ToggleItem } from "@/components/ui/toggle";
 import { CompassSphere } from "@/components/compass/ui/compass-sphere";
 import { CompassDetailView } from "@/components/compass/ui/compass-detail-view";
 import {
@@ -19,10 +23,45 @@ import {
   type CompassAnalysisSelf,
   type CompassAnalysisType,
 } from "@/components/compass/ui/compass-analysis";
-import {
-  CompassAnalysisMenu,
-  type CompassAnalysisMenuValue,
-} from "@/components/compass/ui/compass-analysis-menu";
+
+// Figma "Toggle"(❄️ GB_Compass) — GNB 근처에 항상 떠 있는 Analysis
+// 서브메뉴(node `I8052:33420;8045:20717;5133:9483`). 범용
+// `components/ui/toggle`(`orientation="vertical"` + `selectionMode="single"`)를
+// 그대로 쓰고, 4개 라벨/아이콘만 이 페이지에서 정의한다 — 별도 Compass 전용
+// 래퍼 컴포넌트를 두지 않음.
+type AnalysisSubmenuValue =
+  "growth-potential" | "reach" | "engagement" | "ranking";
+
+const AnalysisReachIcon = createSpriteIcon("reach-icon");
+const AnalysisEngagementIcon = createSpriteIcon("engagement-icon");
+const AnalysisRankingIcon = createSpriteIcon("crown-icon");
+
+const ANALYSIS_MENU_ITEMS: {
+  value: AnalysisSubmenuValue;
+  label: string;
+  icon: React.ReactNode;
+}[] = [
+  {
+    value: "growth-potential",
+    label: "Growth Potential",
+    icon: <CircleArrowOutUpRight aria-hidden="true" className="size-full" />,
+  },
+  {
+    value: "reach",
+    label: "Reach",
+    icon: <AnalysisReachIcon aria-hidden="true" className="size-full" />,
+  },
+  {
+    value: "engagement",
+    label: "Engagement",
+    icon: <AnalysisEngagementIcon aria-hidden="true" className="size-full" />,
+  },
+  {
+    value: "ranking",
+    label: "Ranking",
+    icon: <AnalysisRankingIcon aria-hidden="true" className="size-full" />,
+  },
+];
 
 // Figma GNB 노드(8163:93080)와 동일 — Assets는 커스텀 스프라이트,
 // 나머지는 lucide 표준 아이콘 (components/app/gnb/gnb.stories.tsx와 동일 소스).
@@ -134,7 +173,7 @@ const ANALYSIS_SELVES: CompassAnalysisSelf[] = [
  * Analysis 서브메뉴 4개 → `CompassAnalysis` props 매핑. Figma 실측( * 이전 세션)으로 확정된 표를 그대로 옮겼습니다.
  */
 const ANALYSIS_CONFIG: Record<
-  CompassAnalysisMenuValue,
+  AnalysisSubmenuValue,
   {
     type: CompassAnalysisType;
     label?: string;
@@ -217,11 +256,11 @@ function ScrollableDetailView() {
 export default function CompassPage() {
   const [gnbExpanded, setGnbExpanded] = React.useState(true);
   const [floatingNavActiveId, setFloatingNavActiveId] =
-    React.useState<CompassFloatingNavItemId>("compass");
+    React.useState<string>("compass");
   const [toggleValue, setToggleValue] = React.useState<string>("home");
   const [selfValue, setSelfValue] = React.useState("self-default");
   const [analysisSubmenu, setAnalysisSubmenu] =
-    React.useState<CompassAnalysisMenuValue>("growth-potential");
+    React.useState<AnalysisSubmenuValue>("growth-potential");
 
   // 코치마크 노출 여부는 실제 "포스팅 9개+7일 경과" 판정 로직 없이 단순
   // boolean으로만 제어합니다(사용자 지시) — X 버튼을 누르면 그
@@ -311,7 +350,7 @@ export default function CompassPage() {
 
             다이얼(800px 고정 캔버스)을 순수 `items-center`로만 중앙 정렬하면, 뷰포트
             높이가 낮을 때(약 828px) 캔버스 상단이 위쪽
-            `CompassFloatingNav`(top spacing-4 + 높이 53px) 영역까지 올라와 서로
+            플로팅 메뉴(`ButtonGroup type="menu"`, top spacing-4 + 높이 53px) 영역까지 올라와 서로
             겹친다. Figma 목업(1920×1218)은 캔버스보다 훨씬 큰 고정 프레임이라
             자연스럽게 여백이 생겼을 뿐, 실측 스펙값은 아니다(순수 레이아웃 방어 로직) — `[align-items:safe_center]`로 공간이 충분하면 기존과
             동일하게 정중앙 정렬되고, 부족해지면 위쪽 `pt`만큼의 최소 여백 아래로
@@ -353,9 +392,11 @@ export default function CompassPage() {
         )}
 
         <div className="absolute top-[var(--spacing-4)] left-1/2 -translate-x-1/2">
-          <CompassFloatingNav
+          <ButtonGroup
+            type="menu"
             activeId={floatingNavActiveId}
-            onItemSelect={setFloatingNavActiveId}
+            onActiveChange={setFloatingNavActiveId}
+            className="dark [&>button[data-selected]]:text-sm-semi-bold"
           />
         </div>
 
@@ -369,9 +410,16 @@ export default function CompassPage() {
             onSelectValueChange={setSelfValue}
           />
           {isAnalysis && (
-            <CompassAnalysisMenu
-              value={analysisSubmenu}
-              onValueChange={setAnalysisSubmenu}
+            <Toggle
+              orientation="vertical"
+              selectionMode="single"
+              items={ANALYSIS_MENU_ITEMS.map((item): ToggleItem => ({
+                icon: item.icon,
+                label: item.label,
+                "aria-label": item.label,
+                pressed: item.value === analysisSubmenu,
+                onPressedChange: () => setAnalysisSubmenu(item.value),
+              }))}
             />
           )}
         </div>
@@ -384,13 +432,19 @@ export default function CompassPage() {
           `floating-profile.tsx` 내부에서 처리한다(아바타와 카드가 한 컴포넌트
           안에서 좌표적으로 결합돼 있어 페이지 레벨에서 분리할 수 없음). */}
       <div className="absolute top-[var(--spacing-6)] right-[var(--spacing-6)]">
+        {/* TODO: 실제 Goal 데이터 연결 필요 — GoalSetting이 아직 어느 페이지에도
+            연결되지 않아 공유 소스가 없음. GoalSetting.stories.tsx의 샘플 문구로 대체. */}
         <FloatingProfile
           avatarSrc="/images/personas/self-default.jpg"
           title="Data Scientist"
           portraitSrc="/images/personas/self-default.jpg"
           timestamp="2026.03.24 19:24:06"
-          tagline="4 years in finance, 3 in data science — forecasting Finance teams trust."
-          bio="Four years in finance. Three in data science. She builds forecasting models with the accounting logic most data scientists skip — the reason Finance teams trust the output. Two freelance projects outside the office proved it holds up beyond a single team's walls. Not a title she chose, but one the work has already earned."
+          now="I'm known for financial modeling and data analysis in early-stage startups."
+          goal="I'm known for Finance-Fluent Modeling Partner for early-stage SaaS founders."
+          postingCount={3}
+          postingFrequency="Day"
+          targetedFollowersIndex={1}
+          timeframe="1 year"
         />
       </div>
     </div>
