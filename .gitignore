@@ -75,6 +75,8 @@
 !/docs/components/gnb.md
 !/docs/components/chatbox-composer.md
 !/docs/components/noti-dropdown.md
+!/docs/components/profile-print.md
+!/docs/components/floating-profile.md
 
 # ── 앱 전용 컴포넌트만 (범용 UI는 gabrielle-design-system 레포에서 공개) ──
 !/components/
